@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="423fd103-15cd-4109-aed9-8cfbb26aefce" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="D:/apache-maven-3.6.3" />
+        <option name="userSettingsFile" value="D:\apache-maven-3.6.3\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+        <option name="vmOptionsForImporter" value="-Xmx768m" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="MavenRunner">
+    <option name="jreName" value="12" />
+    <option name="vmOptions" value="-DarchetypeCatalog=internal" />
+  </component>
+  <component name="ProjectId" id="1j2mSNVlQp2seGZsrnNTBPQX4IR" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="android.sdk.path" value="D:/My_Android/IDEA_SDK" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\SC\IamClock\src\main\resources" />
+      <recent name="D:\SC\IamClock\src\main\java\com\clock" />
+      <recent name="D:\SC\IamClock\src" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.App">
+    <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.clock.App" />
+      <module name="IamClock" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.clock.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestIO" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="TestIO" />
+      <module name="IamClock" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mybatis-generator" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="mybatis-generator:generate" />
+              </list>
+            </option>
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Application.App" />
+      <item itemvalue="Application.TestIO" />
+      <item itemvalue="Maven.mybatis-generator" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.App" />
+        <item itemvalue="Application.TestIO" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="423fd103-15cd-4109-aed9-8cfbb26aefce" name="Default Changelist" comment="" />
+      <created>1603010559228</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1603010559228</updated>
+      <workItem from="1603010563163" duration="1078000" />
+      <workItem from="1603019636612" duration="7053000" />
+      <workItem from="1603102756248" duration="5552000" />
+      <workItem from="1603109991604" duration="2074000" />
+      <workItem from="1603117617659" duration="10964000" />
+      <workItem from="1603176193185" duration="2437000" />
+      <workItem from="1603187362716" duration="600000" />
+      <workItem from="1603202904883" duration="3500000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="233" y="0" key="#Project_Structure" timestamp="1603104078717">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="233" y="0" key="#Project_Structure/0.0.1280.680@0.0.1280.680" timestamp="1603104078717" />
+    <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1603021719803">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680@0.0.1280.680" timestamp="1603021719803" />
+    <state x="386" y="143" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1603111936370">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="386" y="143" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1280.680@0.0.1280.680" timestamp="1603111936370" />
+    <state x="1023" y="34" key="#com.intellij.ide.util.MemberChooser" timestamp="1603207879031">
+      <screen x="0" y="0" width="1707" height="920" />
+    </state>
+    <state x="767" y="25" key="#com.intellij.ide.util.MemberChooser/0.0.1280.680@0.0.1280.680" timestamp="1603026545069" />
+    <state x="1023" y="34" key="#com.intellij.ide.util.MemberChooser/0.0.1707.920@0.0.1707.920" timestamp="1603207879031" />
+    <state width="1663" height="349" key="GridCell.Tab.0.bottom" timestamp="1603208416863">
+      <screen x="0" y="0" width="1707" height="920" />
+    </state>
+    <state width="1237" height="202" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1603180896775" />
+    <state width="1663" height="298" key="GridCell.Tab.0.bottom/0.0.1707.920/-1920.0.1280.680@0.0.1707.920" timestamp="1603128790374" />
+    <state width="1663" height="349" key="GridCell.Tab.0.bottom/0.0.1707.920@0.0.1707.920" timestamp="1603208416863" />
+    <state width="1663" height="349" key="GridCell.Tab.0.center" timestamp="1603208416863">
+      <screen x="0" y="0" width="1707" height="920" />
+    </state>
+    <state width="1237" height="202" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1603180896775" />
+    <state width="1663" height="298" key="GridCell.Tab.0.center/0.0.1707.920/-1920.0.1280.680@0.0.1707.920" timestamp="1603128790373" />
+    <state width="1663" height="349" key="GridCell.Tab.0.center/0.0.1707.920@0.0.1707.920" timestamp="1603208416863" />
+    <state width="1663" height="349" key="GridCell.Tab.0.left" timestamp="1603208416863">
+      <screen x="0" y="0" width="1707" height="920" />
+    </state>
+    <state width="1237" height="202" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1603180896775" />
+    <state width="1663" height="298" key="GridCell.Tab.0.left/0.0.1707.920/-1920.0.1280.680@0.0.1707.920" timestamp="1603128790373" />
+    <state width="1663" height="349" key="GridCell.Tab.0.left/0.0.1707.920@0.0.1707.920" timestamp="1603208416863" />
+    <state width="1663" height="349" key="GridCell.Tab.0.right" timestamp="1603208416863">
+      <screen x="0" y="0" width="1707" height="920" />
+    </state>
+    <state width="1237" height="202" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1603180896775" />
+    <state width="1663" height="298" key="GridCell.Tab.0.right/0.0.1707.920/-1920.0.1280.680@0.0.1707.920" timestamp="1603128790373" />
+    <state width="1663" height="349" key="GridCell.Tab.0.right/0.0.1707.920@0.0.1707.920" timestamp="1603208416863" />
+    <state width="1237" height="202" key="GridCell.Tab.1.bottom" timestamp="1603180896775">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1237" height="202" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1603180896775" />
+    <state width="1663" height="298" key="GridCell.Tab.1.bottom/0.0.1707.920/-1920.0.1280.680@0.0.1707.920" timestamp="1603128790373" />
+    <state width="1237" height="202" key="GridCell.Tab.1.center" timestamp="1603180896775">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1237" height="202" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1603180896775" />
+    <state width="1663" height="298" key="GridCell.Tab.1.center/0.0.1707.920/-1920.0.1280.680@0.0.1707.920" timestamp="1603128790373" />
+    <state width="1237" height="202" key="GridCell.Tab.1.left" timestamp="1603180896775">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1237" height="202" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1603180896775" />
+    <state width="1663" height="298" key="GridCell.Tab.1.left/0.0.1707.920/-1920.0.1280.680@0.0.1707.920" timestamp="1603128790373" />
+    <state width="1237" height="202" key="GridCell.Tab.1.right" timestamp="1603180896775">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1237" height="202" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1603180896775" />
+    <state width="1663" height="298" key="GridCell.Tab.1.right/0.0.1707.920/-1920.0.1280.680@0.0.1707.920" timestamp="1603128790373" />
+    <state x="142" y="0" key="SettingsEditor" timestamp="1603104650678">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="142" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1603104650678" />
+  </component>
+</project>
