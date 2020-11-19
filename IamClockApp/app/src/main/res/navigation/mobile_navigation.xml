@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_clock">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.example.iamclockapp.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/navigation_clock"
+        android:name="com.example.iamclockapp.ui.Clock.ClockFragment"
+        android:label="@string/title_clock"
+        tools:layout="@layout/fragment_clock" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.iamclockapp.ui.dashboard.DashboardFragment"
+        android:name="com.example.iamclockapp.ui.Statistics.DashboardFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.iamclockapp.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
+        android:name="com.example.iamclockapp.ui.Account.AccountFragment"
+        android:label="@string/title_account"
         tools:layout="@layout/fragment_notifications" />
 </navigation>

@@ -1,18 +1,32 @@
 package com.example.iamclockapp.ui.Clock;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.iamclockapp.R;
 
-public class ClockCardAdapter extends RecyclerView.Adapter<ClockCardAdapter.ViewHolder> {
+import java.util.ArrayList;
 
-    private String[] local_data_set;
+public class ClockAdapter extends RecyclerView.Adapter<ClockAdapter.ViewHolder> {
+
+    private Context context;
+    private ClockFragment clock_fragment;
+    private ArrayList<Clock> clock_list;
+
+    public ClockAdapter(Context context, ArrayList<Clock> clock_list) {
+        this.context = context;
+        this.clock_list = clock_list;
+    }
+
+    public ClockAdapter(ClockFragment clock_fragment, ArrayList<Clock> clock_list) {
+        this.clock_fragment = clock_fragment;
+        this.clock_list = clock_list;
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView clock_text;
@@ -26,21 +40,17 @@ public class ClockCardAdapter extends RecyclerView.Adapter<ClockCardAdapter.View
         }
     }
 
-    public ClockCardAdapter(String[] data_set) {
-        local_data_set = data_set;
-    }
-
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
+        View v = LayoutInflater.from(clock_fragment.getContext())
                 .inflate(R.layout.card_clock, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(v);
     }
 
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.GetClockText().setText(local_data_set[position]);
+        holder.GetClockText().setText(clock_list.get(position).tag);
     }
 
     public int getItemCount() {
-        return local_data_set.length;
+        return clock_list.size();
     }
 }

@@ -1,4 +1,4 @@
-package com.example.iamclockapp.ui.dashboard;
+package com.example.iamclockapp.ui.Statistics;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
