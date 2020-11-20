@@ -6,7 +6,7 @@
     <context id="DB2Tables" targetRuntime="Mybatis3">
         <!-- jdbc连接 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://127.0.0.1:3306/clockdb"
+                        connectionURL="jdbc:mysql://47.111.80.33:8091/clock_db"
                         userId="root"
                         password="*****"/>
         <!-- 生成实体类地址 -->
