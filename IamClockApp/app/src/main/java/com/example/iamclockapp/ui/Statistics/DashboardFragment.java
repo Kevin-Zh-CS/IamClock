@@ -1,5 +1,6 @@
 package com.example.iamclockapp.ui.Statistics;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,12 +20,7 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.DataSet;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -46,7 +42,6 @@ public class DashboardFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_dashboard, container, false);
-
     }
 
     @Override
@@ -55,7 +50,7 @@ public class DashboardFragment extends Fragment {
         BarChart chart1 = getView().findViewById(R.id.barchart1);
         Description description = chart1.getDescription();
         description.setEnabled(false);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
         new Thread(() -> {
             try {
                 // 创建一个OkHttpClient的实例
@@ -130,7 +125,6 @@ public class DashboardFragment extends Fragment {
 
     private ArrayList<BarEntry> getValues(){
         ArrayList<BarEntry> values = new ArrayList<>();
-
         values.add(new BarEntry(0, 4));
         values.add(new BarEntry(1, 2));
         values.add(new BarEntry(3, 6));

@@ -6,6 +6,7 @@ public class User {
     private String userName;
     private String encreptPassword;
     private Date getupDate;
+    private boolean isLogin;
 
     public String getUserName() {
         return userName;
@@ -25,6 +26,14 @@ public class User {
 
     public Date getGetupDate() {
         return getupDate;
+    }
+
+    public boolean isLogin() {
+        return isLogin;
+    }
+
+    public void setLogin(boolean login) {
+        isLogin = login;
     }
 
     public void setGetupDate(Date getupDate) {
