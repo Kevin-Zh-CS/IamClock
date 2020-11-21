@@ -58,7 +58,7 @@ public class DashboardFragment extends Fragment {
                 // 如果要发送一条HTTP请求，就需要创建一个Request对象
                 // 可在最终的build()方法之前连缀很多其他方法来丰富这个Request对象
                 Request request = new Request.Builder()
-                        .url("http://47.111.80.33:8091/user/list")
+                        .url("http://47.111.80.33:8092/user/list")
                         .build();
                 // 调用OkHttpClient的newCall()方法来创建一个Call对象，并调用execute()方法来发送请求并获取服务器的返回数据
                 Response response = client.newCall(request).execute();
@@ -131,7 +131,6 @@ public class DashboardFragment extends Fragment {
         values.add(new BarEntry(4, 4));
         return values;
     }
-
 
 
 }

@@ -1,7 +1,6 @@
 package com.clock.controller;
 
 import com.clock.controller.viewobject.UserView;
-import com.clock.dao.dataobject.InfoDataObj;
 import com.clock.error.BusinessError;
 import com.clock.error.BusinessException;
 import com.clock.response.CommonReturnType;
@@ -10,6 +9,7 @@ import com.clock.service.model.UserModel;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +31,11 @@ public class UserController {
 //    @Autowired
 //    private HttpServletRequest httpServletRequest;
 
+    @RequestMapping("/verify")
+    @ResponseBody
+    public CommonReturnType verifyDeploy() throws BusinessException{
+        return CommonReturnType.create("nb233");
+    }
 
     @RequestMapping("/get")
     @ResponseBody
@@ -58,7 +63,7 @@ public class UserController {
         return CommonReturnType.create(userViewList);
     }
 
-    @RequestMapping(value = "/register", method = {RequestMethod.POST})
+    @RequestMapping(value = "/register", method = {RequestMethod.GET})
     @ResponseBody
     public CommonReturnType register(@RequestParam(name = "username") String username,
                                      @RequestParam(name = "password") String password) throws NoSuchAlgorithmException, BusinessException {
@@ -72,11 +77,11 @@ public class UserController {
     @RequestMapping(value = "/login", method = {RequestMethod.GET})
     @ResponseBody
     public CommonReturnType login(@RequestParam(name = "username") String username,
-                                  @RequestParam(name = "password") String password) throws BusinessException, NoSuchAlgorithmException {
-        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
+                                  @RequestParam(name = "encryptpassword") String encryptpassword) throws BusinessException, NoSuchAlgorithmException {
+        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(encryptpassword)) {
             throw new BusinessException(BusinessError.PARAMETER_VALIDATION_ERROR);
         }
-        UserModel userModel = userService.validateLogin(username, encodeByMd5(password));
+        UserModel userModel = userService.validateLogin(username, encryptpassword);
 //        HttpSession session = httpServletRequest.getSession();
 //        session.setAttribute("IS_LOGIN", true);
 //        session.setAttribute("LOGIN_USER", userModel);
@@ -85,10 +90,10 @@ public class UserController {
         return CommonReturnType.create(userModel.getUserName());
     }
 
-    @RequestMapping(value = "/update", method = {RequestMethod.POST})
+    @RequestMapping(value = "/update", method = {RequestMethod.GET})
     @ResponseBody
     public CommonReturnType update(@RequestParam(name = "header") String header,
-                                   @RequestParam(name = "time")Date time){
+                                   @RequestParam(name = "time") @DateTimeFormat(pattern = "yyyy/mm/dd HH:mm:ss") Date time){
 
         userService.updateUserByName(header, time);
         return CommonReturnType.create(null);
@@ -124,4 +129,5 @@ public class UserController {
         //加密字符串
         return encoder.encodeToString(md5.digest(str.getBytes(StandardCharsets.UTF_8)));
     }
+
 }

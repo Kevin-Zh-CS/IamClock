@@ -3,8 +3,8 @@
     <string name="title_clock">Clock</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_account">Account</string>
-    <string name="hint_login_username">请输入手机号码</string>
-    <string name="hint_login_password">输入密码</string>
+    <string name="hint_login_username">用户名</string>
+    <string name="hint_login_password">密码</string>
     <string name="login">登录</string>
     <string name="login_forget_pwd">忘记密码</string>
     <string name="please_input_limit_pwd">请输入数字或字母</string>

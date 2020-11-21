@@ -2,6 +2,8 @@ package com.example.iamclockapp.ui.Account;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -12,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,17 +22,43 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.iamclockapp.R;
+import com.example.iamclockapp.pojo.UserView;
+import com.example.iamclockapp.ui.Statistics.MyXFormatter;
+import com.example.iamclockapp.ui.Statistics.MyYFormatter;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class AccountFragment extends Fragment implements View.OnClickListener, KeyboardWatcher.SoftKeyboardStateListener, View.OnFocusChangeListener {
 
 
-    private static final int duration = 300;
+    private static final int duration = 800;
 
     private DrawableTextView mTopImageView;
 
@@ -38,8 +67,9 @@ public class AccountFragment extends Fragment implements View.OnClickListener, K
     private ImageView mCleanPhoneImageView;
     private ImageView mCleanPasswordImageView;
     private ImageView mShowPasswordImageView;
-
-
+    private String userName;
+    private String encryptPassword;
+    private Button button;
 
     //view for slide animation
     private View mSlideContent;
@@ -54,14 +84,16 @@ public class AccountFragment extends Fragment implements View.OnClickListener, K
     //the position of mSlideContent on screen Y
     private int mSlideViewY = 0;
 
+    public AccountFragment() {
+    }
+
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NotNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_notifications, container, false);
         initView(view);
         initListener();
-
         return view;
     }
 
@@ -86,11 +118,12 @@ public class AccountFragment extends Fragment implements View.OnClickListener, K
         mCleanPasswordImageView = view.findViewById(R.id.clean_password);
         mShowPasswordImageView = view.findViewById(R.id.iv_show_pwd);
         mSlideContent = view.findViewById(R.id.slide_content);
+        button = view.findViewById(R.id.btn_login);
         view.findViewById(R.id.iv_close).setOnClickListener(this);
         mRealScreenHeight = ScreenUtils.getRealScreenHeight(getContext());
-
         view.findViewById(R.id.root).setBackgroundResource(R.drawable.four_screen_bg);
     }
+
 
     private void initListener() {
         mCleanPhoneImageView.setOnClickListener(this);
@@ -100,7 +133,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener, K
         //TODO if they have same InputType, you can delete setOnFocusChangeListener
         mMobileEditText.setOnFocusChangeListener(this);
         mPasswordEditText.setOnFocusChangeListener(this);
-
+        button.setOnClickListener(this);
         mMobileEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -207,8 +240,10 @@ public class AccountFragment extends Fragment implements View.OnClickListener, K
 
     }
 
+    //登录信息显示
     private boolean flag = false;
-
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -223,7 +258,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener, K
                 getActivity().finish();
                 break;
             case R.id.iv_show_pwd:
-                if (flag == true) {
+                if (flag) {
                     mPasswordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     mShowPasswordImageView.setImageResource(R.drawable.ic_pass_gone);
                     flag = false;
@@ -236,8 +271,34 @@ public class AccountFragment extends Fragment implements View.OnClickListener, K
                 if (!TextUtils.isEmpty(pwd))
                     mPasswordEditText.setSelection(pwd.length());
                 break;
+
+                //点击登录之后，查数据库
+            case R.id.btn_login:
+                //System.out.println("BTN OK ");
+                userName = mMobileEditText.getText().toString();
+                try {
+                    encryptPassword = encodeByMd5(mPasswordEditText.getText().toString());
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                }
+                new Thread(() -> {
+                    try {
+                        OkHttpClient client = new OkHttpClient();
+                        Request request = new Request.Builder()
+                                .url("http://47.111.80.33:8092/user/login?username="+userName+"&encryptpassword="+encryptPassword)
+                                .build();
+                        Response response = client.newCall(request).execute();
+                        String responseData = response.body().string();
+                        System.out.println(responseData);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }).start();
+                break;
+
         }
     }
+
 
 
     @Override
@@ -271,12 +332,15 @@ public class AccountFragment extends Fragment implements View.OnClickListener, K
     public void onFocusChange(View v, boolean hasFocus) {
         if (hasFocus) {
             if (hasFocus) {
-                if (keyboardWatcher.isSoftKeyboardOpened()){
-                    keyboardWatcher.setIsSoftKeyboardOpened(true);
-                } else {
-                    keyboardWatcher.setIsSoftKeyboardOpened(false);
-                }
+                keyboardWatcher.setIsSoftKeyboardOpened(keyboardWatcher.isSoftKeyboardOpened());
             }
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public String encodeByMd5(String str) throws NoSuchAlgorithmException {
+        MessageDigest md5 = MessageDigest.getInstance("MD5");
+        Base64.Encoder encoder = Base64.getEncoder();
+        return encoder.encodeToString(md5.digest(str.getBytes(StandardCharsets.UTF_8)));
     }
 }

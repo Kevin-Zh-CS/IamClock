@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class User {
     private String userName;
-    private String encreptPassword;
+    private String encryptPassword;
     private Date getupDate;
     private boolean isLogin;
 
@@ -16,12 +16,12 @@ public class User {
         this.userName = userName;
     }
 
-    public String getEncreptPassword() {
-        return encreptPassword;
+    public String getEncryptPassword() {
+        return encryptPassword;
     }
 
-    public void setEncreptPassword(String encreptPassword) {
-        this.encreptPassword = encreptPassword;
+    public void setEncryptPassword(String encryptPassword) {
+        this.encryptPassword = encryptPassword;
     }
 
     public Date getGetupDate() {
