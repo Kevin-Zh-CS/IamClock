@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_clock"
-        android:name="com.example.iamclockapp.ui.Clock.ClockFragment"
+        android:name="com.iamclock.iamclockapp.Fragments.Clock.ClockFragment"
         android:label="@string/title_clock"
         tools:layout="@layout/fragment_clock" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.iamclockapp.ui.Statistics.DashboardFragment"
+        android:name="com.iamclock.iamclockapp.Fragments.Statistics.DashboardFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.iamclockapp.ui.Account.AccountFragment"
+        android:name="com.iamclock.iamclockapp.Fragments.Account.AccountFragment"
         android:label="@string/title_account"
         tools:layout="@layout/fragment_notifications" />
 </navigation>
