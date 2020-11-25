@@ -1,2 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <item name="fab_no_label" type="id" />
+    <item name="fab_add_bolt" type="id" />
+    <item name="fab_add_alarm" type="id" />
+
+    <item name="fab_custom_color" type="id" />
+    <item name="fab_long_label" type="id" />
+    <item name="fab_custom_theme" type="id" />
+    <item name="fab_add_action" type="id" />
+    <item name="fab_replace_action" type="id" />
+    <item name="fab_remove_action" type="id" />
+</resources>
