@@ -103,7 +103,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener, K
         button = view.findViewById(R.id.btn_login);
         view.findViewById(R.id.iv_close).setOnClickListener(this);
         mRealScreenHeight = ScreenUtils.getRealScreenHeight(getContext());
-        view.findViewById(R.id.root).setBackgroundResource(R.drawable.four_screen_bg);
+        view.findViewById(R.id.root).setBackgroundResource(R.drawable.bg_rain);
     }
 
 

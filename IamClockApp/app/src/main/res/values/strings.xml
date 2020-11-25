@@ -16,4 +16,6 @@
     <string name="new_version_login">新版本登陆</string>
     <string name="old_version_login_in_fragment">新版本fragment登陆</string>
     <string name="todo">TODO</string>
+    <string name="quick_alarm">快速闹钟</string>
+    <string name="alarm">闹钟</string>
 </resources>
