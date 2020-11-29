@@ -4,7 +4,6 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
@@ -46,15 +45,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class AccountFragment extends Fragment implements View.OnClickListener, KeyboardWatcher.SoftKeyboardStateListener, View.OnFocusChangeListener {
-
-
-    public static final int duration = 800;
-    public static final String NOT_LOGIN_IN = "NULL";
-    public static final String USER_NAME = "USER_NAME";
-    public static final String ENCRYPT_PASSWORD = "ENCRYPT_PASSWORD";
-    public static final String FILE_NAME = "USER_INFO";
-
+public class LoginFragment extends Fragment implements View.OnClickListener, KeyboardWatcher.SoftKeyboardStateListener, View.OnFocusChangeListener {
 
     private DrawableTextView mTopImageView;
     private EditText mMobileEditText;
@@ -64,67 +55,48 @@ public class AccountFragment extends Fragment implements View.OnClickListener, K
     private ImageView mShowPasswordImageView;
     private ImageView background;
     private String userName;
-    private String encryptPassword;
+    private String passWord;
+    private String repeatPassword;
+    private EditText verifyPassword;
     private Button button;
-
-    //view for slide animation
     private View mSlideContent;
-
     private int mRealScreenHeight = 0;
-
-    //logo scaleRatio ratio
-    private final float scaleRatio = 0.8f;
-
+    private float scaleRatio = 0.8f;
     private KeyboardWatcher keyboardWatcher;
-
-    //the position of mSlideContent on screen Y
     private int mSlideViewY = 0;
 
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
     private FragmentManager fragmentManager;
     private TextView register;
-
 
     @Nullable
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.fragment_notifications, container, false);
+        View view = inflater.inflate(R.layout.fragment_register, container, false);
         initView(view);
-        if(!sharedPreferences.getString(USER_NAME, "").equals(NOT_LOGIN_IN)){
-            fragmentManager
-                    .beginTransaction()
-                    .addToBackStack(null)
-                    .replace(R.id.fragment_register_welcome, new AfterLoginFragment())
-                    .commit();
-        }
-        //System.out.println("-------------------------------"+sharedPreferences.getString(USER_NAME, ""));
         initListener();
         return view;
     }
 
     @SuppressLint("CommitPrefEdits")
     private void initView(View view) {
-        mTopImageView = view.findViewById(R.id.image_logo);
-        mMobileEditText = view.findViewById(R.id.et_mobile);
-        mPasswordEditText = view.findViewById(R.id.et_password);
-        mCleanPhoneImageView = view.findViewById(R.id.iv_clean_phone);
-        mCleanPasswordImageView = view.findViewById(R.id.clean_password);
-        mShowPasswordImageView = view.findViewById(R.id.iv_show_pwd);
-        mSlideContent = view.findViewById(R.id.slide_content);
-        button = view.findViewById(R.id.btn_login);
-        view.findViewById(R.id.iv_close).setOnClickListener(this);
+        mTopImageView = view.findViewById(R.id.image_logo1);
+        mMobileEditText = view.findViewById(R.id.et_mobile1);
+        mPasswordEditText = view.findViewById(R.id.et_password1);
+        mCleanPhoneImageView = view.findViewById(R.id.iv_clean_phone1);
+        mCleanPasswordImageView = view.findViewById(R.id.clean_password1);
+        mShowPasswordImageView = view.findViewById(R.id.iv_show_pwd1);
+        mSlideContent = view.findViewById(R.id.slide_content1);
+        button = view.findViewById(R.id.btn_register);
+        view.findViewById(R.id.iv_close1).setOnClickListener(this);
         mRealScreenHeight = ScreenUtils.getRealScreenHeight(getContext());
         view.findViewById(R.id.fragment_register_welcome).setBackgroundResource(R.drawable.bg_rain);
+        verifyPassword = view.findViewById(R.id.verify_password);
 
-        sharedPreferences = getActivity().getSharedPreferences(FILE_NAME, Context.MODE_MULTI_PROCESS);
-        editor = sharedPreferences.edit();
-        fragmentManager = getActivity().getSupportFragmentManager();
-        background = view.findViewById(R.id.imageView_fragment_notifications);
+        fragmentManager = requireActivity().getSupportFragmentManager();
+        background = view.findViewById(R.id.imageView_fragment_notifications1);
         register = view.findViewById(R.id.register);
     }
-
 
     private void initListener() {
         mCleanPhoneImageView.setOnClickListener(this);
@@ -187,6 +159,90 @@ public class AccountFragment extends Fragment implements View.OnClickListener, K
         });
     }
 
+    //注册信息显示
+    private boolean flag = false;
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @SuppressLint({"NonConstantResourceId", "ShowToast"})
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.iv_clean_phone1:
+                mMobileEditText.setText("");
+                break;
+            case R.id.clean_password1:
+                mPasswordEditText.setText("");
+                break;
+            case R.id.iv_close1:
+                getActivity().finish();
+                break;
+            case R.id.iv_show_pwd1:
+                if (flag) {
+                    mPasswordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    mShowPasswordImageView.setImageResource(R.drawable.ic_pass_gone);
+                    flag = false;
+                } else {
+                    mPasswordEditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    mShowPasswordImageView.setImageResource(R.drawable.ic_pass_visuable);
+                    flag = true;
+                }
+                String pwd = mPasswordEditText.getText().toString();
+                if (!TextUtils.isEmpty(pwd))
+                    mPasswordEditText.setSelection(pwd.length());
+                break;
+
+            //点击登录之后，查数据库
+            case R.id.btn_register:
+                hideKeyboard(v);
+                userName = mMobileEditText.getText().toString();
+                passWord = mPasswordEditText.getText().toString();
+                repeatPassword = verifyPassword.getText().toString();
+                if(repeatPassword.equals(mPasswordEditText.getText().toString())) {
+                    new Thread(() -> {
+                        try {
+                            OkHttpClient client = new OkHttpClient();
+                            Request request = new Request.Builder()
+                                    .url("http://47.111.80.33:8092/user/register?username=" + userName + "&password=" + passWord)
+                                    .build();
+                            Response response = client.newCall(request).execute();
+                            String responseData = response.body().string();
+                            System.out.println(responseData);
+                            JSONTokener jsonTokener = new JSONTokener(responseData);
+                            JSONObject jsonObject = (JSONObject) jsonTokener.nextValue();
+                            boolean isRegisterSuccess = "success".equals(jsonObject.getString("status"));
+
+                            if(isRegisterSuccess){
+                                Looper.prepare();
+                                Toast.makeText(getActivity(), "注册成功！", Toast.LENGTH_SHORT).show();
+                            }else{
+                                String errMessage = jsonObject.getString("data");
+                                Looper.prepare();
+                                Toast.makeText(getActivity(), errMessage.substring(errMessage.indexOf("\"errMessage\":\"")+14, errMessage.lastIndexOf("\"")), Toast.LENGTH_LONG).show();
+                            }
+                            Looper.loop();
+                        } catch (IOException | JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }).start();
+                }else{
+                    Toast.makeText(getActivity(), "两次输入的密码不一致！", Toast.LENGTH_SHORT).show();
+                }
+                break;
+
+            case R.id.imageView_fragment_notifications1:
+                hideKeyboard(v);
+                break;
+
+            case R.id.register:
+                hideKeyboard(v);
+                fragmentManager
+                        .beginTransaction()
+                        .addToBackStack(null)
+                        .replace(R.id.fragment_register_welcome, new AccountFragment())
+                        .commit();
+                break;
+        }
+    }
 
     public void setViewAnimatorWhenKeyboardOpened(View logoImage, View mSlideContent, float logoSlideDist) {
         logoImage.setPivotY(logoImage.getHeight());
@@ -203,7 +259,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener, K
                 .with(mAnimatorScaleX)
                 .with(mAnimatorScaleY);
 
-        mAnimatorSet.setDuration(duration);
+        mAnimatorSet.setDuration(AccountFragment.duration);
         mAnimatorSet.start();
     }
 
@@ -226,105 +282,9 @@ public class AccountFragment extends Fragment implements View.OnClickListener, K
                 .with(mAnimatorScaleX)
                 .with(mAnimatorScaleY);
 
-        mAnimatorSet.setDuration(duration);
+        mAnimatorSet.setDuration(AccountFragment.duration);
         mAnimatorSet.start();
 
-    }
-
-    //登录信息显示
-    private boolean flag = false;
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @SuppressLint({"NonConstantResourceId", "ShowToast"})
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
-        switch (id) {
-            case R.id.iv_clean_phone:
-                mMobileEditText.setText("");
-                break;
-            case R.id.clean_password:
-                mPasswordEditText.setText("");
-                break;
-            case R.id.iv_close:
-                getActivity().finish();
-                break;
-            case R.id.iv_show_pwd:
-                if (flag) {
-                    mPasswordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    mShowPasswordImageView.setImageResource(R.drawable.ic_pass_gone);
-                    flag = false;
-                } else {
-                    mPasswordEditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    mShowPasswordImageView.setImageResource(R.drawable.ic_pass_visuable);
-                    flag = true;
-                }
-                String pwd = mPasswordEditText.getText().toString();
-                if (!TextUtils.isEmpty(pwd))
-                    mPasswordEditText.setSelection(pwd.length());
-                break;
-
-                //点击登录之后，查数据库
-            case R.id.btn_login:
-                //System.out.println("BTN OK ");
-                userName = mMobileEditText.getText().toString();
-                try {
-                    encryptPassword = encodeByMd5(mPasswordEditText.getText().toString());
-                } catch (NoSuchAlgorithmException e) {
-                    e.printStackTrace();
-                }
-                new Thread(() -> {
-                    try {
-                        OkHttpClient client = new OkHttpClient();
-                        Request request = new Request.Builder()
-                                .url("http://47.111.80.33:8092/user/login?username="+userName+"&encryptpassword="+encryptPassword)
-                                .build();
-                        Response response = client.newCall(request).execute();
-                        String responseData = response.body().string();
-                        System.out.println(responseData);
-                        JSONTokener jsonTokener = new JSONTokener(responseData);
-                        JSONObject jsonObject = (JSONObject) jsonTokener.nextValue();
-                        boolean isLoginSuccess = "success".equals(jsonObject.getString("status"));
-                        if(isLoginSuccess) {
-                            editor.putString(USER_NAME, userName);
-                            editor.putString(ENCRYPT_PASSWORD, encryptPassword);
-                            editor.commit();
-                            hideKeyboard(v);
-                            fragmentManager
-                                    .beginTransaction()
-                                    .addToBackStack(null)
-                                    .replace(R.id.fragment_register_welcome, new AfterLoginFragment())
-                                    .commit();
-
-                            Looper.prepare();
-                            Toast.makeText(getActivity(), "登录成功！", Toast.LENGTH_SHORT).show();
-
-                        }else{
-                            editor.putString(USER_NAME, NOT_LOGIN_IN);
-                            editor.putString(ENCRYPT_PASSWORD, NOT_LOGIN_IN);
-                            String errMessage = jsonObject.getString("data");
-                            Looper.prepare();
-                            Toast.makeText(getActivity(), errMessage.substring(errMessage.indexOf("\"errMessage\":\"")+14, errMessage.lastIndexOf("\"")), Toast.LENGTH_LONG).show();
-                        }
-                        Looper.loop();
-                        editor.commit();
-                    } catch (IOException | JSONException e) {
-                        e.printStackTrace();
-                    }
-                }).start();
-                break;
-
-            case R.id.imageView_fragment_notifications:
-                hideKeyboard(v);
-                break;
-
-            case R.id.register:
-                hideKeyboard(v);
-                fragmentManager
-                        .beginTransaction()
-                        .addToBackStack(null)
-                        .replace(R.id.fragment_register_welcome, new LoginFragment())
-                        .commit();
-        }
     }
 
     @Override
@@ -370,16 +330,9 @@ public class AccountFragment extends Fragment implements View.OnClickListener, K
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-
         keyboardWatcher.setIsSoftKeyboardOpened(hasFocus);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public String encodeByMd5(String str) throws NoSuchAlgorithmException {
-        MessageDigest md5 = MessageDigest.getInstance("MD5");
-        Base64.Encoder encoder = Base64.getEncoder();
-        return encoder.encodeToString(md5.digest(str.getBytes(StandardCharsets.UTF_8)));
-    }
 
     public static void hideKeyboard(View v){
         InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);

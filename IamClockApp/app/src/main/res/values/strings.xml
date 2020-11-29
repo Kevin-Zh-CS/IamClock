@@ -18,4 +18,9 @@
     <string name="todo">TODO</string>
     <string name="quick_alarm">快速闹钟</string>
     <string name="alarm">闹钟</string>
+    <string name="welcome_register">欢迎注册</string>
+    <string name="user_register">注册</string>
+    <string name="go_login">去登录</string>
+    <string name="verify_pwd">确认密码</string>
+
 </resources>
