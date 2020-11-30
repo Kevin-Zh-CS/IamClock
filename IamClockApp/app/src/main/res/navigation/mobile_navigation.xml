@@ -22,4 +22,11 @@
         android:name="com.iamclock.iamclockapp.Fragments.Account.AccountFragment"
         android:label="@string/title_account"
         tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/navigation_after_login"
+        android:name="com.iamclock.iamclockapp.Fragments.Account.AfterLoginFragment"
+        android:label="@string/title_account"
+        tools:layout="@layout/fragment_after_login" />
+
 </navigation>

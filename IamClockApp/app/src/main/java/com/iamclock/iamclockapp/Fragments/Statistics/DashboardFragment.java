@@ -64,7 +64,7 @@ public class DashboardFragment extends Fragment {
                 Response response = client.newCall(request).execute();
                 // 其中Response对象就是服务器返回的数据，将数据转换成字符串
                 String responseData = response.body().string();
-                System.out.println(responseData);
+                //System.out.println(responseData);
                 Gson gson = new Gson();
                 Type type = new TypeToken<ArrayList<UserView>>(){}.getType();
                 List<UserView> userViewList = gson.fromJson(responseData.substring(responseData.indexOf("["),responseData.indexOf("]")+1), type);
