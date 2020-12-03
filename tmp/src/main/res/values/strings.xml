@@ -1,6 +1,0 @@
-<resources>
-    <string name="app_name">IamClockApp</string>
-    <string name="title_clock">Clock</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_account">Account</string>
-</resources>

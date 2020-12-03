@@ -1,5 +1,7 @@
 package com.iamclock.iamclockapp.Fragments.Clock;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,12 +19,11 @@ import com.leinardi.android.speeddial.SpeedDialView;
 import java.util.ArrayList;
 
 public class ClockFragment extends Fragment {
-
+    private View root;
     private RecyclerView clock_recycler_view;
     private RecyclerView.LayoutManager clock_layout_manager;
     private ClockAdapter clock_adpter;
     private ArrayList<Clock> clock_list;
-
     private SpeedDialView sdv;
 
 
@@ -42,7 +43,7 @@ public class ClockFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_clock, container, false);
+        root = inflater.inflate(R.layout.fragment_clock, container, false);
         clock_recycler_view = root.findViewById(R.id.rv_clock);
         clock_adpter = new ClockAdapter(this, clock_list);
         clock_layout_manager = new LinearLayoutManager(getContext());
@@ -51,7 +52,6 @@ public class ClockFragment extends Fragment {
 
         sdv = root.findViewById(R.id.speed_dial);
         InitSpeedDial();
-
 
         return root;
     }
@@ -78,7 +78,9 @@ public class ClockFragment extends Fragment {
             switch (actionItem.getId()) {
                 case R.id.fab_add_alarm:
                     sdv.close(); // To close the Speed Dial with animation
-                    System.out.println("add_alarm");
+                    final Context c = root.getContext();
+                    Intent i = new Intent(c.getApplicationContext(), AddClock.class);
+                    c.startActivity(i);
                     break;
                 case R.id.fab_add_bolt:
                     sdv.close(); // To close the Speed Dial with animation
@@ -89,7 +91,6 @@ public class ClockFragment extends Fragment {
             return false;
         });
     }
-
 
 
     // TODO no clock vector
