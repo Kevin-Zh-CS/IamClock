@@ -17,6 +17,7 @@
         app:cardCornerRadius="4dp">
 
         <TimePicker
+            android:id="@+id/time_picker"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:timePickerMode="spinner" />
@@ -60,11 +61,14 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/add_clock_repeat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="8dp"
         android:layout_marginRight="12dp"
+        android:clickable="true"
+        android:focusable="true"
         app:cardCornerRadius="4dp">
 
         <LinearLayout
@@ -84,6 +88,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/repeat_string"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
@@ -167,6 +172,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/add_clock_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
@@ -210,11 +216,14 @@
         android:weightSum="3">
 
         <Button
+            android:id="@+id/cancel_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:layout_gravity="bottom"
             android:background="@android:color/transparent"
+            android:clickable="true"
+            android:focusable="true"
             android:text="取消"
             android:textSize="24dp"
             android:textStyle="bold" />
@@ -228,11 +237,14 @@
             android:background="@color/white" />
 
         <Button
+            android:id="@+id/confirm_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:layout_gravity="bottom"
             android:background="@android:color/transparent"
+            android:clickable="true"
+            android:focusable="true"
             android:text="确定"
             android:textSize="24dp"
             android:textStyle="bold" />
