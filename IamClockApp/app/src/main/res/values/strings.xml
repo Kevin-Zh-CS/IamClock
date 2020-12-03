@@ -22,5 +22,4 @@
     <string name="user_register">注册</string>
     <string name="go_login">去登录</string>
     <string name="verify_pwd">确认密码</string>
-
 </resources>
