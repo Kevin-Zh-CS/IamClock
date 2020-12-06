@@ -43,9 +43,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
-                android:text="任务"
+                android:text="Tasks"
                 android:textColor="@color/black"
-                android:textSize="20dp"
+                android:textSize="18dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -54,7 +54,7 @@
                 android:layout_marginRight="10dp"
                 android:gravity="right"
                 android:text="Off"
-                android:textSize="20dp"
+                android:textSize="18dp"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -82,9 +82,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
-                android:text="重复"
+                android:text="Repeat"
                 android:textColor="@color/black"
-                android:textSize="20dp"
+                android:textSize="18dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -93,8 +93,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
                 android:gravity="right"
-                android:text="永不"
-                android:textSize="20dp"
+                android:text="Never"
+                android:textSize="18dp"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -124,9 +124,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
-                    android:text="声音"
+                    android:text="Tune"
                     android:textColor="@color/black"
-                    android:textSize="20dp"
+                    android:textSize="18dp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -135,7 +135,7 @@
                     android:layout_marginRight="10dp"
                     android:gravity="right"
                     android:text="Fuck Yourself"
-                    android:textSize="20dp"
+                    android:textSize="18dp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -191,9 +191,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
-                android:text="标签"
+                android:text="Label"
                 android:textColor="@color/black"
-                android:textSize="20dp"
+                android:textSize="18dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -202,8 +202,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
                 android:gravity="right"
-                android:text="无"
-                android:textSize="20dp"
+                android:text="None"
+                android:textSize="18dp"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -225,7 +225,7 @@
             android:background="@android:color/transparent"
             android:clickable="true"
             android:focusable="true"
-            android:text="取消"
+            android:text="Cancel"
             android:textSize="24dp"
             android:textStyle="bold" />
 
@@ -246,7 +246,7 @@
             android:background="@android:color/transparent"
             android:clickable="true"
             android:focusable="true"
-            android:text="确定"
+            android:text="COnfirm"
             android:textSize="24dp"
             android:textStyle="bold" />
 
