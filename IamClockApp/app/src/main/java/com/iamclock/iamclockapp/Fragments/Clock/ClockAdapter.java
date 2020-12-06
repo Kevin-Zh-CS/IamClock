@@ -19,25 +19,20 @@ public class ClockAdapter extends RecyclerView.Adapter<ClockAdapter.ViewHolder> 
 
     // === data ===
 
-    private ArrayList<Clock> clock_list;
     private String[] days;
 
     private Context context;
     private ClockFragment clock_fragment;
 
 
-
-
     // === constructor ===
 
-    public ClockAdapter(Context context, ArrayList<Clock> clock_list) {
+    public ClockAdapter(Context context) {
         this.context = context;
-        this.clock_list = clock_list;
     }
 
-    public ClockAdapter(ClockFragment clock_fragment, ArrayList<Clock> clock_list) {
+    public ClockAdapter(ClockFragment clock_fragment) {
         this.clock_fragment = clock_fragment;
-        this.clock_list = clock_list;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -53,17 +48,18 @@ public class ClockAdapter extends RecyclerView.Adapter<ClockAdapter.ViewHolder> 
         }
     }
 
-
+    @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final Context c = parent.getContext();
         final View v = LayoutInflater.from(c).inflate(R.layout.card_clock, parent, false);
         return new ViewHolder(v);
     }
 
+    @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Context c = holder.itemView.getContext();
 
-        final Clock clock = clock_list.get(position);
+        final Clock clock = ClockManager.clock_list.get(position);
 
         holder.time.setText(ClockUtils.GetReadableTime(clock.GetTime()));
         holder.label.setText(clock.GetLabel());
@@ -79,6 +75,6 @@ public class ClockAdapter extends RecyclerView.Adapter<ClockAdapter.ViewHolder> 
     }
 
     public int getItemCount() {
-        return clock_list.size();
+        return ClockManager.clock_list.size();
     }
 }

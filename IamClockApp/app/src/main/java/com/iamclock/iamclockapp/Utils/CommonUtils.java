@@ -17,19 +17,19 @@ public class CommonUtils {
         ArrayList<String> repeat_array = new ArrayList<>();
 
         if (array[0])
-            repeat_array.add("周日");
+            repeat_array.add("SUN");
         if (array[1])
-            repeat_array.add("周一");
+            repeat_array.add("MON");
         if (array[2])
-            repeat_array.add("周二");
+            repeat_array.add("TUES");
         if (array[3])
-            repeat_array.add("周三");
+            repeat_array.add("WED");
         if (array[4])
-            repeat_array.add("周四");
+            repeat_array.add("THURS");
         if (array[5])
-            repeat_array.add("周五");
+            repeat_array.add("FRI");
         if (array[6])
-            repeat_array.add("周六");
+            repeat_array.add("SAT");
 
         return String.join(",", repeat_array);
     }

@@ -1,6 +1,7 @@
 package com.iamclock.iamclockapp.Fragments.Clock;
 
 import android.content.DialogInterface;
+import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.text.InputType;
 import android.widget.Button;
@@ -24,9 +25,11 @@ public class AddClock extends AppCompatActivity {
     private CardView card_view_repeat;
     private CardView card_view_label;
     private Button button_cancel, button_confirm;
+    private TextView add_clock_label_text;
 
     private final CharSequence[] repeat_items = {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
     private boolean[] repeat_choice = {false, false, false, false, false, false, false};
+    private boolean[] repeat_choice_tmp = {false, false, false, false, false, false, false};
     private String label = "";
 
 
@@ -53,14 +56,14 @@ public class AddClock extends AppCompatActivity {
         card_view_repeat = findViewById(R.id.add_clock_repeat);
         card_view_repeat.setClickable(true);
         card_view_repeat.setOnClickListener(v -> {
-
             new MaterialAlertDialogBuilder(this)
                     .setTitle("重复")
-                    .setMultiChoiceItems(repeat_items, repeat_choice, (dialog, which, isChecked) -> {
-                        repeat_choice[which] = isChecked;
+                    .setMultiChoiceItems(repeat_items, repeat_choice_tmp, (dialog, which, isChecked) -> {
+                        repeat_choice_tmp[which] = isChecked;
                     })
                     .setPositiveButton("确认", (dialogInterface, i) -> {
                         TextView repeat_text = findViewById(R.id.repeat_string);
+                        repeat_choice = repeat_choice_tmp.clone();
 
                         if (CommonUtils.CheckBooleanArrayAll(repeat_choice, true)) {
                             repeat_text.setText("每日");
@@ -87,7 +90,7 @@ public class AddClock extends AppCompatActivity {
                         }
                     })
                     .setNegativeButton("取消", (dialogInterface, i) -> {
-                        Arrays.fill(repeat_choice, false);
+                        repeat_choice_tmp = repeat_choice.clone();
                     }).show();
         });
     }
@@ -99,25 +102,37 @@ public class AddClock extends AppCompatActivity {
         button_cancel.setOnClickListener(v -> finish());
 
         button_confirm.setOnClickListener(v -> {
-            // TODO add confirm listener
-            System.out.println("confirm button clicked");
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, time_picker.getHour());
+            calendar.set(Calendar.MINUTE, time_picker.getMinute());
+
+            ClockManager.clock_list.add(new Clock(
+                    calendar.getTimeInMillis(),
+                    label,
+                    repeat_choice,
+                    true
+            ));
+            finish();
         });
     }
 
     private void InitLabel() {
         card_view_label = findViewById(R.id.add_clock_label);
+        add_clock_label_text = findViewById(R.id.add_clock_label_text);
         card_view_label.setClickable(true);
         card_view_label.setOnClickListener(v -> {
             final EditText input = new EditText(this);
             input.setInputType(InputType.TYPE_CLASS_TEXT);
             input.setSingleLine(true);
-            input.setText(label.isEmpty() ? "无" : label);
+            input.setText(label);
 
             new MaterialAlertDialogBuilder(this)
                     .setTitle("设置标签")
                     .setView(input)
                     .setPositiveButton("确认", (dialogInterface, i) -> {
                         label = input.getText().toString();
+                        add_clock_label_text.setText(label.isEmpty() ? "无" : label);
                     }).show();
         });
 
