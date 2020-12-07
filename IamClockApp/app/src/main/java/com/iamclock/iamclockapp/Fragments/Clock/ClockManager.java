@@ -13,21 +13,22 @@ import java.util.List;
 public class ClockManager {
 
     public static ArrayList<Clock> clock_list;
+    private static final String preference_key = "clock_list";
 
     public static void SaveClockSharedPreferences(Context context) {
         SharedPreferences clock_shared_preferences = context.getSharedPreferences("CLOCK_PREFERENCES", Context.MODE_PRIVATE);
-        SharedPreferences.Editor prefsEditor = clock_shared_preferences.edit();
+        SharedPreferences.Editor preference_editor = clock_shared_preferences.edit();
         Gson gson = new Gson();
         String json = gson.toJson(clock_list);
-        prefsEditor.putString("clock_list", json);
-        prefsEditor.apply();
+        preference_editor.putString(preference_key, json);
+        preference_editor.apply();
     }
 
     public static ArrayList<Clock> LoadClockSharedPreferences(Context context) {
         ArrayList<Clock> clock_list;
-        SharedPreferences mPrefs = context.getSharedPreferences("CLOCK_PREFERENCES", Context.MODE_PRIVATE);
+        SharedPreferences my_preference = context.getSharedPreferences("CLOCK_PREFERENCES", Context.MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = mPrefs.getString("myJson", "");
+        String json = my_preference.getString(preference_key, "");
         if (json.isEmpty()) {
             clock_list = new ArrayList<>();
         } else {

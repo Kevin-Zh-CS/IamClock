@@ -30,6 +30,7 @@ import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -51,6 +52,7 @@ public class DashboardFragment extends Fragment {
         Description description = chart1.getDescription();
         description.setEnabled(false);
         @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+0"));
         new Thread(() -> {
             try {
                 // 创建一个OkHttpClient的实例

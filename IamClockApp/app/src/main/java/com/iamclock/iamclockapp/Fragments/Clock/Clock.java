@@ -1,14 +1,6 @@
 package com.iamclock.iamclockapp.Fragments.Clock;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.util.SparseBooleanArray;
-import androidx.annotation.IntDef;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-
-public final class Clock  {
+public final class Clock {
 
     // === data ===
     private long time;
@@ -27,12 +19,15 @@ public final class Clock  {
         return time;
     }
 
-
     public String GetLabel() {
         return label;
     }
 
     public boolean[] GetDays() {
         return repeat;
+    }
+
+    public boolean GetEnable() {
+        return enable;
     }
 }

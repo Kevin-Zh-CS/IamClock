@@ -1,13 +1,16 @@
 package com.iamclock.iamclockapp.Fragments.Clock;
 
+import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -27,7 +30,6 @@ public class AddClock extends AppCompatActivity {
     private boolean[] repeat_choice = {false, false, false, false, false, false, false};
     private boolean[] repeat_choice_tmp = {false, false, false, false, false, false, false};
     private String label = "";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +102,7 @@ public class AddClock extends AppCompatActivity {
         button_confirm.setOnClickListener(v -> {
 
             Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.HOUR_OF_DAY, time_picker.getHour());
+            calendar.set(Calendar.HOUR, time_picker.getHour());
             calendar.set(Calendar.MINUTE, time_picker.getMinute());
 
             ClockManager.clock_list.add(new Clock(
@@ -109,6 +111,7 @@ public class AddClock extends AppCompatActivity {
                     repeat_choice,
                     true
             ));
+            ClockManager.SaveClockSharedPreferences(getApplicationContext());
             finish();
         });
     }
@@ -133,7 +136,6 @@ public class AddClock extends AppCompatActivity {
         });
 
     }
-
 
     // TODO set all label clickable
 }
