@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,21 +24,16 @@ public class ClockFragment extends Fragment {
     private RecyclerView clock_recycler_view;
     private RecyclerView.LayoutManager clock_layout_manager;
     private ClockAdapter clock_adpter;
-    private ArrayList<Clock> clock_list;
     private SpeedDialView sdv;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         InitClockList();
     }
 
-    // TODO get clock data
     private void InitClockList() {
-        clock_list = new ArrayList<>();
+        ClockManager.clock_list = ClockManager.LoadClockSharedPreferences(this.getContext());
     }
 
     @Override
@@ -45,14 +41,13 @@ public class ClockFragment extends Fragment {
                              Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_clock, container, false);
         clock_recycler_view = root.findViewById(R.id.rv_clock);
-        clock_adpter = new ClockAdapter(this, clock_list);
+        clock_adpter = new ClockAdapter();
         clock_layout_manager = new LinearLayoutManager(getContext());
         clock_recycler_view.setLayoutManager(clock_layout_manager);
         clock_recycler_view.setAdapter(clock_adpter);
 
         sdv = root.findViewById(R.id.speed_dial);
         InitSpeedDial();
-
         return root;
     }
 
@@ -80,7 +75,7 @@ public class ClockFragment extends Fragment {
                     sdv.close(); // To close the Speed Dial with animation
                     final Context c = root.getContext();
                     Intent i = new Intent(c.getApplicationContext(), AddClock.class);
-                    c.startActivity(i);
+                    startActivity(i);
                     break;
                 case R.id.fab_add_bolt:
                     sdv.close(); // To close the Speed Dial with animation
@@ -92,7 +87,10 @@ public class ClockFragment extends Fragment {
         });
     }
 
-
-    // TODO no clock vector
-    // TODO quick clock plate
+    @Override
+    public void onResume() {
+        super.onResume();
+        //update whatever your list
+        clock_adpter.notifyDataSetChanged();
+    }
 }
