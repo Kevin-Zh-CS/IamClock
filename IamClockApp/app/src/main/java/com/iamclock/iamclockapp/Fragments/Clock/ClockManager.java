@@ -8,6 +8,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class ClockManager {
@@ -37,5 +38,11 @@ public class ClockManager {
             clock_list = gson.fromJson(json, type);
         }
         return clock_list;
+    }
+
+    public static void Sort() {
+        clock_list.sort(Comparator
+                .comparing(Clock::GetHour)
+                .thenComparing(Clock::GetMinute));
     }
 }
