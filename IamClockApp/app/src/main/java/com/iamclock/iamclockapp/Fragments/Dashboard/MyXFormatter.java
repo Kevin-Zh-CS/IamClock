@@ -1,4 +1,4 @@
-package com.iamclock.iamclockapp.Fragments.Statistics;
+package com.iamclock.iamclockapp.Fragments.Dashboard;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import java.util.List;

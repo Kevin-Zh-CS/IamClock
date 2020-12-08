@@ -8,16 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.iamclock.iamclockapp.R;
 import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialView;
-
-import java.util.ArrayList;
 
 public class ClockFragment extends Fragment {
     private View root;
@@ -29,7 +28,6 @@ public class ClockFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        InitClockList();
     }
 
     private void InitClockList() {
@@ -41,17 +39,18 @@ public class ClockFragment extends Fragment {
                              Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_clock, container, false);
         clock_recycler_view = root.findViewById(R.id.rv_clock);
-        clock_adpter = new ClockAdapter();
+        clock_adpter = new ClockAdapter(this.getContext());
         clock_layout_manager = new LinearLayoutManager(getContext());
         clock_recycler_view.setLayoutManager(clock_layout_manager);
         clock_recycler_view.setAdapter(clock_adpter);
 
         sdv = root.findViewById(R.id.speed_dial);
         InitSpeedDial();
+        InitClockList();
+        InitSwipe();
         return root;
     }
 
-    // TODO SpeedDialView
     private void InitSpeedDial() {
         sdv.addActionItem(new SpeedDialActionItem.Builder(R.id.fab_add_alarm, R.drawable.ic_add_alarm)
                 .setFabBackgroundColor(getResources().getColor(R.color.white))
@@ -90,7 +89,37 @@ public class ClockFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        //update whatever your list
         clock_adpter.notifyDataSetChanged();
     }
+
+    private void InitSwipe() {
+        ItemTouchHelper.SimpleCallback clock_swipe_callback =
+                new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+                    @Override
+                    public boolean onMove(@NonNull RecyclerView recyclerView,
+                                          @NonNull RecyclerView.ViewHolder viewHolder,
+                                          @NonNull RecyclerView.ViewHolder target) {
+                        return false;
+                    }
+
+                    @Override
+                    public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder,
+                                         int direction) {
+                        int position = viewHolder.getAdapterPosition();
+                        if (direction == ItemTouchHelper.LEFT) {
+                            clock_adpter.RemoveItem(position);
+                        }
+                    }
+
+                    @Override
+                    public boolean isItemViewSwipeEnabled() {
+                        return true;
+                    }
+                };
+
+        ItemTouchHelper clock_item_touch = new ItemTouchHelper(clock_swipe_callback);
+        clock_item_touch.attachToRecyclerView(clock_recycler_view);
+    }
+
+
 }
