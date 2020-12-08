@@ -15,6 +15,11 @@ import com.iamclock.iamclockapp.Utils.ClockUtils;
 
 
 public class ClockAdapter extends RecyclerView.Adapter<ClockAdapter.ViewHolder> {
+    private Context context;
+
+    public ClockAdapter(Context context) {
+        this.context = context;
+    }
 
     static final class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -29,6 +34,14 @@ public class ClockAdapter extends RecyclerView.Adapter<ClockAdapter.ViewHolder> 
             days = view.findViewById(R.id.clock_card_days);
             image = view.findViewById(R.id.clock_plate);
             clock_switch = view.findViewById(R.id.clock_enable);
+        }
+
+        public void SetImage(int hour) {
+            if (0<= hour && hour <= 6 || 18 <= hour && hour <= 24) {
+                image.setImageResource(R.drawable.clock_plate_3);
+            } else if (12 <= hour && hour <= 18) {
+                image.setImageResource(R.drawable.clock_plate_2);
+            }
         }
     }
 
@@ -49,13 +62,28 @@ public class ClockAdapter extends RecyclerView.Adapter<ClockAdapter.ViewHolder> 
         holder.label.setText(clock.GetLabel());
         holder.days.setText(ClockUtils.GetReadableDays(clock.GetDays()));
         holder.clock_switch.setChecked(clock.GetEnable());
-        holder.itemView.setOnClickListener(null);
+        holder.SetImage(clock.GetHour());
+
+
+
+
+        // TODO add checked changed listener
+        holder.clock_switch.setOnCheckedChangeListener(null);
 
         // TODO add click listener
+        holder.itemView.setOnClickListener(null);
+
+
     }
 
     @Override
     public int getItemCount() {
         return ClockManager.clock_list.size();
+    }
+
+    public void RemoveItem(int position) {
+        ClockManager.clock_list.remove(position);
+        ClockManager.SaveClockSharedPreferences(context);
+        notifyDataSetChanged();
     }
 }

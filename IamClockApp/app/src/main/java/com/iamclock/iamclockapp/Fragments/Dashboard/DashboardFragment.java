@@ -1,4 +1,4 @@
-package com.iamclock.iamclockapp.Fragments.Statistics;
+package com.iamclock.iamclockapp.Fragments.Dashboard;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;

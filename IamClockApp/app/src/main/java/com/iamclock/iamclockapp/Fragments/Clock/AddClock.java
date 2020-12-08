@@ -1,16 +1,13 @@
 package com.iamclock.iamclockapp.Fragments.Clock;
 
-import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -106,6 +103,7 @@ public class AddClock extends AppCompatActivity {
             calendar.set(Calendar.MINUTE, time_picker.getMinute());
 
             ClockManager.clock_list.add(new Clock(
+                    time_picker.getHour(),
                     calendar.getTimeInMillis(),
                     label,
                     repeat_choice,
