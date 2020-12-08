@@ -1,20 +1,12 @@
 package com.iamclock.iamclockapp.Utils;
 
-import android.Manifest;
+import android.annotation.SuppressLint;
 
 import java.text.SimpleDateFormat;
-import java.util.Locale;
 
 public class ClockUtils {
     private static final SimpleDateFormat TIME_FORMAT =
             new SimpleDateFormat("HH:mm");
-    private static final SimpleDateFormat AM_PM_FORMAT =
-            new SimpleDateFormat("a", Locale.getDefault());
-
-    private static final int REQUEST_ALARM = 1;
-    private static final String[] PERMISSIONS_ALARM = {
-            Manifest.permission.VIBRATE
-    };
 
     private ClockUtils() {
         throw new AssertionError();

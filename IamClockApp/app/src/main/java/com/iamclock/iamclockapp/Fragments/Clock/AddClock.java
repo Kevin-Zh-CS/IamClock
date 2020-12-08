@@ -99,7 +99,7 @@ public class AddClock extends AppCompatActivity {
         button_confirm.setOnClickListener(v -> {
 
             Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.HOUR, time_picker.getHour());
+            calendar.set(Calendar.HOUR_OF_DAY, time_picker.getHour());
             calendar.set(Calendar.MINUTE, time_picker.getMinute());
 
             ClockManager.clock_list.add(new Clock(
