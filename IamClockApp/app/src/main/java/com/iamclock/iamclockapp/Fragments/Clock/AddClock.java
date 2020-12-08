@@ -104,12 +104,14 @@ public class AddClock extends AppCompatActivity {
 
             ClockManager.clock_list.add(new Clock(
                     time_picker.getHour(),
+                    time_picker.getMinute(),
                     calendar.getTimeInMillis(),
                     label,
                     repeat_choice,
                     true
             ));
-            ClockManager.SaveClockSharedPreferences(getApplicationContext());
+            ClockManager.Sort();
+
             finish();
         });
     }

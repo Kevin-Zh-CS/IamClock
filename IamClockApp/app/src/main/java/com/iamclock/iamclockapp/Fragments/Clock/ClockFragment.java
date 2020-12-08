@@ -30,8 +30,21 @@ public class ClockFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @Override
+    public void onStop() {
+        ClockManager.SaveClockSharedPreferences(this.getContext());
+        super.onStop();
+    }
+
+    @Override
+    public void onPause() {
+        ClockManager.SaveClockSharedPreferences(this.getContext());
+        super.onPause();
+    }
+
     private void InitClockList() {
         ClockManager.clock_list = ClockManager.LoadClockSharedPreferences(this.getContext());
+        ClockManager.Sort();
     }
 
     @Override
