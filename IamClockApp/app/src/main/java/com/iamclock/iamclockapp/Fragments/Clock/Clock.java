@@ -46,4 +46,18 @@ public final class Clock {
     public int GetMinute() {
         return minute;
     }
+
+    public boolean[] GetRepeat() {
+        return repeat;
+    }
+
+    public void Set(int hour, int minute, long time, String label, boolean[] repeat, boolean enable) {
+        this.minute = minute;
+        this.hour = hour;
+        this.time = time;
+        this.label = label;
+        this.repeat = repeat.clone();
+        this.enable = enable;
+    }
+
 }

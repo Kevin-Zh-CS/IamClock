@@ -1,6 +1,7 @@
 package com.iamclock.iamclockapp.Fragments.Clock;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.view.LayoutInflater;
@@ -38,10 +39,12 @@ public class ClockAdapter extends RecyclerView.Adapter<ClockAdapter.ViewHolder> 
         }
 
         public void SetImage(int hour, boolean enable) {
-            if (0 <= hour && hour <= 6 || 18 <= hour && hour <= 24) {
+            if (0 <= hour && hour < 6 || 18 <= hour && hour < 24) {
                 image.setImageResource(R.drawable.clock_plate_3);
-            } else if (12 <= hour && hour <= 18) {
+            } else if (12 <= hour && hour < 18) {
                 image.setImageResource(R.drawable.clock_plate_2);
+            } else {
+                image.setImageResource(R.drawable.clock_plate_1);
             }
             SetImage(enable);
         }
@@ -86,8 +89,16 @@ public class ClockAdapter extends RecyclerView.Adapter<ClockAdapter.ViewHolder> 
                 }
         );
 
-        // TODO add click listener
-        holder.itemView.setOnClickListener(null);
+        holder.itemView.setOnClickListener(v -> {
+            Intent i = new Intent(context.getApplicationContext(), AddEditClock.class);
+            i.putExtra("INTENT_EDIT?", true);
+            i.putExtra("INTENT_HOUR", clock.GetHour());
+            i.putExtra("INTENT_MINUTE", clock.GetMinute());
+            i.putExtra("INTENT_REPEAT", clock.GetRepeat());
+            i.putExtra("INTENT_LABEL", clock.GetLabel());
+            i.putExtra("INTENT_INDEX", position);
+            context.startActivity(i);
+        });
     }
 
     @Override

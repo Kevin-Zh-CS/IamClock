@@ -1,7 +1,5 @@
 package com.iamclock.iamclockapp.Utils;
 
-import android.annotation.SuppressLint;
-
 import java.text.SimpleDateFormat;
 
 public class ClockUtils {
@@ -36,7 +34,7 @@ public class ClockUtils {
                 && days[4]
                 && days[5]
                 && !days[6]) {
-            return "DAILY";
+            return "WORKDAY";
         } else {
             return CommonUtils.GenerateRepeatString(days);
         }

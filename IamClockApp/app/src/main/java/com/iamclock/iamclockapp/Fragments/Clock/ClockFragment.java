@@ -86,7 +86,7 @@ public class ClockFragment extends Fragment {
                 case R.id.fab_add_alarm:
                     sdv.close(); // To close the Speed Dial with animation
                     final Context c = root.getContext();
-                    Intent i = new Intent(c.getApplicationContext(), AddClock.class);
+                    Intent i = new Intent(c.getApplicationContext(), AddEditClock.class);
                     startActivity(i);
                     break;
                 case R.id.fab_add_bolt:
