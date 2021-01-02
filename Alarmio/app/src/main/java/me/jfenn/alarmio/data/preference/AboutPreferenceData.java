@@ -8,6 +8,8 @@ public final class AboutPreferenceData extends CustomPreferenceData {
         return null;
     }
 
+
+    // TODO add about window
     public void onClick(ViewHolder holder) {
         System.out.println("Hello World");
     }

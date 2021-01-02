@@ -42,8 +42,6 @@ import me.jfenn.alarmio.utils.DebugUtils;
 
 public class Alarmio extends MultiDexApplication implements Player.EventListener {
 
-    public static final int THEME_DAY = 0;
-
     public static final String NOTIFICATION_CHANNEL_TIMERS = "timers";
 
     private SharedPreferences prefs;

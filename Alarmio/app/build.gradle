@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'com.github.triplet.play'
 
 android {
     def isCI = System.getenv("CI") == "true"
@@ -43,11 +42,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-}
-
-play {
-	serviceAccountCredentials = file("../service.json")
-	track = "alpha"
 }
 
 task printVersionName {
