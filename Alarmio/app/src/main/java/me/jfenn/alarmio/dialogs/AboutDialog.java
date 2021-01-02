@@ -1,4 +1,8 @@
 package me.jfenn.alarmio.dialogs;
 
-public class AboutDialog {
+import androidx.fragment.app.DialogFragment;
+
+public class AboutDialog extends DialogFragment {
+    // TODO
+
 }

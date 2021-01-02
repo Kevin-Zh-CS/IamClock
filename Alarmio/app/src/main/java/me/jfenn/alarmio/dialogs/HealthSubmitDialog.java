@@ -1,4 +1,7 @@
 package me.jfenn.alarmio.dialogs;
 
-public class HealthSubmitDialog {
+import androidx.fragment.app.DialogFragment;
+
+public class HealthSubmitDialog extends DialogFragment {
+    // TODO health submit dialog
 }

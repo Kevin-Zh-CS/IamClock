@@ -28,6 +28,8 @@ import me.jfenn.alarmio.data.preference.AlertWindowPreferenceData;
 import me.jfenn.alarmio.data.preference.BasePreferenceData;
 import me.jfenn.alarmio.data.preference.BatteryOptimizationPreferenceData;
 import me.jfenn.alarmio.data.preference.BooleanPreferenceData;
+import me.jfenn.alarmio.data.preference.HealthPreferenceData;
+import me.jfenn.alarmio.data.preference.LoginPreferenceData;
 import me.jfenn.alarmio.data.preference.RingtonePreferenceData;
 import me.jfenn.alarmio.data.preference.TimePreferenceData;
 import me.jfenn.alarmio.interfaces.ContextFragmentInstantiator;
@@ -50,6 +52,8 @@ public class SettingsFragment extends BasePagerFragment implements Consumer {
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
 
         ArrayList<BasePreferenceData> list = new ArrayList<BasePreferenceData>(Arrays.asList(
+                new BooleanPreferenceData(PreferenceData.HEALTH, R.string.title_health, R.string.desc_health),
+                new HealthPreferenceData(PreferenceData.HEALTH_SUBMIT, R.string.title_submit),
                 new RingtonePreferenceData(PreferenceData.DEFAULT_ALARM_RINGTONE, R.string.title_default_alarm_ringtone),
                 new RingtonePreferenceData(PreferenceData.DEFAULT_TIMER_RINGTONE, R.string.title_default_timer_ringtone),
                 new BooleanPreferenceData(PreferenceData.SLOW_WAKE_UP, R.string.title_slow_wake_up, R.string.desc_slow_wake_up),
@@ -59,6 +63,7 @@ public class SettingsFragment extends BasePagerFragment implements Consumer {
         if (Build.VERSION.SDK_INT >= 23) {
             list.add(0, new BatteryOptimizationPreferenceData());
             list.add(0, new AlertWindowPreferenceData());
+            list.add(0, new LoginPreferenceData(PreferenceData.LOGIN_INFO, R.string.title_login));
         }
 
         list.add(new AboutPreferenceData());
