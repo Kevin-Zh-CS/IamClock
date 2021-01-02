@@ -82,4 +82,8 @@
     <string name="day_thursday_abbr">T</string>
     <string name="day_friday_abbr">F</string>
     <string name="day_saturday_abbr">S</string>
+    <string name="title_health">ZJU Heath Report</string>
+    <string name="desc_health">Choose to automatically complete ZJU health report or not.</string>
+    <string name="title_submit">Health Report Submit</string>
+    <string name="title_login">Login</string>
 </resources>

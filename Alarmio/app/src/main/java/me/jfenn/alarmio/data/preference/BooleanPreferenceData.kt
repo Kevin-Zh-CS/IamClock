@@ -59,5 +59,4 @@ class BooleanPreferenceData(private val preference: PreferenceData, @StringRes p
         val description: TextView = v.findViewById(R.id.description)
         val toggle: SwitchCompat = v.findViewById(R.id.toggle)
     }
-
 }
