@@ -29,6 +29,7 @@ public enum PreferenceData {
     LOGIN_INFO(null);
     // TODO zhang: login information
 
+
     private String name;
     private Object defaultValue;
 

@@ -11,13 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/bg_rain"
-        android:alpha="0.7"
+        android:src="@drawable/white_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/statusbarutil_fake_status_bar_view" />
 
-    <com.iamclock.iamclockapp.Fragments.Account.FakeStatusBarView
+    <me.jfenn.alarmio.fragments.Account.FakeStatusBarView
         android:id="@id/statusbarutil_fake_status_bar_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,12 +29,12 @@
         android:layout_width="44dp"
         android:layout_height="88dp"
         android:padding="16dp"
-        android:src="@drawable/ic_close"
+        app:srcCompat="@drawable/ic_close"
         android:tintMode="src_in"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/statusbarutil_fake_status_bar_view" />
 
-    <com.iamclock.iamclockapp.Fragments.Account.DrawableTextView
+    <me.jfenn.alarmio.fragments.Account.DrawableTextView
         android:id="@+id/image_logo1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -50,6 +50,7 @@
         android:textStyle="bold"
         app:drawableHeight="30dp"
         app:drawableWidth="100dp"
+        app:layout_constraintBottom_toTopOf="@+id/slide_content1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/statusbarutil_fake_status_bar_view"
         app:leftDrawable="@drawable/ic_google" />
@@ -84,7 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="15dp"
-                android:src="@drawable/ic_account_24dp"
+                app:srcCompat="@drawable/ic_account_24dp"
                 android:tintMode="src_in" />
 
             <EditText
@@ -128,7 +129,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="15dp"
-                android:src="@drawable/ic_baseline_lock_24"
+                app:srcCompat="@drawable/ic_baseline_lock_24"
                 android:tintMode="src_in" />
 
             <EditText
@@ -185,7 +186,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="15dp"
-                android:src="@drawable/ic_baseline_repeat_24"
+                app:srcCompat="@drawable/ic_baseline_repeat_24"
                 android:tintMode="src_in" />
 
             <EditText
