@@ -89,7 +89,7 @@ public class SettingsFragment extends BasePagerFragment implements Consumer {
             if (username == null) {//未登录
                 list.add(0, new LoginPreferenceData(PreferenceData.LOGIN_INFO, R.string.title_login));
             }else{//已登录
-                list.add(0, new AfterLoginDialog(PreferenceData.LOGIN_INFO, sharedPreferences.getString(USER_NAME, "")));
+                list.add(0, new AfterLoginDialog(PreferenceData.LOGIN_INFO, "Hello, "+sharedPreferences.getString(USER_NAME, "")));
             }
         }
         list.add(new AboutPreferenceData());

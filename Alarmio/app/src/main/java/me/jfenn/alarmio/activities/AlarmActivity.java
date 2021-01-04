@@ -241,8 +241,9 @@ public class AlarmActivity extends AestheticActivity implements SlideActionListe
                 }
 
             }).start();
-
+            alarmio.getAdapter().notifyDataSetChanged();
         }
+
         //http://47.111.80.33:8092/user/update?header=123&time=2021/1/3%2018:50:56
         stopAnnoyingness();
     }
