@@ -1,7 +1,5 @@
-package com.iamclock.iamclockapp.Fragments.Account;
+package me.jfenn.alarmio.dialogs;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -24,12 +22,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-
-import com.iamclock.iamclockapp.R;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -41,12 +39,20 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.Objects;
 
+import me.jfenn.alarmio.R;
+import me.jfenn.alarmio.fragments.Account.AfterLoginFragment;
+import me.jfenn.alarmio.fragments.Account.DrawableTextView;
+import me.jfenn.alarmio.fragments.Account.KeyboardWatcher;
+import me.jfenn.alarmio.fragments.Account.LoginFragment;
+import me.jfenn.alarmio.fragments.Account.ScreenUtils;
+import me.jfenn.alarmio.fragments.SettingsFragment;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class AccountFragment extends Fragment implements View.OnClickListener, KeyboardWatcher.SoftKeyboardStateListener, View.OnFocusChangeListener {
+public class LoginDialog extends DialogFragment implements View.OnClickListener, KeyboardWatcher.SoftKeyboardStateListener, View.OnFocusChangeListener{
 
 
     public static final int duration = 800;
@@ -56,7 +62,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener, K
     public static final String FILE_NAME = "USER_INFO";
 
 
-    private DrawableTextView mTopImageView;
     private EditText mMobileEditText;
     private EditText mPasswordEditText;
     private ImageView mCleanPhoneImageView;
@@ -69,21 +74,20 @@ public class AccountFragment extends Fragment implements View.OnClickListener, K
 
     //view for slide animation
     private View mSlideContent;
-
     private int mRealScreenHeight = 0;
-
-    //logo scaleRatio ratio
-    private final float scaleRatio = 0.8f;
-
     private KeyboardWatcher keyboardWatcher;
-
-    //the position of mSlideContent on screen Y
     private int mSlideViewY = 0;
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-    private FragmentManager fragmentManager;
+
+    //private FragmentManager fragmentManager;
     private TextView register;
+    private FragmentManager alarmioFragmentManager;
+
+    public LoginDialog(FragmentManager fragmentManager) {
+        this.alarmioFragmentManager = fragmentManager;
+    }
 
 
     @Nullable
@@ -92,13 +96,13 @@ public class AccountFragment extends Fragment implements View.OnClickListener, K
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_notifications, container, false);
         initView(view);
-        if(!sharedPreferences.getString(USER_NAME, "").equals(NOT_LOGIN_IN)){
-            fragmentManager
-                    .beginTransaction()
-                    .addToBackStack(null)
-                    .replace(R.id.fragment_register_welcome, new AfterLoginFragment())
-                    .commit();
-        }
+//        if(!sharedPreferences.getString(USER_NAME, "").equals(NOT_LOGIN_IN)){
+//            fragmentManager
+//                    .beginTransaction()
+//                    .addToBackStack(null)
+//                    .replace(R.id.fragment_register_welcome, new AfterLoginFragment())
+//                    .commit();
+//        }
         //System.out.println("-------------------------------"+sharedPreferences.getString(USER_NAME, ""));
         initListener();
         return view;
@@ -116,11 +120,11 @@ public class AccountFragment extends Fragment implements View.OnClickListener, K
         button = view.findViewById(R.id.btn_login);
         view.findViewById(R.id.iv_close).setOnClickListener(this);
         mRealScreenHeight = ScreenUtils.getRealScreenHeight(getContext());
-        view.findViewById(R.id.fragment_register_welcome).setBackgroundResource(R.drawable.bg_rain);
+        //view.findViewById(R.id.fragment_register_welcome).setBackgroundResource(R.drawable.bg_rain);
 
-        sharedPreferences = getActivity().getSharedPreferences(FILE_NAME, Context.MODE_MULTI_PROCESS);
+        sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(FILE_NAME, Context.MODE_MULTI_PROCESS);
         editor = sharedPreferences.edit();
-        fragmentManager = getActivity().getSupportFragmentManager();
+        //fragmentManager = getActivity().getSupportFragmentManager();
         background = view.findViewById(R.id.imageView_fragment_notifications);
         register = view.findViewById(R.id.register);
     }
@@ -188,49 +192,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener, K
     }
 
 
-//    public void setViewAnimatorWhenKeyboardOpened(View logoImage, View mSlideContent, float logoSlideDist) {
-//        logoImage.setPivotY(logoImage.getHeight());
-//        logoImage.setPivotX(0);
-//
-//        AnimatorSet mAnimatorSet = new AnimatorSet();
-//        ObjectAnimator mAnimatorScaleX = ObjectAnimator.ofFloat(logoImage, View.SCALE_X, 1.0f, scaleRatio);
-//        ObjectAnimator mAnimatorScaleY = ObjectAnimator.ofFloat(logoImage, View.SCALE_Y, 1.0f, scaleRatio);
-//        ObjectAnimator mAnimatorTranslateY = ObjectAnimator.ofFloat(logoImage, View.TRANSLATION_Y, 0.0f, -logoSlideDist);
-//        ObjectAnimator mContentAnimatorTranslateY = ObjectAnimator.ofFloat(mSlideContent, View.TRANSLATION_Y, 0.0f, -logoSlideDist);
-//
-//        mAnimatorSet.play(mContentAnimatorTranslateY)
-//                .with(mAnimatorTranslateY)
-//                .with(mAnimatorScaleX)
-//                .with(mAnimatorScaleY);
-//
-//        mAnimatorSet.setDuration(duration);
-//        mAnimatorSet.start();
-//    }
-//
-//
-//    public void setViewAnimatorWhenKeyboardClosed(View logoImage, View mSlideContent) {
-//        if (logoImage.getTranslationY() == 0) {
-//            return;
-//        }
-//        logoImage.setPivotY(logoImage.getHeight());
-//        logoImage.setPivotX(0);
-//
-//        AnimatorSet mAnimatorSet = new AnimatorSet();
-//        ObjectAnimator mAnimatorScaleX = ObjectAnimator.ofFloat(logoImage, View.SCALE_X, scaleRatio, 1.0f);
-//        ObjectAnimator mAnimatorScaleY = ObjectAnimator.ofFloat(logoImage, View.SCALE_Y, scaleRatio, 1.0f);
-//        ObjectAnimator mAnimatorTranslateY = ObjectAnimator.ofFloat(logoImage, View.TRANSLATION_Y, logoImage.getTranslationY(), 0);
-//        ObjectAnimator mContentAnimatorTranslateY = ObjectAnimator.ofFloat(mSlideContent, View.TRANSLATION_Y, mSlideContent.getTranslationY(), 0);
-//
-//        mAnimatorSet.play(mContentAnimatorTranslateY)
-//                .with(mAnimatorTranslateY)
-//                .with(mAnimatorScaleX)
-//                .with(mAnimatorScaleY);
-//
-//        mAnimatorSet.setDuration(duration);
-//        mAnimatorSet.start();
-//
-//    }
-
     //登录信息显示
     private boolean flag = false;
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -246,7 +207,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener, K
                 mPasswordEditText.setText("");
                 break;
             case R.id.iv_close:
-                getActivity().finish();
+                Objects.requireNonNull(getActivity()).finish();
                 break;
             case R.id.iv_show_pwd:
                 if (flag) {
@@ -263,7 +224,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener, K
                     mPasswordEditText.setSelection(pwd.length());
                 break;
 
-                //点击登录之后，查数据库
+            //点击登录之后，查数据库
             case R.id.btn_login:
                 //System.out.println("BTN OK ");
                 userName = mMobileEditText.getText().toString();
@@ -279,7 +240,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener, K
                                 .url("http://47.111.80.33:8092/user/login?username="+userName+"&encryptpassword="+encryptPassword)
                                 .build();
                         Response response = client.newCall(request).execute();
-                        String responseData = response.body().string();
+                        String responseData = Objects.requireNonNull(response.body()).string();
                         System.out.println(responseData);
                         JSONTokener jsonTokener = new JSONTokener(responseData);
                         JSONObject jsonObject = (JSONObject) jsonTokener.nextValue();
@@ -289,12 +250,13 @@ public class AccountFragment extends Fragment implements View.OnClickListener, K
                             editor.putString(ENCRYPT_PASSWORD, encryptPassword);
                             editor.commit();
                             hideKeyboard(v);
-                            fragmentManager
-                                    .beginTransaction()
-                                    .addToBackStack(null)
-                                    .replace(R.id.fragment_register_welcome, new AfterLoginFragment())
-                                    .commit();
 
+//                            fragmentManager
+//                                    .beginTransaction()
+//                                    .addToBackStack(null)
+//                                    .replace(R.id.fragment_register_welcome, new AfterLoginFragment())
+//                                    .commit();
+                            Objects.requireNonNull(getDialog()).dismiss();
                             Looper.prepare();
                             Toast.makeText(getActivity(), "登录成功！", Toast.LENGTH_SHORT).show();
 
@@ -319,18 +281,17 @@ public class AccountFragment extends Fragment implements View.OnClickListener, K
 
             case R.id.register:
                 hideKeyboard(v);
-                fragmentManager
-                        .beginTransaction()
-                        .addToBackStack(null)
-                        .replace(R.id.fragment_register_welcome, new LoginFragment())
-                        .commit();
+                //页面跳转到注册
+                RegisterDialog registerDialog = new RegisterDialog(alarmioFragmentManager);
+                registerDialog.show(alarmioFragmentManager, "registerTag");
+                Objects.requireNonNull(getDialog()).dismiss();
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        keyboardWatcher = new KeyboardWatcher(getActivity().findViewById(Window.ID_ANDROID_CONTENT));
+        keyboardWatcher = new KeyboardWatcher(Objects.requireNonNull(getActivity()).findViewById(Window.ID_ANDROID_CONTENT));
         keyboardWatcher.addSoftKeyboardStateListener(this);
     }
 
@@ -387,6 +348,5 @@ public class AccountFragment extends Fragment implements View.OnClickListener, K
             imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
         }
     }
-
 
 }

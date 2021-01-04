@@ -31,6 +31,7 @@ public enum PreferenceData {
     HEALTH_REPORT_PASSWORD(""),
     LOGIN_INFO(null);
 
+
     private String name;
     private Object defaultValue;
 

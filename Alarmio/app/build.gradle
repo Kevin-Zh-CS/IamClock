@@ -26,7 +26,7 @@ android {
         }
     }
     lintOptions {
-        abortOnError false
+        abortOnError fals
     }
 
     if (isCI) {
@@ -84,5 +84,5 @@ dependencies {
     implementation 'me.jfenn:AndroidUtils:0.0.1'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'com.afollestad.material-dialogs:core:3.3.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 }

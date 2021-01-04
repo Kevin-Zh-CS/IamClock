@@ -1,7 +1,5 @@
-package com.iamclock.iamclockapp.Fragments.Account;
+package me.jfenn.alarmio.fragments.Account;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -29,8 +27,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.iamclock.iamclockapp.R;
-
+import me.jfenn.alarmio.R;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -187,49 +184,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener, K
         });
     }
 
-
-//    public void setViewAnimatorWhenKeyboardOpened(View logoImage, View mSlideContent, float logoSlideDist) {
-//        logoImage.setPivotY(logoImage.getHeight());
-//        logoImage.setPivotX(0);
-//
-//        AnimatorSet mAnimatorSet = new AnimatorSet();
-//        ObjectAnimator mAnimatorScaleX = ObjectAnimator.ofFloat(logoImage, View.SCALE_X, 1.0f, scaleRatio);
-//        ObjectAnimator mAnimatorScaleY = ObjectAnimator.ofFloat(logoImage, View.SCALE_Y, 1.0f, scaleRatio);
-//        ObjectAnimator mAnimatorTranslateY = ObjectAnimator.ofFloat(logoImage, View.TRANSLATION_Y, 0.0f, -logoSlideDist);
-//        ObjectAnimator mContentAnimatorTranslateY = ObjectAnimator.ofFloat(mSlideContent, View.TRANSLATION_Y, 0.0f, -logoSlideDist);
-//
-//        mAnimatorSet.play(mContentAnimatorTranslateY)
-//                .with(mAnimatorTranslateY)
-//                .with(mAnimatorScaleX)
-//                .with(mAnimatorScaleY);
-//
-//        mAnimatorSet.setDuration(duration);
-//        mAnimatorSet.start();
-//    }
-//
-//
-//    public void setViewAnimatorWhenKeyboardClosed(View logoImage, View mSlideContent) {
-//        if (logoImage.getTranslationY() == 0) {
-//            return;
-//        }
-//        logoImage.setPivotY(logoImage.getHeight());
-//        logoImage.setPivotX(0);
-//
-//        AnimatorSet mAnimatorSet = new AnimatorSet();
-//        ObjectAnimator mAnimatorScaleX = ObjectAnimator.ofFloat(logoImage, View.SCALE_X, scaleRatio, 1.0f);
-//        ObjectAnimator mAnimatorScaleY = ObjectAnimator.ofFloat(logoImage, View.SCALE_Y, scaleRatio, 1.0f);
-//        ObjectAnimator mAnimatorTranslateY = ObjectAnimator.ofFloat(logoImage, View.TRANSLATION_Y, logoImage.getTranslationY(), 0);
-//        ObjectAnimator mContentAnimatorTranslateY = ObjectAnimator.ofFloat(mSlideContent, View.TRANSLATION_Y, mSlideContent.getTranslationY(), 0);
-//
-//        mAnimatorSet.play(mContentAnimatorTranslateY)
-//                .with(mAnimatorTranslateY)
-//                .with(mAnimatorScaleX)
-//                .with(mAnimatorScaleY);
-//
-//        mAnimatorSet.setDuration(duration);
-//        mAnimatorSet.start();
-//
-//    }
 
     //登录信息显示
     private boolean flag = false;

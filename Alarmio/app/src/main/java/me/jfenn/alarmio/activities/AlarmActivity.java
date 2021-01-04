@@ -1,8 +1,10 @@
 package me.jfenn.alarmio.activities;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.os.Build;
@@ -19,7 +21,10 @@ import android.widget.TextView;
 import com.afollestad.aesthetic.Aesthetic;
 import com.afollestad.aesthetic.AestheticActivity;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.Nullable;
@@ -37,6 +42,9 @@ import me.jfenn.alarmio.dialogs.TimeChooserDialog;
 import me.jfenn.alarmio.utils.FormatUtils;
 import me.jfenn.slideactionview.SlideActionListener;
 import me.jfenn.slideactionview.SlideActionView;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class AlarmActivity extends AestheticActivity implements SlideActionListener {
 
@@ -76,10 +84,9 @@ public class AlarmActivity extends AestheticActivity implements SlideActionListe
     private Disposable isDarkSubscription;
 
     private boolean isDark;
+    private SharedPreferences sharedPreferences;
 
-    public AlarmActivity() {
-    }
-
+    @SuppressLint("CommitPrefEdits")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +97,8 @@ public class AlarmActivity extends AestheticActivity implements SlideActionListe
         date = findViewById(R.id.date);
         time = findViewById(R.id.time);
         actionView = findViewById(R.id.slideView);
+
+        sharedPreferences = Objects.requireNonNull(getSharedPreferences("USER_INFO", Context.MODE_MULTI_PROCESS));
 
         // Lock orientation
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
@@ -211,7 +220,30 @@ public class AlarmActivity extends AestheticActivity implements SlideActionListe
             textColorPrimaryInverseSubscription.dispose();
             isDarkSubscription.dispose();
         }
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");//设置日期格式
+        //System.out.println(dateFormat.format(new Date()));// new Date()为获取当前系统时间
+        String format = dateFormat.format(new Date());
+        String username = sharedPreferences.getString("USER_NAME", null);
+        String url = "http://47.111.80.33:8092/user/update?header=" + username + "&time=" + format;
+        System.out.println(url);
+        if(username != null) {
+            new Thread(() -> {
+                OkHttpClient client = new OkHttpClient();
+                Request request = new Request.Builder()
+                        .url(url)
+                        .build();
+                try {
+                    System.out.println("发送前。。。");
+                    Response response = client.newCall(request).execute();
+                    System.out.println("已发送。。。");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
+            }).start();
+
+        }
+        //http://47.111.80.33:8092/user/update?header=123&time=2021/1/3%2018:50:56
         stopAnnoyingness();
     }
 

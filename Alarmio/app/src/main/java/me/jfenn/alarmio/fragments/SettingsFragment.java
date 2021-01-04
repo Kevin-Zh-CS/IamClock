@@ -1,6 +1,8 @@
 package me.jfenn.alarmio.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,6 +19,7 @@ import com.afollestad.aesthetic.Aesthetic;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -34,9 +37,17 @@ import me.jfenn.alarmio.data.preference.LoginPreferenceData;
 import me.jfenn.alarmio.data.preference.ManuallyPreferenceData;
 import me.jfenn.alarmio.data.preference.RingtonePreferenceData;
 import me.jfenn.alarmio.data.preference.TimePreferenceData;
+import me.jfenn.alarmio.dialogs.AfterLoginDialog;
+import me.jfenn.alarmio.fragments.Account.AccountFragment;
 import me.jfenn.alarmio.interfaces.ContextFragmentInstantiator;
 
 public class SettingsFragment extends BasePagerFragment implements Consumer {
+
+    public static final int duration = 800;
+    public static final String NOT_LOGIN_IN = "NULL";
+    public static final String USER_NAME = "USER_NAME";
+    public static final String ENCRYPT_PASSWORD = "ENCRYPT_PASSWORD";
+    public static final String FILE_NAME = "USER_INFO";
 
     private RecyclerView recyclerView;
 
@@ -45,7 +56,10 @@ public class SettingsFragment extends BasePagerFragment implements Consumer {
     private Disposable colorPrimarySubscription;
     private Disposable textColorPrimarySubscription;
 
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
+    @SuppressLint("CommitPrefEdits")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -53,6 +67,10 @@ public class SettingsFragment extends BasePagerFragment implements Consumer {
         recyclerView = v.findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+
+        //获取USER_INFO.xml
+        sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(FILE_NAME, Context.MODE_MULTI_PROCESS);
+        editor = sharedPreferences.edit();
 
         ArrayList<BasePreferenceData> list = new ArrayList<BasePreferenceData>(Arrays.asList(
                 new HealthConfigPreferenceData(getAlarmio().getHealthReport(), R.string.title_submit),
@@ -63,12 +81,17 @@ public class SettingsFragment extends BasePagerFragment implements Consumer {
                 new TimePreferenceData(PreferenceData.SLOW_WAKE_UP_TIME, R.string.title_slow_wake_up_time)
         ));
 
+
         if (Build.VERSION.SDK_INT >= 23) {
             list.add(0, new BatteryOptimizationPreferenceData());
             list.add(0, new AlertWindowPreferenceData());
-            list.add(0, new LoginPreferenceData(PreferenceData.LOGIN_INFO, R.string.title_login));
+            String username = sharedPreferences.getString(USER_NAME, null);
+            if (username == null) {//未登录
+                list.add(0, new LoginPreferenceData(PreferenceData.LOGIN_INFO, R.string.title_login));
+            }else{//已登录
+                list.add(0, new AfterLoginDialog(PreferenceData.LOGIN_INFO, sharedPreferences.getString(USER_NAME, "")));
+            }
         }
-
         list.add(new AboutPreferenceData());
 
         preferenceAdapter = new PreferenceAdapter(list);
