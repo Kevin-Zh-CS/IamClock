@@ -25,14 +25,16 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import me.jfenn.alarmio.R;
 import me.jfenn.alarmio.adapters.PreferenceAdapter;
+import me.jfenn.alarmio.data.HealthReportData;
 import me.jfenn.alarmio.data.PreferenceData;
 import me.jfenn.alarmio.data.preference.AboutPreferenceData;
 import me.jfenn.alarmio.data.preference.AlertWindowPreferenceData;
 import me.jfenn.alarmio.data.preference.BasePreferenceData;
 import me.jfenn.alarmio.data.preference.BatteryOptimizationPreferenceData;
 import me.jfenn.alarmio.data.preference.BooleanPreferenceData;
-import me.jfenn.alarmio.data.preference.HealthPreferenceData;
+import me.jfenn.alarmio.data.preference.HealthConfigPreferenceData;
 import me.jfenn.alarmio.data.preference.LoginPreferenceData;
+import me.jfenn.alarmio.data.preference.ManuallyPreferenceData;
 import me.jfenn.alarmio.data.preference.RingtonePreferenceData;
 import me.jfenn.alarmio.data.preference.TimePreferenceData;
 import me.jfenn.alarmio.dialogs.AfterLoginDialog;
@@ -71,8 +73,8 @@ public class SettingsFragment extends BasePagerFragment implements Consumer {
         editor = sharedPreferences.edit();
 
         ArrayList<BasePreferenceData> list = new ArrayList<BasePreferenceData>(Arrays.asList(
-                new BooleanPreferenceData(PreferenceData.HEALTH, R.string.title_health, R.string.desc_health),
-                new HealthPreferenceData(PreferenceData.HEALTH_SUBMIT, R.string.title_submit),
+                new HealthConfigPreferenceData(getAlarmio().getHealthReport(), R.string.title_submit),
+                new ManuallyPreferenceData(),
                 new RingtonePreferenceData(PreferenceData.DEFAULT_ALARM_RINGTONE, R.string.title_default_alarm_ringtone),
                 new RingtonePreferenceData(PreferenceData.DEFAULT_TIMER_RINGTONE, R.string.title_default_timer_ringtone),
                 new BooleanPreferenceData(PreferenceData.SLOW_WAKE_UP, R.string.title_slow_wake_up, R.string.desc_slow_wake_up),

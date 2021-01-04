@@ -23,7 +23,7 @@ public final class AboutPreferenceData extends CustomPreferenceData {
 
         if (fragment_manager != null) {
             AboutDialog dialog = new AboutDialog();
-            dialog.show(fragment_manager, (String) null);
+            dialog.show(fragment_manager, null);
         }
     }
 }

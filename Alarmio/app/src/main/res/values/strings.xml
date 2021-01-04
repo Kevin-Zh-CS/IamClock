@@ -82,11 +82,8 @@
     <string name="day_thursday_abbr">T</string>
     <string name="day_friday_abbr">F</string>
     <string name="day_saturday_abbr">S</string>
-    <string name="title_health">ZJU Heath Report</string>
-    <string name="desc_health">Choose to automatically complete ZJU health report or not.</string>
-    <string name="title_submit">Health Report Submit</string>
+    <string name="title_submit">ZJU Health Report Configuration</string>
     <string name="title_login">Login</string>
-
     <string name="hint_login_username">Username</string>
     <string name="hint_login_password">Password</string>
     <string name="login">Login</string>
@@ -107,5 +104,10 @@
     <string name="user_register">注册</string>
     <string name="go_login">去登录</string>
     <string name="verify_pwd">确认密码</string>
-
+    <string name="title_manually">ZJU Health Report Manually</string>
+    <string name="hint_username">ZJU username</string>
+    <string name="hint_password">ZJU password</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="automatic_health_report">Automatic Health Report</string>
 </resources>
