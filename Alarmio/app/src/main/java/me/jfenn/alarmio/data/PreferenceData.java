@@ -24,10 +24,12 @@ public enum PreferenceData {
     TIMER_END_TIME("%d/TIMER_END_TIME", 0),
     TIMER_VIBRATE("%d/TIMER_VIBRATE", true),
     TIMER_SOUND("%d/TIMER_SOUND", ""),
-    HEALTH(false),
-    HEALTH_SUBMIT(null),
+    HEALTH_REPORT_SWITCH(false),
+    HEALTH_REPORT_HOUR(0),
+    HEALTH_REPORT_MINUTE(0),
+    HEALTH_REPORT_USERNAME(""),
+    HEALTH_REPORT_PASSWORD(""),
     LOGIN_INFO(null);
-    // TODO zhang: login information
 
     private String name;
     private Object defaultValue;

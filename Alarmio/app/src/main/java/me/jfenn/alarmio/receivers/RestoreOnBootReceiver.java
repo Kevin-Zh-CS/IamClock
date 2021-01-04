@@ -7,6 +7,7 @@ import android.content.Intent;
 
 import me.jfenn.alarmio.Alarmio;
 import me.jfenn.alarmio.data.AlarmData;
+import me.jfenn.alarmio.data.HealthReportData;
 import me.jfenn.alarmio.data.TimerData;
 
 public class RestoreOnBootReceiver extends BroadcastReceiver {

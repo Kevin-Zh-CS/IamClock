@@ -25,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
+
 import io.reactivex.disposables.Disposable;
 import me.jfenn.alarmio.Alarmio;
 import me.jfenn.alarmio.R;
@@ -75,6 +76,9 @@ public class AlarmActivity extends AestheticActivity implements SlideActionListe
     private Disposable isDarkSubscription;
 
     private boolean isDark;
+
+    public AlarmActivity() {
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -201,6 +205,7 @@ public class AlarmActivity extends AestheticActivity implements SlideActionListe
 
     @Override
     protected void onDestroy() {
+        alarmio.getHealthReport().Report();
         super.onDestroy();
         if (textColorPrimaryInverseSubscription != null && isDarkSubscription != null) {
             textColorPrimaryInverseSubscription.dispose();
@@ -221,6 +226,7 @@ public class AlarmActivity extends AestheticActivity implements SlideActionListe
                 audioManager.setStreamVolume(AudioManager.STREAM_ALARM, originalVolume, 0);
             }
         }
+
     }
 
     @Override

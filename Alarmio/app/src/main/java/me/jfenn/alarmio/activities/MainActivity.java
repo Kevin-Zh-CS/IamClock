@@ -28,7 +28,6 @@ import me.jfenn.alarmio.receivers.TimerReceiver;
 public class MainActivity extends AestheticActivity implements FragmentManager.OnBackStackChangedListener, Alarmio.ActivityListener {
 
     public static final String EXTRA_FRAGMENT = "me.jfenn.alarmio.MainActivity.EXTRA_FRAGMENT";
-    public static final int FRAGMENT_TIMER = 0;
 
     private Alarmio alarmio;
     private WeakReference<BaseFragment> fragmentRef;
@@ -116,36 +115,15 @@ public class MainActivity extends AestheticActivity implements FragmentManager.O
      */
     @Nullable
     private BaseFragment createFragmentFor(Intent intent) {
-        BaseFragment fragment = fragmentRef != null ? fragmentRef.get() : null;
-        int fragmentId = intent.getIntExtra(EXTRA_FRAGMENT, -1);
+        if (Intent.ACTION_MAIN.equals(intent.getAction()) || intent.getAction() == null)
+            return new SplashFragment();
 
-        switch (fragmentId) {
-            case FRAGMENT_TIMER:
-                if (intent.hasExtra(TimerReceiver.EXTRA_TIMER_ID)) {
-                    int id = intent.getIntExtra(TimerReceiver.EXTRA_TIMER_ID, 0);
-                    if (alarmio.getTimers().size() <= id || id < 0)
-                        return fragment;
+        Bundle args = new Bundle();
+        args.putString(HomeFragment.INTENT_ACTION, intent.getAction());
 
-                    Bundle args = new Bundle();
-                    args.putParcelable(TimerFragment.EXTRA_TIMER, alarmio.getTimers().get(id));
-
-                    BaseFragment newFragment = new TimerFragment();
-                    newFragment.setArguments(args);
-                    return newFragment;
-                }
-
-                return fragment;
-            default:
-                if (Intent.ACTION_MAIN.equals(intent.getAction()) || intent.getAction() == null)
-                    return new SplashFragment();
-
-                Bundle args = new Bundle();
-                args.putString(HomeFragment.INTENT_ACTION, intent.getAction());
-
-                BaseFragment newFragment = new HomeFragment();
-                newFragment.setArguments(args);
-                return newFragment;
-        }
+        BaseFragment newFragment = new HomeFragment();
+        newFragment.setArguments(args);
+        return newFragment;
     }
 
     /**

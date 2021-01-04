@@ -34,6 +34,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import me.jfenn.alarmio.data.AlarmData;
+import me.jfenn.alarmio.data.HealthReportData;
 import me.jfenn.alarmio.data.PreferenceData;
 import me.jfenn.alarmio.data.SoundData;
 import me.jfenn.alarmio.data.TimerData;
@@ -58,6 +59,7 @@ public class Alarmio extends MultiDexApplication implements Player.EventListener
     private HlsMediaSource.Factory hlsMediaSourceFactory;
     private ProgressiveMediaSource.Factory progressiveMediaSourceFactory;
     private String currentStream;
+    private HealthReportData health_report;
 
     @Override
     public void onCreate() {
@@ -68,6 +70,7 @@ public class Alarmio extends MultiDexApplication implements Player.EventListener
         listeners = new ArrayList<>();
         alarms = new ArrayList<>();
         timers = new ArrayList<>();
+        health_report = new HealthReportData();
 
         player = new SimpleExoPlayer.Builder(this).build();
         player.addListener(this);
@@ -433,6 +436,10 @@ public class Alarmio extends MultiDexApplication implements Player.EventListener
         void requestPermissions(String... permissions);
 
         FragmentManager gettFragmentManager(); //help
+    }
+
+    public HealthReportData getHealthReport() {
+        return health_report;
     }
 
 }
