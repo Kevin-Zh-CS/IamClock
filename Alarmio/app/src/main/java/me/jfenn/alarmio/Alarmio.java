@@ -7,6 +7,7 @@ import android.media.Ringtone;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -61,6 +62,16 @@ public class Alarmio extends MultiDexApplication implements Player.EventListener
     private ProgressiveMediaSource.Factory progressiveMediaSourceFactory;
     private String currentStream;
     private HealthReportData health_report;
+
+    private SimplePagerAdapter simplePagerAdapter;
+
+    public void setAdapter(SimplePagerAdapter simplePagerAdapter){
+        this.simplePagerAdapter = simplePagerAdapter;
+    }
+
+    public SimplePagerAdapter getAdapter(){
+        return this.simplePagerAdapter;
+    }
 
     @Override
     public void onCreate() {

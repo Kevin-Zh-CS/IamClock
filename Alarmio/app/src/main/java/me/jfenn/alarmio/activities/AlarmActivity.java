@@ -55,6 +55,8 @@ public class AlarmActivity extends AestheticActivity implements SlideActionListe
     public static final String EXTRA_ALARM = "james.alarmio.AlarmActivity.EXTRA_ALARM";
     public static final String EXTRA_TIMER = "james.alarmio.AlarmActivity.EXTRA_TIMER";
 
+    public static final String SELF_WAKE_UP_TIME = "SELF_WAKE_UP_TIME";
+
     private View overlay;
     private TextView date;
     private TextView time;
@@ -89,6 +91,8 @@ public class AlarmActivity extends AestheticActivity implements SlideActionListe
 
     private boolean isDark;
     private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+
 
     @SuppressLint("CommitPrefEdits")
     @Override
@@ -103,6 +107,7 @@ public class AlarmActivity extends AestheticActivity implements SlideActionListe
         actionView = findViewById(R.id.slideView);
 
         sharedPreferences = Objects.requireNonNull(getSharedPreferences("USER_INFO", Context.MODE_MULTI_PROCESS));
+        //editor = sharedPreferences.edit();
 
         // Lock orientation
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
@@ -216,6 +221,7 @@ public class AlarmActivity extends AestheticActivity implements SlideActionListe
                 | WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
+    @SuppressLint("CommitPrefEdits")
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -236,15 +242,21 @@ public class AlarmActivity extends AestheticActivity implements SlideActionListe
                         .url(url)
                         .build();
                 try {
+                    client.newCall(request).execute();
                     Response response = client.newCall(request).execute();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }).start();
-
+            alarmio.getAdapter().notifyDataSetChanged();
         }
         //http://47.111.80.33:8092/user/update?header=123&time=2021/1/3%2018:50:56
         stopAnnoyingness();
+
+        //TODO: 个人最近七次起床时间
+        sharedPreferences = Objects.requireNonNull(getSharedPreferences(SELF_WAKE_UP_TIME, Context.MODE_MULTI_PROCESS));
+        editor = sharedPreferences.edit();
+
     }
 
     private void stopAnnoyingness() {

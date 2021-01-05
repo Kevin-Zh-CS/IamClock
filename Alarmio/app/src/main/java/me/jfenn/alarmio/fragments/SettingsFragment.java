@@ -57,7 +57,7 @@ public class SettingsFragment extends BasePagerFragment implements Consumer {
     private Disposable textColorPrimarySubscription;
 
     private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
+
 
     @SuppressLint("CommitPrefEdits")
     @Nullable
@@ -70,7 +70,7 @@ public class SettingsFragment extends BasePagerFragment implements Consumer {
 
         //获取USER_INFO.xml
         sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(FILE_NAME, Context.MODE_MULTI_PROCESS);
-        editor = sharedPreferences.edit();
+
 
         ArrayList<BasePreferenceData> list = new ArrayList<BasePreferenceData>(Arrays.asList(
                 new HealthConfigPreferenceData(getAlarmio().getHealthReport(), R.string.title_submit),
@@ -88,9 +88,8 @@ public class SettingsFragment extends BasePagerFragment implements Consumer {
             String username = sharedPreferences.getString(USER_NAME, null);
             if (username == null) {//未登录
                 list.add(0, new LoginPreferenceData(PreferenceData.LOGIN_INFO, R.string.title_login));
-            } else {//已登录
-                list.add(0, new AfterLoginDialog(PreferenceData.LOGIN_INFO, sharedPreferences.getString(USER_NAME, "")));
-            }
+            }else{//已登录
+                list.add(0, new AfterLoginDialog(PreferenceData.LOGIN_INFO, "Hello, "+sharedPreferences.getString(USER_NAME, "")));
         }
         list.add(new AboutPreferenceData());
 

@@ -2,6 +2,7 @@ package me.jfenn.alarmio.fragments.Dashboard;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.TimeZone;
 
 import io.reactivex.functions.Consumer;
@@ -38,25 +40,82 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 
-public class DashboardFragment extends BasePagerFragment implements Consumer {
+public class DashboardFragment extends BasePagerFragment implements Consumer, View.OnClickListener {
 
+    private BarChart chart1;
+    private BarChart chart2;
+    private Description description;
+    private SimpleDateFormat dateFormat;
+    private OkHttpClient client;
+    private Request request;
+    private SharedPreferences sharedPreferences;
+    String username;
+
+    @SuppressLint("SimpleDateFormat")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v =  inflater.inflate(R.layout.fragment_dashboard, container, false);
+
+        chart1 = v.findViewById(R.id.barchart1);
+        chart1.setOnClickListener(this);
+        chart2 = v.findViewById(R.id.barchart2);
+        chart2.setOnClickListener(this);
+
+        sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("USER_INFO", Context.MODE_MULTI_PROCESS);
+        username = sharedPreferences.getString("USER_NAME", null);
+        if (username != null) {//已登录
+            drawFriendChart();
+            drawSelfChart();
+
+        }else{
+            drawSelfChartOnTop();
+            chart2.setVisibility(View.GONE);
+        }
+        return v;
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    @Override
+    public void onClick(View v) {
+        username = sharedPreferences.getString("USER_NAME", null);
+        if(username != null){//点击的时候已登录
+            if(v.getId() == R.id.barchart1){
+                drawFriendChart();
+                drawSelfChart();
+                chart2.setVisibility(View.VISIBLE);
+            }
+            if(v.getId() == R.id.barchart2){
+                drawSelfChart();
+            }
+
+        }else{//点击的时候未登录
+            if(v.getId() == R.id.barchart1){
+                drawSelfChartOnTop();
+            }
+        }
+
+    }
+
+
+
+    @SuppressLint("SimpleDateFormat")
+    private void drawFriendChart(){
+        description = chart1.getDescription();
         System.out.println("===================================================");
         View v = inflater.inflate(R.layout.fragment_dashboard, container, false);
         BarChart chart1 = v.findViewById(R.id.barchart1);
         Description description = chart1.getDescription();
         description.setEnabled(false);
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        dateFormat = new SimpleDateFormat("HH:mm");
         dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+0"));
         new Thread(() -> {
             try {
                 // 创建一个OkHttpClient的实例
-                OkHttpClient client = new OkHttpClient();
+                client = new OkHttpClient();
                 // 如果要发送一条HTTP请求，就需要创建一个Request对象
                 // 可在最终的build()方法之前连缀很多其他方法来丰富这个Request对象
-                Request request = new Request.Builder()
+                request = new Request.Builder()
                         .url("http://47.111.80.33:8092/user/list")
                         .build();
                 // 调用OkHttpClient的newCall()方法来创建一个Call对象，并调用execute()方法来发送请求并获取服务器的返回数据
@@ -111,18 +170,29 @@ public class DashboardFragment extends BasePagerFragment implements Consumer {
         chart1.getAxisLeft().setDrawLabels(false);
         chart1.animateY(1000);
         chart1.invalidate();
+    }
 
 
-        BarChart chart2 = v.findViewById(R.id.barchart2);
+    private void drawSelfChart(){
         BarDataSet barDataSet2 = new BarDataSet(getValues(), "DataSet 2");
         barDataSet2.setColors(ColorTemplate.COLORFUL_COLORS);
         BarData barData2 = new BarData();
         barData2.addDataSet(barDataSet2);
         chart2.animateY(2000);
         chart2.setData(barData2);
-
-        return v;
     }
+
+
+    private void drawSelfChartOnTop(){
+        BarDataSet barDataSet2 = new BarDataSet(getValues(), "DataSet 2");
+        barDataSet2.setColors(ColorTemplate.COLORFUL_COLORS);
+        BarData barData2 = new BarData();
+        barData2.addDataSet(barDataSet2);
+        chart1.animateY(2000);
+        chart1.setData(barData2);
+    }
+
+
 
 
 //    使用ViewPager不会调用onActivityCreated()
@@ -224,6 +294,9 @@ public class DashboardFragment extends BasePagerFragment implements Consumer {
     public String getTitle(Context context) {
         return null;
     }
+
+
+
 
     public static class Instantiator extends ContextFragmentInstantiator {
 

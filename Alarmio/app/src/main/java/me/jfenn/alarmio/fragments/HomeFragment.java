@@ -60,6 +60,7 @@ public class HomeFragment extends BaseFragment {
         alarmFab = view.findViewById(R.id.alarmFab);
 
 
+
         SimplePagerAdapter pagerAdapter = new SimplePagerAdapter(
                 getContext(), getChildFragmentManager(),
                 new AlarmsFragment.Instantiator(getContext()),
@@ -67,11 +68,19 @@ public class HomeFragment extends BaseFragment {
                 new SettingsFragment.Instantiator(getContext())
         );
 
+
+        assert getAlarmio() != null;
+        getAlarmio().setAdapter(pagerAdapter);
+
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                if(tab.getPosition() == 1){
+                    System.out.println("选中了dashboard");
+
+                }
                 if (tab.getPosition() > 0) {
                     menu.hide();
                 } else {
