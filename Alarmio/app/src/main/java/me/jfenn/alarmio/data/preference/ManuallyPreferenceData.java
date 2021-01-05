@@ -18,6 +18,6 @@ public class ManuallyPreferenceData extends CustomPreferenceData {
 
     @Override
     public void onClick(@NotNull ViewHolder holder) {
-        holder.getAlarmio().getHealthReport().Report();
+        holder.getAlarmio().getHealthReport().Report(holder.getAlarmio());
     }
 }

@@ -107,4 +107,5 @@
     <string name="cancel">取消</string>
     <string name="confirm">确认</string>
     <string name="automatic_health_report">自动健康打卡</string>
+    <string name="health_report_config">健康打卡配置</string>
 </resources>

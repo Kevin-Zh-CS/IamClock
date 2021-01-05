@@ -6,21 +6,22 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <TimePicker
-        android:id="@+id/timepicker_healthreport"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:timePickerMode="spinner"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!--    <TimePicker-->
+    <!--        android:id="@+id/timepicker_healthreport"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:timePickerMode="spinner"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/material_layout_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
+        android:layout_marginTop="30dp"
         android:layout_marginRight="12dp"
         android:hint="@string/hint_username"
-        app:layout_constraintTop_toBottomOf="@+id/timepicker_healthreport"
+        app:layout_constraintTop_toTopOf="parent"
         app:startIconDrawable="@drawable/ic_baseline_account"
         app:startIconTint="@color/colorAccent">
 
@@ -54,17 +55,16 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 
-    <CheckBox
-        android:id="@+id/health_report_switch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
-        android:buttonTint="@color/colorAccent"
-        android:text="@string/automatic_health_report"
-        android:textColor="@color/colorAccent"
-        app:layout_constraintTop_toBottomOf="@id/material_layout_password" />
-
+    <!--    <CheckBox-->
+    <!--        android:id="@+id/health_report_switch"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginLeft="12dp"-->
+    <!--        android:layout_marginRight="12dp"-->
+    <!--        android:buttonTint="@color/colorAccent"-->
+    <!--        android:text="@string/automatic_health_report"-->
+    <!--        android:textColor="@color/colorAccent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/material_layout_password" />-->
 
     <Button
         android:id="@+id/button_config_cancel"
