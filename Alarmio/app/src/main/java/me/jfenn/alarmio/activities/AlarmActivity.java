@@ -2,6 +2,7 @@ package me.jfenn.alarmio.activities;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +14,7 @@ import android.os.Handler;
 import android.os.PowerManager;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.view.WindowManager;
@@ -29,6 +31,7 @@ import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 import io.reactivex.disposables.Disposable;
@@ -39,6 +42,7 @@ import me.jfenn.alarmio.data.PreferenceData;
 import me.jfenn.alarmio.data.SoundData;
 import me.jfenn.alarmio.data.TimerData;
 import me.jfenn.alarmio.dialogs.TimeChooserDialog;
+import me.jfenn.alarmio.fragments.Dashboard.DashboardFragment;
 import me.jfenn.alarmio.utils.FormatUtils;
 import me.jfenn.slideactionview.SlideActionListener;
 import me.jfenn.slideactionview.SlideActionView;
@@ -214,7 +218,6 @@ public class AlarmActivity extends AestheticActivity implements SlideActionListe
 
     @Override
     protected void onDestroy() {
-        alarmio.getHealthReport().Report();
         super.onDestroy();
         if (textColorPrimaryInverseSubscription != null && isDarkSubscription != null) {
             textColorPrimaryInverseSubscription.dispose();
@@ -226,20 +229,17 @@ public class AlarmActivity extends AestheticActivity implements SlideActionListe
         String username = sharedPreferences.getString("USER_NAME", null);
         String url = "http://47.111.80.33:8092/user/update?header=" + username + "&time=" + format;
         System.out.println(url);
-        if(username != null) {
+        if (username != null) {
             new Thread(() -> {
                 OkHttpClient client = new OkHttpClient();
                 Request request = new Request.Builder()
                         .url(url)
                         .build();
                 try {
-                    System.out.println("发送前。。。");
                     Response response = client.newCall(request).execute();
-                    System.out.println("已发送。。。");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
             }).start();
 
         }
@@ -258,7 +258,6 @@ public class AlarmActivity extends AestheticActivity implements SlideActionListe
                 audioManager.setStreamVolume(AudioManager.STREAM_ALARM, originalVolume, 0);
             }
         }
-
     }
 
     @Override
@@ -317,6 +316,10 @@ public class AlarmActivity extends AestheticActivity implements SlideActionListe
     @Override
     public void onSlideRight() {
         overlay.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+        if (true) {
+            alarmio.getHealthReport().Report(alarmio);
+        }
+        // TODO 应该在这里放发送数据的起点，这里是真正开始的地方
         finish();
     }
 }

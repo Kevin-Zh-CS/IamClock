@@ -44,7 +44,7 @@ public class DashboardFragment extends BasePagerFragment implements Consumer {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         System.out.println("===================================================");
-        View v =  inflater.inflate(R.layout.fragment_dashboard, container, false);
+        View v = inflater.inflate(R.layout.fragment_dashboard, container, false);
         BarChart chart1 = v.findViewById(R.id.barchart1);
         Description description = chart1.getDescription();
         description.setEnabled(false);
@@ -123,7 +123,6 @@ public class DashboardFragment extends BasePagerFragment implements Consumer {
 
         return v;
     }
-
 
 
 //    使用ViewPager不会调用onActivityCreated()
@@ -217,10 +216,8 @@ public class DashboardFragment extends BasePagerFragment implements Consumer {
         return values;
     }
 
-
     @Override
     public void accept(Object o) throws Exception {
-
     }
 
     @Override

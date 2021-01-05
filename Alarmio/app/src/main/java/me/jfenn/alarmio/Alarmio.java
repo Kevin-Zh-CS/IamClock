@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import me.jfenn.alarmio.adapters.SimplePagerAdapter;
 import me.jfenn.alarmio.data.AlarmData;
 import me.jfenn.alarmio.data.HealthReportData;
 import me.jfenn.alarmio.data.PreferenceData;

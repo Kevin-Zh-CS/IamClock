@@ -12,8 +12,6 @@ import java.util.Objects;
 import me.jfenn.alarmio.data.PreferenceData;
 import me.jfenn.alarmio.dialogs.LoginDialog;
 
-
-// TODO zhang: login button
 public class LoginPreferenceData extends CustomPreferenceData {
 
     public LoginPreferenceData(PreferenceData preference, int name) {
