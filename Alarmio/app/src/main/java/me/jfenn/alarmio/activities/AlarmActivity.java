@@ -1,8 +1,6 @@
 package me.jfenn.alarmio.activities;
 
 import android.annotation.SuppressLint;
-import android.app.AlarmManager;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,11 +12,13 @@ import android.os.Handler;
 import android.os.PowerManager;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 import com.afollestad.aesthetic.Aesthetic;
 import com.afollestad.aesthetic.AestheticActivity;
@@ -27,12 +27,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 import io.reactivex.disposables.Disposable;
 import me.jfenn.alarmio.Alarmio;
@@ -41,8 +35,6 @@ import me.jfenn.alarmio.data.AlarmData;
 import me.jfenn.alarmio.data.PreferenceData;
 import me.jfenn.alarmio.data.SoundData;
 import me.jfenn.alarmio.data.TimerData;
-import me.jfenn.alarmio.dialogs.TimeChooserDialog;
-import me.jfenn.alarmio.fragments.Dashboard.DashboardFragment;
 import me.jfenn.alarmio.utils.FormatUtils;
 import me.jfenn.slideactionview.SlideActionListener;
 import me.jfenn.slideactionview.SlideActionView;
@@ -120,8 +112,8 @@ public class AlarmActivity extends AestheticActivity implements SlideActionListe
                 .isDark()
                 .subscribe(aBoolean -> isDark = aBoolean);
 
-        actionView.setLeftIcon(VectorDrawableCompat.create(getResources(), R.drawable.ic_snooze, getTheme()));
         actionView.setRightIcon(VectorDrawableCompat.create(getResources(), R.drawable.ic_close, getTheme()));
+        actionView.setLeftIcon(VectorDrawableCompat.create(getResources(), R.drawable.ic_close, getTheme()));
         actionView.setListener(this);
 
         isSlowWake = PreferenceData.SLOW_WAKE_UP.getValue(this);
@@ -281,57 +273,29 @@ public class AlarmActivity extends AestheticActivity implements SlideActionListe
 
     @Override
     public void onSlideLeft() {
-        final int[] minutes = new int[]{2, 5, 10, 20, 30, 60};
-        CharSequence[] names = new CharSequence[minutes.length + 1];
-        for (int i = 0; i < minutes.length; i++) {
-            names[i] = FormatUtils.formatUnit(AlarmActivity.this, minutes[i]);
-        }
-
-        names[minutes.length] = getString(R.string.title_snooze_custom);
-
-        stopAnnoyingness();
-        new AlertDialog.Builder(AlarmActivity.this, isDark ? R.style.Theme_AppCompat_Dialog_Alert : R.style.Theme_AppCompat_Light_Dialog_Alert)
-                .setItems(names, (dialog, which) -> {
-                    if (which < minutes.length) {
-                        TimerData timer = alarmio.newTimer();
-                        timer.setDuration(TimeUnit.MINUTES.toMillis(minutes[which]), alarmio);
-                        timer.setVibrate(AlarmActivity.this, isVibrate);
-                        timer.setSound(AlarmActivity.this, sound);
-                        timer.set(alarmio, ((AlarmManager) AlarmActivity.this.getSystemService(Context.ALARM_SERVICE)));
-                        alarmio.onTimerStarted();
-
-                        finish();
-                    } else {
-                        TimeChooserDialog timerDialog = new TimeChooserDialog(AlarmActivity.this);
-                        timerDialog.setListener((hours, minutes1, seconds) -> {
-                            TimerData timer = alarmio.newTimer();
-                            timer.setVibrate(AlarmActivity.this, isVibrate);
-                            timer.setSound(AlarmActivity.this, sound);
-                            timer.setDuration(TimeUnit.HOURS.toMillis(hours)
-                                            + TimeUnit.MINUTES.toMillis(minutes1)
-                                            + TimeUnit.SECONDS.toMillis(seconds),
-                                    alarmio);
-
-                            timer.set(alarmio, ((AlarmManager) getSystemService(Context.ALARM_SERVICE)));
-                            alarmio.onTimerStarted();
-                            finish();
-                        });
-                        timerDialog.show();
-                    }
-                })
-                .setNegativeButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss())
-                .show();
-
         overlay.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+        doAfterClose(this);
     }
 
     @Override
     public void onSlideRight() {
         overlay.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-        if (true) {
+        doAfterClose(this);
+    }
+
+    private void doAfterClose(AlarmActivity alarmActivity) {
+        // TODO daka
+        if (alarm.isReport) {
             alarmio.getHealthReport().Report(alarmio);
         }
         // TODO 应该在这里放发送数据的起点，这里是真正开始的地方
-        finish();
+
+        alarmActivity.finish();
+
+//        FragmentManager fragmentManager = alarmio.getFragmentManager();
+//        if (fragmentManager != null) {
+//            TestUnlockDialog dialog = new TestUnlockDialog(alarmActivity);
+//            dialog.show(fragmentManager, null);
+//        }
     }
 }

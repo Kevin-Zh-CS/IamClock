@@ -88,22 +88,22 @@ public class SettingsFragment extends BasePagerFragment implements Consumer {
             String username = sharedPreferences.getString(USER_NAME, null);
             if (username == null) {//未登录
                 list.add(0, new LoginPreferenceData(PreferenceData.LOGIN_INFO, R.string.title_login));
-            }else{//已登录
-                list.add(0, new AfterLoginDialog(PreferenceData.LOGIN_INFO, "Hello, "+sharedPreferences.getString(USER_NAME, "")));
+            } else {//已登录
+                list.add(0, new AfterLoginDialog(PreferenceData.LOGIN_INFO, "Hello, " + sharedPreferences.getString(USER_NAME, "")));
+            }
+            list.add(new AboutPreferenceData());
+
+            preferenceAdapter = new PreferenceAdapter(list);
+            recyclerView.setAdapter(preferenceAdapter);
+
+            colorPrimarySubscription = Aesthetic.Companion.get()
+                    .colorPrimary()
+                    .subscribe(this);
+
+            textColorPrimarySubscription = Aesthetic.Companion.get()
+                    .textColorPrimary()
+                    .subscribe(this);
         }
-        list.add(new AboutPreferenceData());
-
-        preferenceAdapter = new PreferenceAdapter(list);
-        recyclerView.setAdapter(preferenceAdapter);
-
-        colorPrimarySubscription = Aesthetic.Companion.get()
-                .colorPrimary()
-                .subscribe(this);
-
-        textColorPrimarySubscription = Aesthetic.Companion.get()
-                .textColorPrimary()
-                .subscribe(this);
-
         return v;
     }
 
@@ -120,7 +120,8 @@ public class SettingsFragment extends BasePagerFragment implements Consumer {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (recyclerView != null && preferenceAdapter != null) {
             recyclerView.post(() -> preferenceAdapter.notifyDataSetChanged());

@@ -34,6 +34,6 @@ public class AfterLoginDialog extends CustomPreferenceData {
 
     @Override
     public void onClick(@NotNull ViewHolder holder) {
-
+        // TODO after login click listener
     }
 }

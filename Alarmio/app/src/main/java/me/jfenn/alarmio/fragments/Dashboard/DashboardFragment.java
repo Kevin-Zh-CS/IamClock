@@ -102,10 +102,10 @@ public class DashboardFragment extends BasePagerFragment implements Consumer, Vi
     @SuppressLint("SimpleDateFormat")
     private void drawFriendChart(){
         description = chart1.getDescription();
-        System.out.println("===================================================");
-        View v = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        BarChart chart1 = v.findViewById(R.id.barchart1);
-        Description description = chart1.getDescription();
+//        System.out.println("===================================================");
+//        View v = inflater.inflate(R.layout.fragment_dashboard, container, false);
+//        BarChart chart1 = v.findViewById(R.id.barchart1);
+//        Description description = chart1.getDescription();
         description.setEnabled(false);
         dateFormat = new SimpleDateFormat("HH:mm");
         dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+0"));

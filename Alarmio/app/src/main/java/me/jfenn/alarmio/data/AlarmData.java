@@ -26,6 +26,7 @@ public class AlarmData implements Parcelable {
     public boolean[] days = new boolean[7];
     public boolean isVibrate = true;
     public SoundData sound;
+    public boolean isReport = false;
 
     public AlarmData(int id, Calendar time) {
         this.id = id;
@@ -42,6 +43,7 @@ public class AlarmData implements Parcelable {
             days[i] = PreferenceData.ALARM_DAY_ENABLED.getSpecificValue(context, id, i);
         }
         isVibrate = PreferenceData.ALARM_VIBRATE.getSpecificValue(context, id);
+        isReport = PreferenceData.ALARM_REPORT.getSpecificValue(context, id);
         sound = SoundData.fromString(PreferenceData.ALARM_SOUND.getSpecificOverriddenValue(context, PreferenceData.DEFAULT_ALARM_RINGTONE.getValue(context, ""), id));
     }
 
@@ -59,6 +61,7 @@ public class AlarmData implements Parcelable {
             PreferenceData.ALARM_DAY_ENABLED.setValue(context, days[i], id, i);
         }
         PreferenceData.ALARM_VIBRATE.setValue(context, isVibrate, id);
+        PreferenceData.ALARM_REPORT.setValue(context, isReport, id);
         PreferenceData.ALARM_SOUND.setValue(context, sound != null ? sound.toString() : null, id);
 
         onRemoved(context);
@@ -82,6 +85,7 @@ public class AlarmData implements Parcelable {
             PreferenceData.ALARM_DAY_ENABLED.setValue(context, null, id, i);
         }
         PreferenceData.ALARM_VIBRATE.setValue(context, null, id);
+        PreferenceData.ALARM_REPORT.setValue(context, null, id);
         PreferenceData.ALARM_SOUND.setValue(context, null, id);
     }
 
@@ -182,6 +186,11 @@ public class AlarmData implements Parcelable {
     public void setVibrate(Context context, boolean isVibrate) {
         this.isVibrate = isVibrate;
         PreferenceData.ALARM_VIBRATE.setValue(context, isVibrate, id);
+    }
+
+    public void setReport(Context context, boolean isReport) {
+        this.isReport = isReport;
+        PreferenceData.ALARM_REPORT.setValue(context, isReport, id);
     }
 
     /**
@@ -334,6 +343,7 @@ public class AlarmData implements Parcelable {
         isEnabled = in.readByte() != 0;
         days = in.createBooleanArray();
         isVibrate = in.readByte() != 0;
+        isReport = in.readByte() != 0;
         if (in.readByte() == 1)
             sound = SoundData.fromString(in.readString());
     }
@@ -346,6 +356,7 @@ public class AlarmData implements Parcelable {
         parcel.writeByte((byte) (isEnabled ? 1 : 0));
         parcel.writeBooleanArray(days);
         parcel.writeByte((byte) (isVibrate ? 1 : 0));
+        parcel.writeByte((byte) (isReport ? 1 : 0));
         parcel.writeByte((byte) (sound != null ? 1 : 0));
         if (sound != null)
             parcel.writeString(sound.toString());

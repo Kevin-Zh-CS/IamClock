@@ -125,7 +125,7 @@ class AlarmsAdapter(private val alarmio: Alarmio, private val recycler: Recycler
 
         holder.days.visibility = if (alarm.isRepeat) View.VISIBLE else View.GONE
 
-        val listener : DaySwitch.OnCheckedChangeListener = object : DaySwitch.OnCheckedChangeListener {
+        val listener: DaySwitch.OnCheckedChangeListener = object : DaySwitch.OnCheckedChangeListener {
             override fun onCheckedChanged(daySwitch: DaySwitch, b: Boolean) {
                 alarm.days[holder.days.indexOfChild(daySwitch)] = b
                 alarm.setDays(alarmio, alarm.days)
@@ -186,6 +186,15 @@ class AlarmsAdapter(private val alarmio: Alarmio, private val recycler: Recycler
 
             holder.vibrateImage.animate().alpha(if (alarm.isVibrate) 1f else 0.333f).setDuration(250).start()
             if (alarm.isVibrate)
+                view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+        }
+
+        holder.health_report_image.setImageResource(if (alarm.isReport) R.drawable.ic_health else R.drawable.ic_health)
+        holder.health_report_image.alpha = if (alarm.isReport) 1f else 0.333f
+        holder.health_report.setOnClickListener { view ->
+            alarm.setReport(alarmio, !alarm.isReport)
+            holder.health_report_image.animate().alpha(if (alarm.isReport) 1f else 0.333f).setDuration(250).start()
+            if (alarm.isReport)
                 view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
         }
     }
@@ -266,8 +275,8 @@ class AlarmsAdapter(private val alarmio: Alarmio, private val recycler: Recycler
         holder.name.setText(alarm.getName(alarmio))
 
         if (isExpanded)
-             holder.name.setOnClickListener(null)
-        else holder.name.setOnClickListener { holder.itemView.callOnClick()}
+            holder.name.setOnClickListener(null)
+        else holder.name.setOnClickListener { holder.itemView.callOnClick() }
 
         holder.name.setOnFocusChangeListener { _, hasFocus -> holder.name.isCursorVisible = hasFocus && holder.adapterPosition == expandedPosition }
 
@@ -425,6 +434,8 @@ class AlarmsAdapter(private val alarmio: Alarmio, private val recycler: Recycler
         val ringtone: View = v.findViewById(R.id.ringtone)
         val ringtoneImage: ImageView = v.findViewById(R.id.ringtoneImage)
         val ringtoneText: TextView = v.findViewById(R.id.ringtoneText)
+        val health_report: View = v.findViewById(R.id.health)
+        val health_report_image: ImageView = v.findViewById(R.id.healthImage)
         val vibrate: View = v.findViewById(R.id.vibrate)
         val vibrateImage: ImageView = v.findViewById(R.id.vibrateImage)
         val expandImage: ImageView = v.findViewById(R.id.expandImage)
@@ -448,7 +459,6 @@ class AlarmsAdapter(private val alarmio: Alarmio, private val recycler: Recycler
 
                 override fun afterTextChanged(editable: Editable) {
                     alarms[adapterPosition].setName(alarmio, editable.toString())
-
                 }
             })
         }
