@@ -221,6 +221,7 @@ public class AlarmActivity extends AestheticActivity implements SlideActionListe
             textColorPrimaryInverseSubscription.dispose();
             isDarkSubscription.dispose();
         }
+        stopAnnoyingness();
 
     }
 
@@ -283,7 +284,7 @@ public class AlarmActivity extends AestheticActivity implements SlideActionListe
             }).start();
             alarmio.getAdapter().notifyDataSetChanged();
         }
-        stopAnnoyingness();
+
 
         //个人最近七次起床时间
         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");

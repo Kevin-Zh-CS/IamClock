@@ -75,8 +75,10 @@ public class DashboardFragment extends BasePagerFragment implements Consumer, Vi
             drawSelfChart();
 
         }else{
-            drawSelfChartOnTop();
-            chart2.setVisibility(View.GONE);
+            chart1.setVisibility(View.GONE);
+            drawSelfChart();
+//            drawSelfChartOnTop();
+//            chart2.setVisibility(View.GONE);
         }
         return v;
     }
@@ -84,20 +86,27 @@ public class DashboardFragment extends BasePagerFragment implements Consumer, Vi
     @SuppressLint("SimpleDateFormat")
     @Override
     public void onClick(View v) {
+
         username = sharedPreferences.getString("USER_NAME", null);
         if(username != null){//点击的时候已登录
             if(v.getId() == R.id.barchart1){
+
                 drawFriendChart();
                 drawSelfChart();
                 chart2.setVisibility(View.VISIBLE);
             }
             if(v.getId() == R.id.linechart1){
+
+                chart1.setVisibility(View.VISIBLE);
+                drawFriendChart();
                 drawSelfChart();
             }
 
         }else{//点击的时候未登录
+
             if(v.getId() == R.id.barchart1){
-                drawSelfChartOnTop();
+                //drawSelfChartOnTop();
+                drawSelfChart();
             }
         }
 
@@ -139,8 +148,10 @@ public class DashboardFragment extends BasePagerFragment implements Consumer, Vi
                 List<String> y1Data = new ArrayList<>();
                 if (userViewList != null) {
                     for (UserView userView : userViewList) {
-                        x1Data.add(userView.getUserName());
-                        y1Data.add(dateFormat.format(userView.getGetupDate()));
+                        if(!userView.getUserName().equals(username)) {
+                            x1Data.add(userView.getUserName());
+                            y1Data.add(dateFormat.format(userView.getGetupDate()));
+                        }
                     }
                 }
                 XAxis xAxis1 = chart1.getXAxis();
@@ -209,14 +220,14 @@ public class DashboardFragment extends BasePagerFragment implements Consumer, Vi
     }
 
 
-    private void drawSelfChartOnTop(){
+//    private void drawSelfChartOnTop(){
 //        BarDataSet barDataSet2 = new BarDataSet(getValues(), "DataSet 2");
 //        barDataSet2.setColors(ColorTemplate.COLORFUL_COLORS);
 //        BarData barData2 = new BarData();
 //        barData2.addDataSet(barDataSet2);
 //        chart1.animateY(2000);
 //        chart1.setData(barData2);
-    }
+//    }
 
 
     private ArrayList<Entry> getValues() {
@@ -235,7 +246,7 @@ public class DashboardFragment extends BasePagerFragment implements Consumer, Vi
         String saturday = sharedPreferences.getString(TimerData.SATURDAY, "00:00");
         values.add(new Entry(5, (float) (Integer.parseInt(saturday.substring(0, 2))) * 60 + Integer.parseInt(saturday.substring(3, 5))));
         String sunday = sharedPreferences.getString(TimerData.SUNDAY, "00:00");
-        values.add(new Entry(7, (float) (Integer.parseInt(sunday.substring(0, 2))) * 60 + Integer.parseInt(sunday.substring(3, 5))));
+        values.add(new Entry(6, (float) (Integer.parseInt(sunday.substring(0, 2))) * 60 + Integer.parseInt(sunday.substring(3, 5))));
 
         return values;
     }

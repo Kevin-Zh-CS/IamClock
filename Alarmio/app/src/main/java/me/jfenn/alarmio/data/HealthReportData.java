@@ -1,7 +1,9 @@
 package me.jfenn.alarmio.data;
 
 import android.content.Context;
+import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,6 +21,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import me.jfenn.alarmio.R;
 import me.jfenn.alarmio.utils.AlarmException;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
@@ -199,6 +202,8 @@ public class HealthReportData {
                             .build();
 
                     Response res5 = client.newCall(req5).execute();
+                    Looper.prepare();
+                    Toast.makeText(context, R.string.automatic_health_report_done, Toast.LENGTH_SHORT).show();
                     Log.d(TAG, res5.body().string());
                 } catch (AlarmException ae) {
                     Log.d(TAG, "Fatal: " + ae);

@@ -14,8 +14,7 @@
         android:src="@drawable/white_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/statusbarutil_fake_status_bar_view" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <me.jfenn.alarmio.fragments.Account.FakeStatusBarView
         android:id="@id/statusbarutil_fake_status_bar_view"
@@ -34,31 +33,32 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/statusbarutil_fake_status_bar_view" />
 
+
+
     <me.jfenn.alarmio.fragments.Account.DrawableTextView
         android:id="@+id/image_logo1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="140dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="150dp"
         android:drawablePadding="10dp"
         android:gravity="center_vertical"
-        android:text="@string/welcome_register"
+        android:text="@string/welcome_login"
         android:textColor="@color/color_ffffff"
         android:textSize="18sp"
         android:textStyle="bold"
         app:drawableHeight="30dp"
         app:drawableWidth="100dp"
-        app:layout_constraintBottom_toTopOf="@+id/slide_content1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/statusbarutil_fake_status_bar_view"
         app:leftDrawable="@drawable/ic_google" />
 
     <LinearLayout
         android:id="@+id/slide_content1"
-        android:layout_width="412dp"
-        android:layout_height="261dp"
+        android:layout_width="396dp"
+        android:layout_height="252dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:background="@color/color_223F51B5"
@@ -85,8 +85,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="15dp"
-                app:srcCompat="@drawable/ic_account_24dp"
-                android:tintMode="src_in" />
+                android:tintMode="src_in"
+                app:srcCompat="@drawable/ic_account_24dp" />
 
             <EditText
                 android:id="@+id/et_mobile1"
@@ -129,8 +129,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="15dp"
-                app:srcCompat="@drawable/ic_baseline_lock_24"
-                android:tintMode="src_in" />
+                android:tintMode="src_in"
+                app:srcCompat="@drawable/ic_baseline_lock_24" />
 
             <EditText
                 android:id="@+id/et_password1"
@@ -186,8 +186,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="15dp"
-                app:srcCompat="@drawable/ic_baseline_repeat_24"
-                android:tintMode="src_in" />
+                android:tintMode="src_in"
+                app:srcCompat="@drawable/ic_baseline_repeat_24" />
 
             <EditText
                 android:id="@+id/verify_password"
