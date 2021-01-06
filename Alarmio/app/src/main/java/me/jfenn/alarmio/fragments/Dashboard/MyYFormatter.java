@@ -4,8 +4,6 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 
 public class MyYFormatter extends ValueFormatter {
 
-
-
     @Override
     public String getFormattedValue(float value) {
         int min = (int) (value / 60);

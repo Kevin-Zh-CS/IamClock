@@ -47,7 +47,8 @@ public class AlarmActivity extends AestheticActivity implements SlideActionListe
     public static final String EXTRA_ALARM = "james.alarmio.AlarmActivity.EXTRA_ALARM";
     public static final String EXTRA_TIMER = "james.alarmio.AlarmActivity.EXTRA_TIMER";
 
-    public static final String SELF_WAKE_UP_TIME = "SELF_WAKE_UP_TIME";
+
+
 
     private View overlay;
     private TextView date;
@@ -97,9 +98,8 @@ public class AlarmActivity extends AestheticActivity implements SlideActionListe
         date = findViewById(R.id.date);
         time = findViewById(R.id.time);
         actionView = findViewById(R.id.slideView);
-
         sharedPreferences = Objects.requireNonNull(getSharedPreferences("USER_INFO", Context.MODE_MULTI_PROCESS));
-        //editor = sharedPreferences.edit();
+        editor = sharedPreferences.edit();
 
         // Lock orientation
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
@@ -221,33 +221,6 @@ public class AlarmActivity extends AestheticActivity implements SlideActionListe
             textColorPrimaryInverseSubscription.dispose();
             isDarkSubscription.dispose();
         }
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");//设置日期格式
-        //System.out.println(dateFormat.format(new Date()));// new Date()为获取当前系统时间
-        String format = dateFormat.format(new Date());
-        String username = sharedPreferences.getString("USER_NAME", null);
-        String url = "http://47.111.80.33:8092/user/update?header=" + username + "&time=" + format;
-        System.out.println(url);
-        if (username != null) {
-            new Thread(() -> {
-                OkHttpClient client = new OkHttpClient();
-                Request request = new Request.Builder()
-                        .url(url)
-                        .build();
-                try {
-                    client.newCall(request).execute();
-                    Response response = client.newCall(request).execute();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }).start();
-            alarmio.getAdapter().notifyDataSetChanged();
-        }
-        //http://47.111.80.33:8092/user/update?header=123&time=2021/1/3%2018:50:56
-        stopAnnoyingness();
-
-        //TODO: 个人最近七次起床时间
-        sharedPreferences = Objects.requireNonNull(getSharedPreferences(SELF_WAKE_UP_TIME, Context.MODE_MULTI_PROCESS));
-        editor = sharedPreferences.edit();
 
     }
 
@@ -288,9 +261,45 @@ public class AlarmActivity extends AestheticActivity implements SlideActionListe
         if (alarm.isReport) {
             alarmio.getHealthReport().Report(alarmio);
         }
-        // TODO 应该在这里放发送数据的起点，这里是真正开始的地方
+
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");//设置日期格式
+        //System.out.println(dateFormat.format(new Date()));// new Date()为获取当前系统时间
+        String format = dateFormat.format(new Date());
+        String username = sharedPreferences.getString("USER_NAME", null);
+        String url = "http://47.111.80.33:8092/user/update?header=" + username + "&time=" + format;
+        System.out.println(url);
+        if (username != null) {
+            new Thread(() -> {
+                OkHttpClient client = new OkHttpClient();
+                Request request = new Request.Builder()
+                        .url(url)
+                        .build();
+                try {
+                    client.newCall(request).execute();
+                    Response response = client.newCall(request).execute();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+            alarmio.getAdapter().notifyDataSetChanged();
+        }
+        stopAnnoyingness();
+
+        //个人最近七次起床时间
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+
+        editor.putString(TimerData.MONDAY, sharedPreferences.getString(TimerData.TUESDAY, "00:00"));
+        editor.putString(TimerData.TUESDAY, sharedPreferences.getString(TimerData.WEDNESDAY, "00:00"));
+        editor.putString(TimerData.WEDNESDAY, sharedPreferences.getString(TimerData.THURSDAY, "00:00"));
+        editor.putString(TimerData.THURSDAY, sharedPreferences.getString(TimerData.FRIDAY, "00:00"));
+        editor.putString(TimerData.FRIDAY, sharedPreferences.getString(TimerData.SATURDAY, "00:00"));
+        editor.putString(TimerData.SATURDAY, sharedPreferences.getString(TimerData.SUNDAY, "00:00"));
+        editor.putString(TimerData.SUNDAY, simpleDateFormat.format(new Date()));
+        editor.commit();
 
         alarmActivity.finish();
+
+
 
 //        FragmentManager fragmentManager = alarmio.getFragmentManager();
 //        if (fragmentManager != null) {
