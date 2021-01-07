@@ -59,10 +59,8 @@ public class HealthReportData {
             String base_url = "https://healthreport.zju.edu.cn/ncov/wap/default/index";
             String save_url = "https://healthreport.zju.edu.cn/ncov/wap/default/save";
 
-
             Toast.makeText(activity, "start health reporting...", Toast.LENGTH_SHORT).show();
-
-
+            
             new Thread(() -> {
                 Looper.prepare();
                 synchronized (this) {
