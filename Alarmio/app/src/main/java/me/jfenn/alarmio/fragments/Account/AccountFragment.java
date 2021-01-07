@@ -138,8 +138,6 @@ public class AccountFragment extends DialogFragment implements View.OnClickListe
         mSlideContent = view.findViewById(R.id.slide_content);
         button = view.findViewById(R.id.btn_login);
         mRealScreenHeight = ScreenUtils.getRealScreenHeight(getContext());
-        view.findViewById(R.id.fragment_register_welcome).setBackgroundResource(R.drawable.bg_rain);
-
         sharedPreferences = getActivity().getSharedPreferences(FILE_NAME, Context.MODE_MULTI_PROCESS);
         editor = sharedPreferences.edit();
         fragmentManager = getActivity().getSupportFragmentManager();

@@ -1,11 +1,19 @@
 package me.jfenn.alarmio.data;
 
+import android.app.Activity;
+import android.app.Application;
+import android.app.Service;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
+
 import androidx.fragment.app.FragmentActivity;
+
+import androidx.annotation.Nullable;
+
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -39,7 +47,9 @@ public class HealthReportData {
 
     private final String TAG = "FUCK";
 
+
     public void Report(Context context, FragmentActivity activity) {
+
         String username = PreferenceData.HEALTH_REPORT_USERNAME.getValue(context, "");
         String password = PreferenceData.HEALTH_REPORT_PASSWORD.getValue(context, "");
 
@@ -198,22 +208,26 @@ public class HealthReportData {
 
                         Response res5 = client.newCall(req5).execute();
 
-                        Looper.prepare();
+                        //Looper.prepare();
                         if (res5.body().string().contains("今天已经填报了")) {
+
                             Toast.makeText(activity, R.string.automatic_health_report_repeat, Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(activity, R.string.automatic_health_report_done, Toast.LENGTH_SHORT).show();
+
                         }
                         Log.d(TAG, "Report: DONE");
                     } catch (AlarmException ae) {
                         Toast.makeText(activity, "ERROR: " + ae.toString(), Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
+
                         Toast.makeText(activity, "Fatal: " + e, Toast.LENGTH_SHORT).show();
+
                     }
                     Looper.loop();
                 }
-            }).start();
 
+            }).start();
 
         } else {
         }

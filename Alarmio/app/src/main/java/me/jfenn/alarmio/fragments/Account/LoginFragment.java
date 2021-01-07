@@ -86,7 +86,7 @@ public class LoginFragment extends DialogFragment implements View.OnClickListene
         mSlideContent = view.findViewById(R.id.slide_content1);
         button = view.findViewById(R.id.btn_register);
         mRealScreenHeight = ScreenUtils.getRealScreenHeight(getContext());
-        view.findViewById(R.id.fragment_register_welcome).setBackgroundResource(R.drawable.bg_rain);
+
         verifyPassword = view.findViewById(R.id.verify_password);
 
         fragmentManager = requireActivity().getSupportFragmentManager();
