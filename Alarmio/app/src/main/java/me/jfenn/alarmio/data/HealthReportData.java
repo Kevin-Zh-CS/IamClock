@@ -53,14 +53,20 @@ public class HealthReportData {
         String username = PreferenceData.HEALTH_REPORT_USERNAME.getValue(context, "");
         String password = PreferenceData.HEALTH_REPORT_PASSWORD.getValue(context, "");
 
+
         if (!username.isEmpty() && !password.isEmpty()) {
             String login_url = "https://zjuam.zju.edu.cn/cas/login?service=https%3A%2F%2Fhealthreport.zju.edu.cn%2Fa_zju%2Fapi%2Fsso%2Findex%3Fredirect%3Dhttps%253A%252F%252Fhealthreport.zju.edu.cn%252Fncov%252Fwap%252Fdefault%252Findex";
             String base_url = "https://healthreport.zju.edu.cn/ncov/wap/default/index";
             String save_url = "https://healthreport.zju.edu.cn/ncov/wap/default/save";
+
+
             Toast.makeText(activity, "start health reporting...", Toast.LENGTH_SHORT).show();
 
+
             new Thread(() -> {
+                Looper.prepare();
                 synchronized (this) {
+
                     try {
 
                         HashMap<String, List<Cookie>> cookieStore = new HashMap<>();
@@ -209,9 +215,8 @@ public class HealthReportData {
 
                         Response res5 = client.newCall(req5).execute();
 
-                        //Looper.prepare();
-                        if (res5.body().string().contains("今天已经填报了")) {
 
+                        if (res5.body().string().contains("今天已经填报了")) {
                             Toast.makeText(activity, R.string.automatic_health_report_repeat, Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(activity, R.string.automatic_health_report_done, Toast.LENGTH_SHORT).show();
@@ -221,14 +226,12 @@ public class HealthReportData {
                     } catch (AlarmException ae) {
                         Toast.makeText(activity, "ERROR: " + ae.toString(), Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
-
                         Toast.makeText(activity, "Fatal: " + e, Toast.LENGTH_SHORT).show();
-
                     }
-                    Looper.loop();
-                }
-            }).start();
 
+                }
+                Looper.loop();
+            }).start();
         } else {
             Toast.makeText(activity, "username and password cannot be empty", Toast.LENGTH_SHORT).show();
         }
