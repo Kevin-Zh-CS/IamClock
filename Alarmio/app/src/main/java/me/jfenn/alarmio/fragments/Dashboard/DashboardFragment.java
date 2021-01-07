@@ -216,6 +216,8 @@ public class DashboardFragment extends BasePagerFragment implements Consumer, Vi
         chart2.getAxisLeft().setDrawLabels(false);
         chart2.setScaleEnabled(true);
         chart2.setData(lineData);
+        description = chart2.getDescription();
+        description.setEnabled(false);
         chart1.invalidate();
     }
 
