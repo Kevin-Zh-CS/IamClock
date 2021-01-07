@@ -1,13 +1,11 @@
 package me.jfenn.alarmio;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.Ringtone;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -31,6 +29,7 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -40,7 +39,6 @@ import me.jfenn.alarmio.data.HealthReportData;
 import me.jfenn.alarmio.data.PreferenceData;
 import me.jfenn.alarmio.data.SoundData;
 import me.jfenn.alarmio.data.TimerData;
-import me.jfenn.alarmio.services.TimerService;
 import me.jfenn.alarmio.utils.DebugUtils;
 
 public class Alarmio extends MultiDexApplication implements Player.EventListener {
@@ -65,11 +63,11 @@ public class Alarmio extends MultiDexApplication implements Player.EventListener
 
     private SimplePagerAdapter simplePagerAdapter;
 
-    public void setAdapter(SimplePagerAdapter simplePagerAdapter){
+    public void setAdapter(SimplePagerAdapter simplePagerAdapter) {
         this.simplePagerAdapter = simplePagerAdapter;
     }
 
-    public SimplePagerAdapter getAdapter(){
+    public SimplePagerAdapter getAdapter() {
         return this.simplePagerAdapter;
     }
 
@@ -95,16 +93,6 @@ public class Alarmio extends MultiDexApplication implements Player.EventListener
         for (int id = 0; id < alarmLength; id++) {
             alarms.add(new AlarmData(id, this));
         }
-
-        int timerLength = PreferenceData.TIMER_LENGTH.getValue(this);
-        for (int id = 0; id < timerLength; id++) {
-            TimerData timer = new TimerData(id, this);
-            if (timer.isSet())
-                timers.add(timer);
-        }
-
-        if (timerLength > 0)
-            startService(new Intent(this, TimerService.class));
     }
 
     public List<AlarmData> getAlarms() {
@@ -121,12 +109,13 @@ public class Alarmio extends MultiDexApplication implements Player.EventListener
      * @return The newly instantiated [AlarmData](./data/AlarmData).
      */
     public AlarmData newAlarm() {
-        AlarmData alarm = new AlarmData(alarms.size(), Calendar.getInstance());
+        AlarmData alarm = new AlarmData(alarms.size(), Calendar.getInstance(), false);
         alarm.sound = SoundData.fromString(PreferenceData.DEFAULT_ALARM_RINGTONE.getValue(this, ""));
         alarms.add(alarm);
         onAlarmCountChanged();
         return alarm;
     }
+
 
     /**
      * Remove an alarm and all of its its preferences.
@@ -167,11 +156,16 @@ public class Alarmio extends MultiDexApplication implements Player.EventListener
      *
      * @return The newly instantiated [TimerData](./data/TimerData).
      */
-    public TimerData newTimer() {
-        TimerData timer = new TimerData(timers.size());
-        timers.add(timer);
-        onTimerCountChanged();
-        return timer;
+    public AlarmData newQuick() {
+        AlarmData alarm = new AlarmData(alarms.size(), Calendar.getInstance(), true);
+        alarm.setQuick(this, true);
+        boolean[] days = new boolean[7];
+        Arrays.fill(days, Boolean.FALSE);
+        alarm.setDays(this, days);
+        alarm.sound = SoundData.fromString(PreferenceData.DEFAULT_ALARM_RINGTONE.getValue(this, ""));
+        alarms.add(alarm);
+        onAlarmCountChanged();
+        return alarm;
     }
 
     /**
@@ -206,13 +200,6 @@ public class Alarmio extends MultiDexApplication implements Player.EventListener
         for (AlarmioListener listener : listeners) {
             listener.onTimersChanged();
         }
-    }
-
-    /**
-     * Starts the timer service after a timer has been set.
-     */
-    public void onTimerStarted() {
-        startService(new Intent(this, TimerService.class));
     }
 
     /**

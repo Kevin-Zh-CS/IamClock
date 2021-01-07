@@ -60,7 +60,6 @@ public class HomeFragment extends BaseFragment {
         alarmFab = view.findViewById(R.id.alarmFab);
 
 
-
         SimplePagerAdapter pagerAdapter = new SimplePagerAdapter(
                 getContext(), getChildFragmentManager(),
                 new AlarmsFragment.Instantiator(getContext()),

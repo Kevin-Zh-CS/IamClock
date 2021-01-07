@@ -18,6 +18,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Alarmio alarmio = (Alarmio) context.getApplicationContext();
         AlarmData alarm = alarmio.getAlarms().get(intent.getIntExtra(EXTRA_ALARM_ID, 0));
+
+
         if (alarm.isRepeat())
             alarm.set(context, manager);
         else alarm.setEnabled(alarmio, manager, false);
@@ -27,5 +29,9 @@ public class AlarmReceiver extends BroadcastReceiver {
         ringer.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ringer.putExtra(AlarmActivity.EXTRA_ALARM, alarm);
         context.startActivity(ringer);
+
+        if (alarm.isQuick) {
+            alarmio.removeAlarm(alarm);
+        }
     }
 }

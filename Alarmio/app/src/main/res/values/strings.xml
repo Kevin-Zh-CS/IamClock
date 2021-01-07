@@ -10,7 +10,7 @@
     <string name="title_vibrate">Vibrate</string>
     <string name="title_repeat">Repeat</string>
     <string name="title_set_alarm">Alarm</string>
-    <string name="title_set_timer">Timer</string>
+    <string name="title_set_timer">Quick Clock</string>
     <string name="title_lap">Lap</string>
     <string name="title_lap_number" translatable="false">#%d</string>
     <string name="title_time">Time: %s</string>
@@ -115,4 +115,5 @@
     <string name="automatic_health_report_done">Automatic report successful</string>
     <string name="logout">Logout</string>
     <string name="logout_done">logout successful</string>
+    <string name="automatic_health_report_repeat">You have already done health report~</string>
 </resources>

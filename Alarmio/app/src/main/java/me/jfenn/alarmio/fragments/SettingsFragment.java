@@ -28,18 +28,14 @@ import me.jfenn.alarmio.adapters.PreferenceAdapter;
 import me.jfenn.alarmio.data.HealthReportData;
 import me.jfenn.alarmio.data.LogoutPreferenceData;
 import me.jfenn.alarmio.data.PreferenceData;
-import me.jfenn.alarmio.data.preference.AboutPreferenceData;
 import me.jfenn.alarmio.data.preference.AlertWindowPreferenceData;
 import me.jfenn.alarmio.data.preference.BasePreferenceData;
 import me.jfenn.alarmio.data.preference.BatteryOptimizationPreferenceData;
-import me.jfenn.alarmio.data.preference.BooleanPreferenceData;
 import me.jfenn.alarmio.data.preference.HealthConfigPreferenceData;
 import me.jfenn.alarmio.data.preference.LoginPreferenceData;
 import me.jfenn.alarmio.data.preference.ManuallyPreferenceData;
 import me.jfenn.alarmio.data.preference.RingtonePreferenceData;
-import me.jfenn.alarmio.data.preference.TimePreferenceData;
 import me.jfenn.alarmio.dialogs.AfterLoginDialog;
-import me.jfenn.alarmio.fragments.Account.AccountFragment;
 import me.jfenn.alarmio.interfaces.ContextFragmentInstantiator;
 
 public class SettingsFragment extends BasePagerFragment implements Consumer {
@@ -77,9 +73,6 @@ public class SettingsFragment extends BasePagerFragment implements Consumer {
                 new HealthConfigPreferenceData(getAlarmio().getHealthReport(), R.string.title_submit),
                 new ManuallyPreferenceData(),
                 new RingtonePreferenceData(PreferenceData.DEFAULT_ALARM_RINGTONE, R.string.title_default_alarm_ringtone),
-                new RingtonePreferenceData(PreferenceData.DEFAULT_TIMER_RINGTONE, R.string.title_default_timer_ringtone),
-                new BooleanPreferenceData(PreferenceData.SLOW_WAKE_UP, R.string.title_slow_wake_up, R.string.desc_slow_wake_up),
-                new TimePreferenceData(PreferenceData.SLOW_WAKE_UP_TIME, R.string.title_slow_wake_up_time),
                 new LogoutPreferenceData()
         ));
 
@@ -93,7 +86,7 @@ public class SettingsFragment extends BasePagerFragment implements Consumer {
             } else {//已登录
                 list.add(0, new AfterLoginDialog(PreferenceData.LOGIN_INFO, "Hello, " + sharedPreferences.getString(USER_NAME, "")));
             }
-            list.add(new AboutPreferenceData());
+            // list.add(new AboutPreferenceData());
 
             preferenceAdapter = new PreferenceAdapter(list);
             recyclerView.setAdapter(preferenceAdapter);

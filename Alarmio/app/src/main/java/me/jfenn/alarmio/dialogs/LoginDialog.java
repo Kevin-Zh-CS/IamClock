@@ -22,11 +22,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import org.jetbrains.annotations.NotNull;
@@ -43,17 +41,13 @@ import java.util.Base64;
 import java.util.Objects;
 
 import me.jfenn.alarmio.R;
-import me.jfenn.alarmio.fragments.Account.AfterLoginFragment;
-import me.jfenn.alarmio.fragments.Account.DrawableTextView;
 import me.jfenn.alarmio.fragments.Account.KeyboardWatcher;
-import me.jfenn.alarmio.fragments.Account.LoginFragment;
 import me.jfenn.alarmio.fragments.Account.ScreenUtils;
-import me.jfenn.alarmio.fragments.SettingsFragment;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class LoginDialog extends DialogFragment implements View.OnClickListener, KeyboardWatcher.SoftKeyboardStateListener, View.OnFocusChangeListener{
+public class LoginDialog extends DialogFragment implements View.OnClickListener, KeyboardWatcher.SoftKeyboardStateListener, View.OnFocusChangeListener {
 
 
     public static final int duration = 800;
@@ -194,6 +188,7 @@ public class LoginDialog extends DialogFragment implements View.OnClickListener,
 
     //登录信息显示
     private boolean flag = false;
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint({"NonConstantResourceId", "ShowToast"})
     @Override
@@ -240,7 +235,7 @@ public class LoginDialog extends DialogFragment implements View.OnClickListener,
                     try {
                         OkHttpClient client = new OkHttpClient();
                         Request request = new Request.Builder()
-                                .url("http://47.111.80.33:8092/user/login?username="+userName+"&encryptpassword="+encryptPassword)
+                                .url("http://47.111.80.33:8092/user/login?username=" + userName + "&encryptpassword=" + encryptPassword)
                                 .build();
                         Response response = client.newCall(request).execute();
                         String responseData = Objects.requireNonNull(response.body()).string();
@@ -248,7 +243,7 @@ public class LoginDialog extends DialogFragment implements View.OnClickListener,
                         JSONTokener jsonTokener = new JSONTokener(responseData);
                         JSONObject jsonObject = (JSONObject) jsonTokener.nextValue();
                         boolean isLoginSuccess = "success".equals(jsonObject.getString("status"));
-                        if(isLoginSuccess) {
+                        if (isLoginSuccess) {
                             editor.putString(USER_NAME, userName);
                             editor.putString(ENCRYPT_PASSWORD, encryptPassword);
                             editor.commit();
@@ -263,13 +258,12 @@ public class LoginDialog extends DialogFragment implements View.OnClickListener,
                             Objects.requireNonNull(getDialog()).dismiss();
                             Looper.prepare();
                             Toast.makeText(getActivity(), "登录成功！", Toast.LENGTH_SHORT).show();
-
-                        }else{
+                        } else {
                             editor.putString(USER_NAME, NOT_LOGIN_IN);
                             editor.putString(ENCRYPT_PASSWORD, NOT_LOGIN_IN);
                             String errMessage = jsonObject.getString("data");
                             Looper.prepare();
-                            Toast.makeText(getActivity(), errMessage.substring(errMessage.indexOf("\"errMessage\":\"")+14, errMessage.lastIndexOf("\"")), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), errMessage.substring(errMessage.indexOf("\"errMessage\":\"") + 14, errMessage.lastIndexOf("\"")), Toast.LENGTH_LONG).show();
                         }
                         Looper.loop();
                         editor.commit();
@@ -346,9 +340,9 @@ public class LoginDialog extends DialogFragment implements View.OnClickListener,
         return encoder.encodeToString(md5.digest(str.getBytes(StandardCharsets.UTF_8)));
     }
 
-    public static void hideKeyboard(View v){
+    public static void hideKeyboard(View v) {
         InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        if(imm.isActive()){
+        if (imm.isActive()) {
             imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
         }
     }

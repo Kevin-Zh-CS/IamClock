@@ -107,54 +107,60 @@ class AlarmsAdapter(private val alarmio: Alarmio, private val recycler: Recycler
     }
 
     private fun onBindAlarmViewHolderRepeat(holder: AlarmViewHolder, alarm: AlarmData) {
-        holder.repeat.setOnCheckedChangeListener(null)
-        holder.repeat.isChecked = alarm.isRepeat
-        holder.repeat.setOnCheckedChangeListener { _, b ->
-            for (i in 0 until alarm.days.size) {
-                alarm.days[i] = b
-            }
+        if (!alarm.isQuick) {
+            holder.repeat.setOnCheckedChangeListener(null)
+            holder.repeat.isChecked = alarm.isRepeat
+            holder.repeat.setOnCheckedChangeListener { _, b ->
+                for (i in 0 until alarm.days.size) {
+                    alarm.days[i] = b
+                }
 
-            alarm.setDays(alarmio, alarm.days)
-
-            val transition = AutoTransition()
-            transition.duration = 150
-            TransitionManager.beginDelayedTransition(recycler, transition)
-
-            recycler.post { notifyDataSetChanged() }
-        }
-
-        holder.days.visibility = if (alarm.isRepeat) View.VISIBLE else View.GONE
-
-        val listener: DaySwitch.OnCheckedChangeListener = object : DaySwitch.OnCheckedChangeListener {
-            override fun onCheckedChanged(daySwitch: DaySwitch, b: Boolean) {
-                alarm.days[holder.days.indexOfChild(daySwitch)] = b
                 alarm.setDays(alarmio, alarm.days)
 
-                if (!alarm.isRepeat) {
-                    notifyItemChanged(holder.adapterPosition)
-                } else {
-                    // if the view isn't going to change size in the recycler,
-                    //   then I can just do this (prevents the background flickering as
-                    //   the recyclerview attempts to smooth the transition)
-                    onBindAlarmViewHolder(holder, holder.adapterPosition)
+                val transition = AutoTransition()
+                transition.duration = 150
+                TransitionManager.beginDelayedTransition(recycler, transition)
+
+                recycler.post { notifyDataSetChanged() }
+            }
+
+            holder.days.visibility = if (alarm.isRepeat) View.VISIBLE else View.GONE
+
+            val listener: DaySwitch.OnCheckedChangeListener = object : DaySwitch.OnCheckedChangeListener {
+                override fun onCheckedChanged(daySwitch: DaySwitch, b: Boolean) {
+                    alarm.days[holder.days.indexOfChild(daySwitch)] = b
+                    alarm.setDays(alarmio, alarm.days)
+
+                    if (!alarm.isRepeat) {
+                        notifyItemChanged(holder.adapterPosition)
+                    } else {
+                        // if the view isn't going to change size in the recycler,
+                        //   then I can just do this (prevents the background flickering as
+                        //   the recyclerview attempts to smooth the transition)
+                        onBindAlarmViewHolder(holder, holder.adapterPosition)
+                    }
                 }
             }
-        }
 
-        for (i in 0..6) {
-            val daySwitch = holder.days.getChildAt(i) as DaySwitch
-            daySwitch.isChecked = alarm.days[i]
-            daySwitch.onCheckedChangeListener = listener
+            for (i in 0..6) {
+                val daySwitch = holder.days.getChildAt(i) as DaySwitch
+                daySwitch.isChecked = alarm.days[i]
+                daySwitch.onCheckedChangeListener = listener
 
-            when (i) {
-                0 -> daySwitch.setText(daySwitch.context.getString(R.string.day_sunday_abbr))
-                1 -> daySwitch.setText(daySwitch.context.getString(R.string.day_monday_abbr))
-                2 -> daySwitch.setText(daySwitch.context.getString(R.string.day_tuesday_abbr))
-                3 -> daySwitch.setText(daySwitch.context.getString(R.string.day_wednesday_abbr))
-                4 -> daySwitch.setText(daySwitch.context.getString(R.string.day_thursday_abbr))
-                5 -> daySwitch.setText(daySwitch.context.getString(R.string.day_friday_abbr))
-                6 -> daySwitch.setText(daySwitch.context.getString(R.string.day_saturday_abbr))
+                when (i) {
+                    0 -> daySwitch.setText(daySwitch.context.getString(R.string.day_sunday_abbr))
+                    1 -> daySwitch.setText(daySwitch.context.getString(R.string.day_monday_abbr))
+                    2 -> daySwitch.setText(daySwitch.context.getString(R.string.day_tuesday_abbr))
+                    3 -> daySwitch.setText(daySwitch.context.getString(R.string.day_wednesday_abbr))
+                    4 -> daySwitch.setText(daySwitch.context.getString(R.string.day_thursday_abbr))
+                    5 -> daySwitch.setText(daySwitch.context.getString(R.string.day_friday_abbr))
+                    6 -> daySwitch.setText(daySwitch.context.getString(R.string.day_saturday_abbr))
+                }
             }
+        } else {
+            holder.repeatIndicator.visibility = View.GONE
+            holder.repeat.visibility = View.GONE
+            holder.days.visibility = View.GONE
         }
     }
 
@@ -189,13 +195,18 @@ class AlarmsAdapter(private val alarmio: Alarmio, private val recycler: Recycler
                 view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
         }
 
-        holder.health_report_image.setImageResource(if (alarm.isReport) R.drawable.ic_health else R.drawable.ic_health)
-        holder.health_report_image.alpha = if (alarm.isReport) 1f else 0.333f
-        holder.health_report.setOnClickListener { view ->
-            alarm.setReport(alarmio, !alarm.isReport)
-            holder.health_report_image.animate().alpha(if (alarm.isReport) 1f else 0.333f).setDuration(250).start()
-            if (alarm.isReport)
-                view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+        if (alarm.isQuick) {
+            holder.health_report_image.visibility = View.GONE
+            holder.health_report.visibility = View.GONE
+        } else {
+            holder.health_report_image.setImageResource(if (alarm.isReport) R.drawable.ic_health else R.drawable.ic_health)
+            holder.health_report_image.alpha = if (alarm.isReport) 1f else 0.333f
+            holder.health_report.setOnClickListener { view ->
+                alarm.setReport(alarmio, !alarm.isReport)
+                holder.health_report_image.animate().alpha(if (alarm.isReport) 1f else 0.333f).setDuration(250).start()
+                if (alarm.isReport)
+                    view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+            }
         }
     }
 
@@ -280,16 +291,20 @@ class AlarmsAdapter(private val alarmio: Alarmio, private val recycler: Recycler
 
         holder.name.setOnFocusChangeListener { _, hasFocus -> holder.name.isCursorVisible = hasFocus && holder.adapterPosition == expandedPosition }
 
-        holder.enable.setOnCheckedChangeListener(null)
-        holder.enable.isChecked = alarm.isEnabled
-        holder.enable.setOnCheckedChangeListener { _, b ->
-            alarm.setEnabled(alarmio, alarmManager, b)
+        if (alarm.isQuick) {
+            holder.enable.visibility = View.GONE
+        } else {
+            holder.enable.setOnCheckedChangeListener(null)
+            holder.enable.isChecked = alarm.isEnabled
+            holder.enable.setOnCheckedChangeListener { _, b ->
+                alarm.setEnabled(alarmio, alarmManager, b)
 
-            val transition = AutoTransition()
-            transition.duration = 200
-            TransitionManager.beginDelayedTransition(recycler, transition)
+                val transition = AutoTransition()
+                transition.duration = 200
+                TransitionManager.beginDelayedTransition(recycler, transition)
 
-            recycler.post { notifyDataSetChanged() }
+                recycler.post { notifyDataSetChanged() }
+            }
         }
 
         holder.time.text = FormatUtils.formatShort(alarmio, alarm.time.time)
@@ -306,7 +321,6 @@ class AlarmsAdapter(private val alarmio: Alarmio, private val recycler: Recycler
                         }
 
                         override fun onCancel(dialog: PickerDialog<LinearTimePickerView>) {
-                            // ignore
                         }
                     })
                     .show()
@@ -324,12 +338,19 @@ class AlarmsAdapter(private val alarmio: Alarmio, private val recycler: Recycler
             holder.nextTime.text = String.format(alarmio.getString(R.string.title_alarm_next), FormatUtils.formatUnit(alarmio, minutes))
         }
 
-        holder.indicators.visibility = if (isExpanded) View.GONE else View.VISIBLE
+//        holder.indicators.visibility = if (isExpanded) View.GONE else View.VISIBLE
+
+        if (!alarm.isQuick)
+            holder.repeatIndicator.visibility = if (isExpanded) View.GONE else View.VISIBLE
+        holder.soundIndicator.visibility = if (isExpanded) View.GONE else View.VISIBLE
+        holder.vibrateIndicator.visibility = if (isExpanded) View.GONE else View.VISIBLE
+
         if (isExpanded) {
             onBindAlarmViewHolderRepeat(holder, alarm)
             onBindAlarmViewHolderToggles(holder, alarm)
         } else {
-            holder.repeatIndicator.alpha = if (alarm.isRepeat) 1f else 0.333f
+            if (!alarm.isQuick)
+                holder.repeatIndicator.alpha = if (alarm.isRepeat) 1f else 0.333f
             holder.soundIndicator.alpha = if (alarm.hasSound()) 1f else 0.333f
             holder.vibrateIndicator.alpha = if (alarm.isVibrate) 1f else 0.333f
         }
@@ -346,15 +367,16 @@ class AlarmsAdapter(private val alarmio: Alarmio, private val recycler: Recycler
                     .show()
         }
 
-        holder.repeat.setTextColor(textColorPrimary)
         holder.delete.setTextColor(textColorPrimary)
         holder.ringtoneImage.setColorFilter(textColorPrimary)
         holder.vibrateImage.setColorFilter(textColorPrimary)
         holder.expandImage.setColorFilter(textColorPrimary)
-        holder.repeatIndicator.setColorFilter(textColorPrimary)
+        if (!alarm.isQuick)
+            holder.repeatIndicator.setColorFilter(textColorPrimary)
         holder.soundIndicator.setColorFilter(textColorPrimary)
         holder.vibrateIndicator.setColorFilter(textColorPrimary)
         holder.nameUnderline.setBackgroundColor(textColorPrimary)
+        holder.repeat.setTextColor(textColorPrimary)
 
         onBindAlarmViewHolderExpansion(holder, position)
     }

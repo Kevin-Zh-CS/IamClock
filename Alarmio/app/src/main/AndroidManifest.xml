@@ -69,8 +69,6 @@
             android:name=".activities.FileChooserActivity"
             android:theme="@style/AppTheme.Transparent" />
 
-        <service android:name=".services.TimerService" />
-
         <receiver android:name=".receivers.AlarmReceiver" />
         <receiver android:name=".receivers.TimerReceiver" />
         <receiver android:name=".receivers.RestoreOnBootReceiver">
