@@ -80,7 +80,6 @@ public class AlarmActivity extends AestheticActivity implements SlideActionListe
     private Disposable textColorPrimaryInverseSubscription;
     private Disposable isDarkSubscription;
 
-    private boolean isDark;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
@@ -108,7 +107,8 @@ public class AlarmActivity extends AestheticActivity implements SlideActionListe
 
         isDarkSubscription = Aesthetic.Companion.get()
                 .isDark()
-                .subscribe(aBoolean -> isDark = aBoolean);
+                .subscribe(aBoolean -> {
+                });
 
         actionView.setRightIcon(VectorDrawableCompat.create(getResources(), R.drawable.ic_close, getTheme()));
         actionView.setLeftIcon(VectorDrawableCompat.create(getResources(), R.drawable.ic_close, getTheme()));

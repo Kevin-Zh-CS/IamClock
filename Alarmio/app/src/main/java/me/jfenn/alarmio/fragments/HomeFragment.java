@@ -25,7 +25,6 @@ import io.reactivex.disposables.Disposable;
 import jahirfiquitiva.libs.fabsmenu.FABsMenu;
 import jahirfiquitiva.libs.fabsmenu.FABsMenuListener;
 import jahirfiquitiva.libs.fabsmenu.TitleFAB;
-import me.jfenn.alarmio.Alarmio;
 import me.jfenn.alarmio.R;
 import me.jfenn.alarmio.adapters.SimplePagerAdapter;
 import me.jfenn.alarmio.data.AlarmData;
