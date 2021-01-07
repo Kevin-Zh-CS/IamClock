@@ -24,7 +24,7 @@ public class ManuallyPreferenceData extends CustomPreferenceData {
     @SuppressLint("ShowToast")
     @Override
     public void onClick(@NotNull ViewHolder holder) {
-        Objects.requireNonNull(holder.getAlarmio()).getHealthReport().Report(holder.getAlarmio());
-        Toast.makeText(holder.getContext(), "反馈结果", Toast.LENGTH_SHORT).show();
+        String ret = holder.getAlarmio().getHealthReport().Report(holder.getContext());
+        Toast.makeText(holder.getContext(), ret, Toast.LENGTH_SHORT).show();
     }
 }

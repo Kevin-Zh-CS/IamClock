@@ -25,7 +25,6 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import me.jfenn.alarmio.R;
 import me.jfenn.alarmio.adapters.PreferenceAdapter;
-import me.jfenn.alarmio.data.HealthReportData;
 import me.jfenn.alarmio.data.LogoutPreferenceData;
 import me.jfenn.alarmio.data.PreferenceData;
 import me.jfenn.alarmio.data.preference.AlertWindowPreferenceData;

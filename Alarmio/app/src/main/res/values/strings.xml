@@ -116,4 +116,5 @@
     <string name="logout">Logout</string>
     <string name="logout_done">logout successful</string>
     <string name="automatic_health_report_repeat">You have already done health report~</string>
+    <string name="notlogin">You have not login</string>
 </resources>

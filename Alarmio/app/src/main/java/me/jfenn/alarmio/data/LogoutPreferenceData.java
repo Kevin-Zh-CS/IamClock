@@ -26,10 +26,13 @@ public class LogoutPreferenceData extends CustomPreferenceData {
     public void onClick(@NotNull ViewHolder holder) {
         SharedPreferences sharedPreferences = holder.getContext().getSharedPreferences("USER_INFO", Context.MODE_MULTI_PROCESS);
         @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove("USER_NAME");
-        editor.remove("ENCRYPT_PASSWORD");
-        editor.apply();
-        Toast.makeText(holder.getContext(), R.string.logout_done, Toast.LENGTH_SHORT).show();
-
+        if (sharedPreferences.getString("USER_NAME", null) != null) {
+            editor.remove("USER_NAME");
+            editor.remove("ENCRYPT_PASSWORD");
+            editor.apply();
+            Toast.makeText(holder.getContext(), R.string.logout_done, Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(holder.getContext(), R.string.notlogin, Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -1,9 +1,15 @@
 package me.jfenn.alarmio.data;
 
+import android.app.Activity;
+import android.app.Application;
+import android.app.Service;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -37,7 +43,39 @@ public class HealthReportData {
 
     private final String TAG = "FUCK";
 
+    public static @Nullable
+    Activity getActivityFromContext(@Nullable Context context) {
+        if (context == null) {
+            return null;
+        }
+
+        if (context instanceof Activity) {
+            return (Activity) context;
+        }
+
+        if (context instanceof Application || context instanceof Service) {
+            return null;
+        }
+
+        Context c = context;
+        while (c != null) {
+            if (c instanceof ContextWrapper) {
+                c = ((ContextWrapper) c).getBaseContext();
+
+                if (c instanceof Activity) {
+                    return (Activity) c;
+                }
+            } else {
+                return null;
+            }
+        }
+
+        return null;
+    }
+
+
     public String Report(Context context) {
+
         String username = PreferenceData.HEALTH_REPORT_USERNAME.getValue(context, "");
         String password = PreferenceData.HEALTH_REPORT_PASSWORD.getValue(context, "");
 
@@ -46,11 +84,12 @@ public class HealthReportData {
             String base_url = "https://healthreport.zju.edu.cn/ncov/wap/default/index";
             String save_url = "https://healthreport.zju.edu.cn/ncov/wap/default/save";
 
-            AtomicReference<String> return_info = null;
+            AtomicReference<String> return_info = new AtomicReference<>();
 
-            new Thread(() -> {
+            Thread thread = new Thread(() -> {
                 synchronized (this) {
                     try {
+
                         Log.d(TAG, "Start Health Report");
 
                         HashMap<String, List<Cookie>> cookieStore = new HashMap<>();
@@ -199,12 +238,11 @@ public class HealthReportData {
 
                         Response res5 = client.newCall(req5).execute();
 
-                        Looper.prepare();
+                        //Looper.prepare();
                         if (res5.body().string().contains("今天已经填报了")) {
-                            Toast.makeText(context, R.string.automatic_health_report_repeat, Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(context, R.string.automatic_health_report_repeat, Toast.LENGTH_SHORT).show();
                             return_info.set("Report: has already done today");
                         } else {
-                            Toast.makeText(context, R.string.automatic_health_report_done, Toast.LENGTH_SHORT).show();
                             return_info.set("Report: success");
                         }
 
@@ -213,10 +251,17 @@ public class HealthReportData {
                         return_info.set("ERROR: " + ae.toString());
                     } catch (Exception e) {
                         return_info.set("ERROR: " + e.toString());
-                        Log.d(TAG, "Fatal: " + e);
+                         Log.d(TAG, "Fatal: " + e);
                     }
                 }
-            }).start();
+            });
+
+            try {
+                thread.start();
+                thread.join();
+            } catch (Exception e) {
+                return_info.set("start reporting ...");
+            }
             return return_info.get();
         } else {
             return "username and password cannot be done";
