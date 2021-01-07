@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_register_welcome"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/imageView_fragment_notifications"
@@ -24,15 +26,7 @@
         android:background="#00000000"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/iv_close"
-        android:layout_width="44dp"
-        android:layout_height="88dp"
-        android:padding="16dp"
-        app:srcCompat="@drawable/ic_close"
-        android:tintMode="src_in"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/statusbarutil_fake_status_bar_view" />
+
 
     <me.jfenn.alarmio.fragments.Account.DrawableTextView
         android:id="@+id/image_logo"
@@ -56,8 +50,8 @@
 
     <LinearLayout
         android:id="@+id/slide_content"
-        android:layout_width="399dp"
-        android:layout_height="232dp"
+        android:layout_width="356dp"
+        android:layout_height="242dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="30dp"
         android:layout_marginRight="20dp"

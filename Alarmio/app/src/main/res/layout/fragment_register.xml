@@ -14,7 +14,8 @@
         android:src="@drawable/white_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/statusbarutil_fake_status_bar_view" />
 
     <me.jfenn.alarmio.fragments.Account.FakeStatusBarView
         android:id="@id/statusbarutil_fake_status_bar_view"
@@ -23,17 +24,6 @@
         android:background="#00000000"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/iv_close1"
-        android:layout_width="44dp"
-        android:layout_height="88dp"
-        android:padding="16dp"
-        app:srcCompat="@drawable/ic_close"
-        android:tintMode="src_in"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/statusbarutil_fake_status_bar_view" />
-
-
 
     <me.jfenn.alarmio.fragments.Account.DrawableTextView
         android:id="@+id/image_logo1"
@@ -41,8 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginLeft="24dp"
         android:drawablePadding="10dp"
         android:gravity="center_vertical"
         android:text="@string/welcome_login"
@@ -51,13 +40,15 @@
         android:textStyle="bold"
         app:drawableHeight="30dp"
         app:drawableWidth="100dp"
+        app:layout_constraintBottom_toTopOf="@+id/slide_content1"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/statusbarutil_fake_status_bar_view"
+        app:layout_constraintTop_toTopOf="@+id/guideline2"
+        app:layout_constraintVertical_bias="0.321"
         app:leftDrawable="@drawable/ic_google" />
 
     <LinearLayout
         android:id="@+id/slide_content1"
-        android:layout_width="396dp"
+        android:layout_width="350dp"
         android:layout_height="252dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
@@ -256,13 +247,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.69" />
+        app:layout_constraintGuide_percent="0.78" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.22" />
+        app:layout_constraintGuide_percent="0.18" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

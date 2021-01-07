@@ -1,6 +1,7 @@
 package me.jfenn.alarmio.fragments.Account;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +26,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -43,7 +46,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class AccountFragment extends Fragment implements View.OnClickListener, KeyboardWatcher.SoftKeyboardStateListener, View.OnFocusChangeListener {
+public class AccountFragment extends DialogFragment implements View.OnClickListener, KeyboardWatcher.SoftKeyboardStateListener, View.OnFocusChangeListener {
 
 
     public static final int duration = 800;
@@ -83,6 +86,29 @@ public class AccountFragment extends Fragment implements View.OnClickListener, K
     private TextView register;
 
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.AppTheme);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Dialog dialog = getDialog();
+        if (dialog != null) {
+            Window window = dialog.getWindow();
+            if (window != null) {
+                WindowManager.LayoutParams params = window.getAttributes();
+                if (params != null) {
+                    params.windowAnimations = R.style.SlideDialogAnimation;
+                }
+            }
+        }
+    }
+
+
+
     @Nullable
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -111,7 +137,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener, K
         mShowPasswordImageView = view.findViewById(R.id.iv_show_pwd);
         mSlideContent = view.findViewById(R.id.slide_content);
         button = view.findViewById(R.id.btn_login);
-        view.findViewById(R.id.iv_close).setOnClickListener(this);
         mRealScreenHeight = ScreenUtils.getRealScreenHeight(getContext());
         view.findViewById(R.id.fragment_register_welcome).setBackgroundResource(R.drawable.bg_rain);
 
@@ -199,9 +224,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener, K
             case R.id.clean_password:
                 mPasswordEditText.setText("");
                 break;
-            case R.id.iv_close:
-                getActivity().finish();
-                break;
             case R.id.iv_show_pwd:
                 if (flag) {
                     mPasswordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
@@ -248,7 +270,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener, K
                                     .addToBackStack(null)
                                     .replace(R.id.fragment_register_welcome, new AfterLoginFragment())
                                     .commit();
-
                             Looper.prepare();
                             Toast.makeText(getActivity(), "登录成功！", Toast.LENGTH_SHORT).show();
 

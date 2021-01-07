@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLOutput;
 import java.util.Base64;
 import java.util.Objects;
 
@@ -118,14 +119,13 @@ public class LoginDialog extends DialogFragment implements View.OnClickListener,
         mShowPasswordImageView = view.findViewById(R.id.iv_show_pwd);
         mSlideContent = view.findViewById(R.id.slide_content);
         button = view.findViewById(R.id.btn_login);
-        view.findViewById(R.id.iv_close).setOnClickListener(this);
         mRealScreenHeight = ScreenUtils.getRealScreenHeight(getContext());
         //view.findViewById(R.id.fragment_register_welcome).setBackgroundResource(R.drawable.bg_rain);
 
         sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(FILE_NAME, Context.MODE_MULTI_PROCESS);
         editor = sharedPreferences.edit();
         //fragmentManager = getActivity().getSupportFragmentManager();
-        background = view.findViewById(R.id.imageView_fragment_notifications);
+        //background = view.findViewById(R.id.imageView_fragment_notifications);
         register = view.findViewById(R.id.register);
     }
 
@@ -137,7 +137,7 @@ public class LoginDialog extends DialogFragment implements View.OnClickListener,
         mMobileEditText.setOnFocusChangeListener(this);
         mPasswordEditText.setOnFocusChangeListener(this);
         button.setOnClickListener(this);
-        background.setOnClickListener(this);
+        //background.setOnClickListener(this);
         register.setOnClickListener(this);
 
         mMobileEditText.addTextChangedListener(new TextWatcher() {
@@ -206,9 +206,7 @@ public class LoginDialog extends DialogFragment implements View.OnClickListener,
             case R.id.clean_password:
                 mPasswordEditText.setText("");
                 break;
-            case R.id.iv_close:
-                Objects.requireNonNull(getActivity()).finish();
-                break;
+
             case R.id.iv_show_pwd:
                 if (flag) {
                     mPasswordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
@@ -229,7 +227,12 @@ public class LoginDialog extends DialogFragment implements View.OnClickListener,
                 //System.out.println("BTN OK ");
                 userName = mMobileEditText.getText().toString();
                 try {
-                    encryptPassword = encodeByMd5(mPasswordEditText.getText().toString());
+                    encryptPassword = encodeByMd5(mPasswordEditText.getText().toString())
+                            .replaceAll("\\+","%2B")
+                            .replaceAll("#","%23");
+                    System.out.println(userName);
+                    System.out.println(encryptPassword);
+                    System.out.println("http://47.111.80.33:8092/user/login?username="+userName+"&encryptpassword="+encryptPassword);
                 } catch (NoSuchAlgorithmException e) {
                     e.printStackTrace();
                 }
@@ -256,6 +259,7 @@ public class LoginDialog extends DialogFragment implements View.OnClickListener,
 //                                    .addToBackStack(null)
 //                                    .replace(R.id.fragment_register_welcome, new AfterLoginFragment())
 //                                    .commit();
+
                             Objects.requireNonNull(getDialog()).dismiss();
                             Looper.prepare();
                             Toast.makeText(getActivity(), "登录成功！", Toast.LENGTH_SHORT).show();
@@ -275,9 +279,9 @@ public class LoginDialog extends DialogFragment implements View.OnClickListener,
                 }).start();
                 break;
 
-            case R.id.imageView_fragment_notifications:
-                hideKeyboard(v);
-                break;
+//            case R.id.imageView_fragment_notifications:
+//                hideKeyboard(v);
+//                break;
 
             case R.id.register:
                 hideKeyboard(v);

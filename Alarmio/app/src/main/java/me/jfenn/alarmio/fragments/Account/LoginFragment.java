@@ -85,7 +85,6 @@ public class LoginFragment extends DialogFragment implements View.OnClickListene
         mShowPasswordImageView = view.findViewById(R.id.iv_show_pwd1);
         mSlideContent = view.findViewById(R.id.slide_content1);
         button = view.findViewById(R.id.btn_register);
-        view.findViewById(R.id.iv_close1).setOnClickListener(this);
         mRealScreenHeight = ScreenUtils.getRealScreenHeight(getContext());
         view.findViewById(R.id.fragment_register_welcome).setBackgroundResource(R.drawable.bg_rain);
         verifyPassword = view.findViewById(R.id.verify_password);
@@ -169,9 +168,6 @@ public class LoginFragment extends DialogFragment implements View.OnClickListene
                 break;
             case R.id.clean_password1:
                 mPasswordEditText.setText("");
-                break;
-            case R.id.iv_close1:
-                getActivity().finish();
                 break;
             case R.id.iv_show_pwd1:
                 if (flag) {

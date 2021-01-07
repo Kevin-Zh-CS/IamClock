@@ -1,7 +1,12 @@
 package me.jfenn.alarmio.data.preference;
 
+import android.annotation.SuppressLint;
+import android.widget.Toast;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 import me.jfenn.alarmio.R;
 
@@ -16,8 +21,10 @@ public class ManuallyPreferenceData extends CustomPreferenceData {
         return null;
     }
 
+    @SuppressLint("ShowToast")
     @Override
     public void onClick(@NotNull ViewHolder holder) {
-        holder.getAlarmio().getHealthReport().Report(holder.getAlarmio());
+        Objects.requireNonNull(holder.getAlarmio()).getHealthReport().Report(holder.getAlarmio());
+        Toast.makeText(holder.getContext(), "反馈结果", Toast.LENGTH_SHORT).show();
     }
 }
