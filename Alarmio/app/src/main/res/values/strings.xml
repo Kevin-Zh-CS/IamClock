@@ -89,6 +89,7 @@
     <string name="login">login</string>
     <string name="login_forget_pwd">Forget password</string>
 
+
     <string name="please_input_limit_pwd">Input a number or letter</string>
     <string name="welcome_login">Welcome</string>
     <string name="sign_up">register</string>
@@ -100,7 +101,6 @@
     <string name="user_register">register</string>
     <string name="go_login">login</string>
     <string name="verify_pwd">Verify password</string>
-
     <string name="title_manually">ZJU Health Report Manually</string>
     <string name="hint_username">ZJU username</string>
     <string name="hint_password">ZJU password</string>
@@ -113,5 +113,7 @@
     <string name="logout">Logout</string>
     <string name="logout_done">logout successful</string>
     <string name="automatic_health_report_repeat">You have already done health report~</string>
+
+    <string name="text_about">Created By Kevin Zhang and Ziyue Pan.</string>
     <string name="notlogin">You have not login</string>
 </resources>

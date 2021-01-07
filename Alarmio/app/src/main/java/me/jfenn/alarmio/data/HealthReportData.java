@@ -9,7 +9,11 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
+
+import androidx.fragment.app.FragmentActivity;
+
 import androidx.annotation.Nullable;
+
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -43,38 +47,8 @@ public class HealthReportData {
 
     private final String TAG = "FUCK";
 
-    public static @Nullable
-    Activity getActivityFromContext(@Nullable Context context) {
-        if (context == null) {
-            return null;
-        }
 
-        if (context instanceof Activity) {
-            return (Activity) context;
-        }
-
-        if (context instanceof Application || context instanceof Service) {
-            return null;
-        }
-
-        Context c = context;
-        while (c != null) {
-            if (c instanceof ContextWrapper) {
-                c = ((ContextWrapper) c).getBaseContext();
-
-                if (c instanceof Activity) {
-                    return (Activity) c;
-                }
-            } else {
-                return null;
-            }
-        }
-
-        return null;
-    }
-
-
-    public String Report(Context context) {
+    public void Report(Context context, FragmentActivity activity) {
 
         String username = PreferenceData.HEALTH_REPORT_USERNAME.getValue(context, "");
         String password = PreferenceData.HEALTH_REPORT_PASSWORD.getValue(context, "");
@@ -84,13 +58,9 @@ public class HealthReportData {
             String base_url = "https://healthreport.zju.edu.cn/ncov/wap/default/index";
             String save_url = "https://healthreport.zju.edu.cn/ncov/wap/default/save";
 
-            AtomicReference<String> return_info = new AtomicReference<>();
-
-            Thread thread = new Thread(() -> {
+            new Thread(() -> {
                 synchronized (this) {
                     try {
-
-                        Log.d(TAG, "Start Health Report");
 
                         HashMap<String, List<Cookie>> cookieStore = new HashMap<>();
                         // create client
@@ -240,31 +210,26 @@ public class HealthReportData {
 
                         //Looper.prepare();
                         if (res5.body().string().contains("今天已经填报了")) {
-                            //Toast.makeText(context, R.string.automatic_health_report_repeat, Toast.LENGTH_SHORT).show();
-                            return_info.set("Report: has already done today");
+
+                            Toast.makeText(activity, R.string.automatic_health_report_repeat, Toast.LENGTH_SHORT).show();
                         } else {
-                            return_info.set("Report: success");
+                            Toast.makeText(activity, R.string.automatic_health_report_done, Toast.LENGTH_SHORT).show();
+
                         }
-
+                        Log.d(TAG, "Report: DONE");
                     } catch (AlarmException ae) {
-                        Log.d(TAG, "Fatal: " + ae);
-                        return_info.set("ERROR: " + ae.toString());
+                        Toast.makeText(activity, "ERROR: " + ae.toString(), Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
-                        return_info.set("ERROR: " + e.toString());
-                         Log.d(TAG, "Fatal: " + e);
-                    }
-                }
-            });
 
-            try {
-                thread.start();
-                thread.join();
-            } catch (Exception e) {
-                return_info.set("start reporting ...");
-            }
-            return return_info.get();
+                        Toast.makeText(activity, "Fatal: " + e, Toast.LENGTH_SHORT).show();
+
+                    }
+                    Looper.loop();
+                }
+
+            }).start();
+
         } else {
-            return "username and password cannot be done";
         }
     }
 }
