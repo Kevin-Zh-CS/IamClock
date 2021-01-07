@@ -57,6 +57,7 @@ public class HealthReportData {
             String login_url = "https://zjuam.zju.edu.cn/cas/login?service=https%3A%2F%2Fhealthreport.zju.edu.cn%2Fa_zju%2Fapi%2Fsso%2Findex%3Fredirect%3Dhttps%253A%252F%252Fhealthreport.zju.edu.cn%252Fncov%252Fwap%252Fdefault%252Findex";
             String base_url = "https://healthreport.zju.edu.cn/ncov/wap/default/index";
             String save_url = "https://healthreport.zju.edu.cn/ncov/wap/default/save";
+            Toast.makeText(activity, "start health reporting...", Toast.LENGTH_SHORT).show();
 
             new Thread(() -> {
                 synchronized (this) {
@@ -226,10 +227,10 @@ public class HealthReportData {
                     }
                     Looper.loop();
                 }
-
             }).start();
 
         } else {
+            Toast.makeText(activity, "username and password cannot be empty", Toast.LENGTH_SHORT).show();
         }
     }
 }
