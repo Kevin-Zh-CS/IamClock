@@ -31,6 +31,6 @@ public class ManuallyPreferenceData extends CustomPreferenceData {
     @Override
     public void onClick(@NotNull ViewHolder holder) {
         holder.getAlarmio().getHealthReport().Report(holder.getAlarmio(), activity);
-        Toast.makeText(holder.getContext(), "start health reporting...", Toast.LENGTH_SHORT).show();
+
     }
 }
