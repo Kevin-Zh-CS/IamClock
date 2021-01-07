@@ -13,6 +13,17 @@ import me.jfenn.alarmio.receivers.TimerReceiver;
 
 public class TimerData implements Parcelable {
 
+    public static final String SELF_WAKE_UP_TIME = "SELF_WAKE_UP_TIME";
+
+    public static final String MONDAY = "Monday";
+    public static final String TUESDAY = "Tuesday";
+    public static final String WEDNESDAY = "Wednesday";
+    public static final String THURSDAY = "Thursday";
+    public static final String FRIDAY = "Friday";
+    public static final String SATURDAY = "Saturday";
+    public static final String SUNDAY = "Sunday";
+
+
     private int id;
     private long duration = 600000;
     private long endTime;
