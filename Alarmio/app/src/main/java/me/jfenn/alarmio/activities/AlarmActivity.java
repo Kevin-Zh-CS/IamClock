@@ -258,7 +258,7 @@ public class AlarmActivity extends AestheticActivity implements SlideActionListe
     private void doAfterClose(AlarmActivity alarmActivity) {
         // TODO daka
         if (alarm.isReport) {
-            alarmio.getHealthReport().Report(alarmio);
+            alarmio.getHealthReport().Report(alarmio, alarmActivity);
         }
 
         @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");//设置日期格式

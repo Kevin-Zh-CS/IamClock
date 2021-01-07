@@ -88,7 +88,7 @@
     <string name="hint_login_password">Password</string>
     <string name="login">Login</string>
     <string name="login_forget_pwd">Forget password</string>
-<!--    待翻译-->
+    <!--    待翻译-->
     <string name="please_input_limit_pwd">请输入数字或字母</string>
     <string name="welcome_login">欢迎登陆</string>
     <string name="sign_up">注册新用户</string>
@@ -116,4 +116,5 @@
     <string name="logout">Logout</string>
     <string name="logout_done">logout successful</string>
     <string name="automatic_health_report_repeat">You have already done health report~</string>
+    <string name="text_about">Created By Kevin Zhang and Ziyue Pan.</string>
 </resources>

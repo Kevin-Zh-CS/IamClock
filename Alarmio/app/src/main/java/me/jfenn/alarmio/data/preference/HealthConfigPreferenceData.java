@@ -28,7 +28,7 @@ public class HealthConfigPreferenceData extends CustomPreferenceData {
         FragmentManager fragmentManager = holder.getAlarmio().getFragmentManager();
 
         if (fragmentManager != null) {
-            HealthConfigDialog dialog = new HealthConfigDialog(health_report);
+            HealthConfigDialog dialog = new HealthConfigDialog();
             dialog.show(fragmentManager, null);
         }
     }

@@ -113,4 +113,5 @@
     <string name="logout">登出</string>
     <string name="logout_done">成功登出</string>
     <string name="automatic_health_report_repeat">今天已经填报过了嗷~</string>
+    <string name="text_about">此APP由张佳文和潘子曰完成。</string>
 </resources>

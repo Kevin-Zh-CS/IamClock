@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import me.jfenn.alarmio.R;
 import me.jfenn.alarmio.dialogs.AboutDialog;
+import me.jfenn.alarmio.dialogs.LoginDialog;
 
 public final class AboutPreferenceData extends CustomPreferenceData {
 
@@ -26,10 +27,8 @@ public final class AboutPreferenceData extends CustomPreferenceData {
         FragmentManager fragment_manager = holder.getAlarmio().getFragmentManager();
 
         if (fragment_manager != null) {
-            MaterialDialog dialog = new MaterialDialog(holder.getContext(), MaterialDialog.getDEFAULT_BEHAVIOR());
-            dialog.title(R.string.title_about, null);
-            dialog.message(R.string.about_us, null, null);
-            dialog.show();
+            AboutDialog aboutDialog = new AboutDialog();
+            aboutDialog.show(fragment_manager, null);
         }
     }
 }

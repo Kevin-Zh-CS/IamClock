@@ -3,6 +3,8 @@ package me.jfenn.alarmio.data.preference;
 import android.annotation.SuppressLint;
 import android.widget.Toast;
 
+import androidx.fragment.app.FragmentActivity;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -11,8 +13,12 @@ import java.util.Objects;
 import me.jfenn.alarmio.R;
 
 public class ManuallyPreferenceData extends CustomPreferenceData {
-    public ManuallyPreferenceData() {
+
+    private FragmentActivity activity;
+
+    public ManuallyPreferenceData(FragmentActivity activity) {
         super(R.string.title_manually);
+        this.activity = activity;
     }
 
     @Nullable
@@ -24,7 +30,7 @@ public class ManuallyPreferenceData extends CustomPreferenceData {
     @SuppressLint("ShowToast")
     @Override
     public void onClick(@NotNull ViewHolder holder) {
-        Objects.requireNonNull(holder.getAlarmio()).getHealthReport().Report(holder.getAlarmio());
-        Toast.makeText(holder.getContext(), "反馈结果", Toast.LENGTH_SHORT).show();
+        holder.getAlarmio().getHealthReport().Report(holder.getAlarmio(), activity);
+        Toast.makeText(holder.getContext(), "start health reporting...", Toast.LENGTH_SHORT).show();
     }
 }
