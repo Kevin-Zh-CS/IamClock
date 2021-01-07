@@ -8,19 +8,19 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.afollestad.aesthetic.Aesthetic;
-
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
-
 import androidx.fragment.app.FragmentManager;
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
+
+import com.afollestad.aesthetic.Aesthetic;
+
+import java.util.Calendar;
+import java.util.Locale;
+
 import me.jfenn.alarmio.Alarmio;
 import me.jfenn.alarmio.R;
+import me.jfenn.alarmio.data.AlarmData;
 import me.jfenn.alarmio.data.PreferenceData;
 import me.jfenn.alarmio.data.SoundData;
-import me.jfenn.alarmio.data.TimerData;
-import me.jfenn.alarmio.fragments.TimerFragment;
 
 public class TimerDialog extends AestheticDialog implements View.OnClickListener {
 
@@ -34,7 +34,7 @@ public class TimerDialog extends AestheticDialog implements View.OnClickListener
     private TextView time;
     private ImageView backspace;
 
-    private String input = "000000";
+    private Calendar duration;
 
     private Alarmio alarmio;
     private FragmentManager manager;
@@ -43,7 +43,7 @@ public class TimerDialog extends AestheticDialog implements View.OnClickListener
         super(context);
         alarmio = (Alarmio) context.getApplicationContext();
         this.manager = manager;
-        ringtone = SoundData.fromString(PreferenceData.DEFAULT_TIMER_RINGTONE.getValue(context, ""));
+        ringtone = SoundData.fromString(PreferenceData.DEFAULT_ALARM_RINGTONE.getValue(context, ""));
     }
 
     @Override
@@ -57,6 +57,9 @@ public class TimerDialog extends AestheticDialog implements View.OnClickListener
 
         time = findViewById(R.id.time);
         backspace = findViewById(R.id.backspace);
+        duration = Calendar.getInstance();
+        duration.set(Calendar.HOUR_OF_DAY, 0);
+        duration.set(Calendar.MINUTE, 0);
 
         time.setText(getTime());
 
@@ -70,7 +73,6 @@ public class TimerDialog extends AestheticDialog implements View.OnClickListener
         findViewById(R.id.seven).setOnClickListener(this);
         findViewById(R.id.eight).setOnClickListener(this);
         findViewById(R.id.nine).setOnClickListener(this);
-        findViewById(R.id.zero).setOnClickListener(this);
 
         ringtoneImage.setImageResource(ringtone != null ? R.drawable.ic_ringtone : R.drawable.ic_ringtone_disabled);
         ringtoneImage.setAlpha(ringtone != null ? 1f : 0.333f);
@@ -110,24 +112,23 @@ public class TimerDialog extends AestheticDialog implements View.OnClickListener
         });
 
         findViewById(R.id.start).setOnClickListener(view -> {
-            if (Integer.parseInt(input) > 0) {
-                TimerData timer = alarmio.newTimer();
-                timer.setDuration(getMillis(), alarmio);
-                timer.setVibrate(view.getContext(), isVibrate);
-                timer.setSound(view.getContext(), ringtone);
-                timer.set(alarmio, ((AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE)));
-                alarmio.onTimerStarted();
+            int hour = duration.get(Calendar.HOUR_OF_DAY);
+            int minute = duration.get(Calendar.MINUTE);
+            if (hour != 0 || minute != 0) {
+                AlarmData quick = alarmio.newQuick();
 
-                Bundle args = new Bundle();
-                args.putParcelable(TimerFragment.EXTRA_TIMER, timer);
-                TimerFragment fragment = new TimerFragment();
-                fragment.setArguments(args);
+                quick.setVibrate(view.getContext(), isVibrate);
+                quick.setSound(view.getContext(), ringtone);
+                Calendar current = Calendar.getInstance();
+                current.add(Calendar.HOUR_OF_DAY, duration.get(Calendar.HOUR_OF_DAY));
+                current.add(Calendar.MINUTE, duration.get(Calendar.MINUTE));
 
-                manager.beginTransaction()
-                        .setCustomAnimations(R.anim.slide_in_up_sheet, R.anim.slide_out_up_sheet, R.anim.slide_in_down_sheet, R.anim.slide_out_down_sheet)
-                        .replace(R.id.fragment, fragment)
-                        .addToBackStack(null)
-                        .commit();
+                AlarmManager manager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+
+                quick.set(alarmio, manager);
+                quick.setTime(alarmio, manager, current.getTimeInMillis());
+                quick.setEnabled(getContext(), manager, true);
+                alarmio.onAlarmsChanged();
 
                 dismiss();
             }
@@ -146,39 +147,53 @@ public class TimerDialog extends AestheticDialog implements View.OnClickListener
     }
 
     private void input(String character) {
-        input = input.substring(character.length()) + character;
+        switch (character) {
+            case "+1m":
+                duration.add(Calendar.MINUTE, 1);
+                break;
+            case "+5m":
+                duration.add(Calendar.MINUTE, 5);
+                break;
+            case "+10m":
+                duration.add(Calendar.MINUTE, 10);
+                break;
+            case "+15m":
+                duration.add(Calendar.MINUTE, 15);
+                break;
+            case "+30m":
+                duration.add(Calendar.MINUTE, 30);
+                break;
+            case "+45m":
+                duration.add(Calendar.MINUTE, 45);
+                break;
+            case "+1h":
+                duration.add(Calendar.HOUR_OF_DAY, 1);
+                break;
+            case "+2h":
+                duration.add(Calendar.HOUR_OF_DAY, 2);
+                break;
+            case "+5h":
+                duration.add(Calendar.HOUR_OF_DAY, 5);
+                break;
+        }
         time.setText(getTime());
     }
 
     private void backspace() {
-        input = "0" + input.substring(0, input.length() - 1);
+        duration.set(Calendar.HOUR_OF_DAY, 0);
+        duration.set(Calendar.MINUTE, 0);
         time.setText(getTime());
     }
 
     private String getTime() {
-        int hours = Integer.parseInt(input.substring(0, 2));
-        int minutes = Integer.parseInt(input.substring(2, 4));
-        int seconds = Integer.parseInt(input.substring(4, 6));
+        int hours = duration.get(Calendar.HOUR_OF_DAY);
+        int minutes = duration.get(Calendar.MINUTE);
 
-        backspace.setVisibility(hours == 0 && minutes == 0 && seconds == 0 ? View.GONE : View.VISIBLE);
+        backspace.setVisibility(hours == 0 && minutes == 0 ? View.GONE : View.VISIBLE);
 
         if (hours > 0)
-            return String.format(Locale.getDefault(), "%dh %02dm %02ds", hours, minutes, seconds);
-        else return String.format(Locale.getDefault(), "%dm %02ds", minutes, seconds);
-    }
-
-    private long getMillis() {
-        long millis = 0;
-
-        int hours = Integer.parseInt(input.substring(0, 2));
-        int minutes = Integer.parseInt(input.substring(2, 4));
-        int seconds = Integer.parseInt(input.substring(4, 6));
-
-        millis += TimeUnit.HOURS.toMillis(hours);
-        millis += TimeUnit.MINUTES.toMillis(minutes);
-        millis += TimeUnit.SECONDS.toMillis(seconds);
-
-        return millis;
+            return String.format(Locale.getDefault(), "%dh %02dm", hours, minutes);
+        else return String.format(Locale.getDefault(), "%dm", minutes);
     }
 
     @Override

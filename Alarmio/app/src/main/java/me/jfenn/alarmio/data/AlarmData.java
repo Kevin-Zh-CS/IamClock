@@ -27,10 +27,13 @@ public class AlarmData implements Parcelable {
     public boolean isVibrate = true;
     public SoundData sound;
     public boolean isReport = false;
+    public boolean isQuick;
 
-    public AlarmData(int id, Calendar time) {
+
+    public AlarmData(int id, Calendar time, boolean isQuick) {
         this.id = id;
         this.time = time;
+        this.isQuick = isQuick;
     }
 
     public AlarmData(int id, Context context) {
@@ -44,8 +47,10 @@ public class AlarmData implements Parcelable {
         }
         isVibrate = PreferenceData.ALARM_VIBRATE.getSpecificValue(context, id);
         isReport = PreferenceData.ALARM_REPORT.getSpecificValue(context, id);
+        isQuick = PreferenceData.ALARM_QUICK.getSpecificValue(context, id);
         sound = SoundData.fromString(PreferenceData.ALARM_SOUND.getSpecificOverriddenValue(context, PreferenceData.DEFAULT_ALARM_RINGTONE.getValue(context, ""), id));
     }
+
 
     /**
      * Moves this AlarmData's preferences to another "id".
@@ -62,6 +67,7 @@ public class AlarmData implements Parcelable {
         }
         PreferenceData.ALARM_VIBRATE.setValue(context, isVibrate, id);
         PreferenceData.ALARM_REPORT.setValue(context, isReport, id);
+        PreferenceData.ALARM_QUICK.setValue(context, isQuick, id);
         PreferenceData.ALARM_SOUND.setValue(context, sound != null ? sound.toString() : null, id);
 
         onRemoved(context);
@@ -86,6 +92,7 @@ public class AlarmData implements Parcelable {
         }
         PreferenceData.ALARM_VIBRATE.setValue(context, null, id);
         PreferenceData.ALARM_REPORT.setValue(context, null, id);
+        PreferenceData.ALARM_QUICK.setValue(context, null, id);
         PreferenceData.ALARM_SOUND.setValue(context, null, id);
     }
 
@@ -191,6 +198,11 @@ public class AlarmData implements Parcelable {
     public void setReport(Context context, boolean isReport) {
         this.isReport = isReport;
         PreferenceData.ALARM_REPORT.setValue(context, isReport, id);
+    }
+
+    public void setQuick(Context context, boolean isQuick) {
+        this.isQuick = isQuick;
+        PreferenceData.ALARM_QUICK.setValue(context, isQuick, id);
     }
 
     /**
@@ -344,6 +356,7 @@ public class AlarmData implements Parcelable {
         days = in.createBooleanArray();
         isVibrate = in.readByte() != 0;
         isReport = in.readByte() != 0;
+        isQuick = in.readByte() != 0;
         if (in.readByte() == 1)
             sound = SoundData.fromString(in.readString());
     }
@@ -357,6 +370,7 @@ public class AlarmData implements Parcelable {
         parcel.writeBooleanArray(days);
         parcel.writeByte((byte) (isVibrate ? 1 : 0));
         parcel.writeByte((byte) (isReport ? 1 : 0));
+        parcel.writeByte((byte) (isQuick ? 1 : 0));
         parcel.writeByte((byte) (sound != null ? 1 : 0));
         if (sound != null)
             parcel.writeString(sound.toString());

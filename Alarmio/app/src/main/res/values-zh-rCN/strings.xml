@@ -6,7 +6,7 @@
     <string name="title_vibrate">震动</string>
     <string name="title_repeat">重复</string>
     <string name="title_set_alarm">闹钟</string>
-    <string name="title_set_timer">计时器</string>
+    <string name="title_set_timer">快速闹钟</string>
     <string name="title_lap">记录</string>
     <string name="title_lap_number" translatable="false">#%d</string>
     <string name="title_time">时长: %s</string>
@@ -110,4 +110,5 @@
     <string name="health_report_config">健康打卡配置</string>
     <string name="title_health">自动打卡</string>
     <string name="automatic_health_report_done">自动打卡成功</string>
+    <string name="automatic_health_report_repeat">今天已经填报过了嗷~</string>
 </resources>

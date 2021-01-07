@@ -2,6 +2,10 @@ package me.jfenn.alarmio.data.preference;
 
 import androidx.fragment.app.FragmentManager;
 
+import com.afollestad.materialdialogs.DialogBehavior;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import org.jetbrains.annotations.NotNull;
 
 import me.jfenn.alarmio.R;
@@ -22,8 +26,10 @@ public final class AboutPreferenceData extends CustomPreferenceData {
         FragmentManager fragment_manager = holder.getAlarmio().getFragmentManager();
 
         if (fragment_manager != null) {
-            AboutDialog dialog = new AboutDialog();
-            dialog.show(fragment_manager, null);
+            MaterialDialog dialog = new MaterialDialog(holder.getContext(), MaterialDialog.getDEFAULT_BEHAVIOR());
+            dialog.title(R.string.title_about, null);
+            dialog.message(R.string.about_us, null, null);
+            dialog.show();
         }
     }
 }

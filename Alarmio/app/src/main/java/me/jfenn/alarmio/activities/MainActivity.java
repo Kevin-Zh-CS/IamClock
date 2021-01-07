@@ -6,14 +6,14 @@ import android.os.Bundle;
 import android.provider.AlarmClock;
 import android.provider.Settings;
 
-import com.afollestad.aesthetic.AestheticActivity;
-
-import java.lang.ref.WeakReference;
-
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.afollestad.aesthetic.AestheticActivity;
+
+import java.lang.ref.WeakReference;
 
 import me.jfenn.alarmio.Alarmio;
 import me.jfenn.alarmio.R;
@@ -22,8 +22,6 @@ import me.jfenn.alarmio.dialogs.AlertDialog;
 import me.jfenn.alarmio.fragments.BaseFragment;
 import me.jfenn.alarmio.fragments.HomeFragment;
 import me.jfenn.alarmio.fragments.SplashFragment;
-import me.jfenn.alarmio.fragments.TimerFragment;
-import me.jfenn.alarmio.receivers.TimerReceiver;
 
 public class MainActivity extends AestheticActivity implements FragmentManager.OnBackStackChangedListener, Alarmio.ActivityListener {
 

@@ -21,10 +21,5 @@ public class RestoreOnBootReceiver extends BroadcastReceiver {
             if (alarm.isEnabled)
                 alarm.set(context, manager);
         }
-
-        for (TimerData timer : alarmio.getTimers()) {
-            if (timer.getRemainingMillis() > 0)
-                timer.setAlarm(context, manager);
-        }
     }
 }

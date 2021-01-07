@@ -48,8 +48,6 @@ public class AlarmActivity extends AestheticActivity implements SlideActionListe
     public static final String EXTRA_TIMER = "james.alarmio.AlarmActivity.EXTRA_TIMER";
 
 
-
-
     private View overlay;
     private TextView date;
     private TextView time;
@@ -299,7 +297,6 @@ public class AlarmActivity extends AestheticActivity implements SlideActionListe
         editor.commit();
 
         alarmActivity.finish();
-
 
 
 //        FragmentManager fragmentManager = alarmio.getFragmentManager();
