@@ -113,5 +113,7 @@
     <string name="health_report_config">Health Report Config</string>
     <string name="title_health">Auto Report</string>
     <string name="automatic_health_report_done">Automatic report successful</string>
+    <string name="logout">Logout</string>
+    <string name="logout_done">logout successful</string>
     <string name="automatic_health_report_repeat">You have already done health report~</string>
 </resources>

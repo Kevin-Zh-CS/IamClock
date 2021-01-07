@@ -76,9 +76,6 @@ public class HomeFragment extends BaseFragment {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getPosition() == 1) {
-                    System.out.println("选中了dashboard");
-                }
                 if (tab.getPosition() > 0) {
                     menu.hide();
                 } else {
@@ -108,7 +105,6 @@ public class HomeFragment extends BaseFragment {
                 .colorAccent()
                 .subscribe(integer -> {
                     menu.setMenuButtonColor(integer);
-
                     int color = ContextCompat.getColor(getContext(), R.color.textColorPrimary);
                     menu.getMenuButton().setColorFilter(color);
                     timerFab.setColorFilter(color);
